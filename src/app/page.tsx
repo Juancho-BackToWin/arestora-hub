@@ -72,8 +72,8 @@ const verticalesSegura = [
 ]
 
 const AZUL =   { dark: '#003B8E', mid: '#1A5FC8', light: '#D6E4F7', suave: '#EEF4FC' }
-const VERDE =  { dark: '#1A5C2E', mid: '#2E8B4A', light: '#C8E6D0', suave: '#EEF7F1' }
-const MORADO = { dark: '#5B2D8E', mid: '#7B4DB8', light: '#DDD0F0', suave: '#F3EEF9' }
+const VERDE =  { dark: '#5B2D8E', mid: '#7B4DB8', light: '#DDD0F0', suave: '#F3EEF9' }
+const MORADO = { dark: '#1A5C2E', mid: '#2E8B4A', light: '#C8E6D0', suave: '#EEF7F1' }
 
 type Paleta = { dark: string; mid: string; light: string; suave: string }
 
