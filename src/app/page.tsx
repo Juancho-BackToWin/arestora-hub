@@ -87,7 +87,7 @@ export default function Home() {
       <div style={{ background: '#1A5FC8' }} className="px-8 py-6">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <h2 className="text-white font-bold text-2xl mb-1">Arestora Seguro®</h2>
+            <h2 className="text-white font-bold text-2xl mb-1">Arestora Segura®</h2>
             <p className="text-blue-100 text-sm">Plataforma de bienestar y protección de menores — Verticales activas y en desarrollo</p>
           </div>
           <div className="hidden md:flex gap-6">
