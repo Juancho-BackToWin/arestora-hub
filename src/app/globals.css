@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --azul: #003B8E;
+  --azul-medio: #1A5FC8;
+  --azul-claro: #D6E4F7;
+  --azul-suave: #EEF4FC;
+}
+
+body {
+  background-color: var(--azul-suave);
+  color: #111;
+  font-family: Tahoma, sans-serif;
+}
