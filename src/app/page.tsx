@@ -74,6 +74,7 @@ const verticalesSegura = [
 const AZUL =   { dark: '#003B8E', mid: '#1A5FC8', light: '#D6E4F7', suave: '#EEF4FC' }
 const VERDE =  { dark: '#5B2D8E', mid: '#7B4DB8', light: '#DDD0F0', suave: '#F3EEF9' }
 const MORADO = { dark: '#1A5C2E', mid: '#2E8B4A', light: '#C8E6D0', suave: '#EEF7F1' }
+const ARESJOBS = { dark: '#1a2a4a', mid: '#2563eb', light: '#bfdbfe', suave: '#eff6ff' }
 
 type Paleta = { dark: string; mid: string; light: string; suave: string }
 
@@ -347,6 +348,28 @@ export default function Home() {
             descripcion="Sello de calidad en empleo derivado de la implantación del PAMEE."
             estado="EN PROCESO"
             paleta={MORADO}
+          />
+        </div>
+      </section>
+
+      <div style={{ height: 2, background: '#bfdbfe' }} className="mx-8" />
+
+      {/* ── BLOQUE 4: ARESJOBS ── */}
+      <SectionHeader
+        titulo="AresJobs"
+        subtitulo="Plataforma de empleo y empleabilidad — Conectamos talento, impulsamos futuro"
+        logo={DRIVE('1JxMaAOZ8HZ7HxAMFIN-A7-v9BbLnHNec')}
+        paleta={ARESJOBS}
+      />
+      <section className="max-w-6xl mx-auto px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <BloqueCard
+            logo={DRIVE('1JxMaAOZ8HZ7HxAMFIN-A7-v9BbLnHNec')}
+            icono="💼"
+            nombre="AresJobs"
+            descripcion="Portal de empleo nacional con IA de matching, Ares Score™ y Career Coach. Base de datos de talento para los procesos de selección de Grupo Arestora."
+            estado="PRÓXIMAMENTE"
+            paleta={ARESJOBS}
           />
         </div>
       </section>
