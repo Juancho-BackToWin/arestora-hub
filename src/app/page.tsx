@@ -19,8 +19,8 @@ const verticalesSegura = [
     id: 'educa',
     nombre: 'EducaSeguro®',
     descripcion: 'Protección de menores en centros educativos y colegios.',
-    url: null,
-    activo: false,
+    url: 'https://educaseguro-app.vercel.app',
+    activo: true,
     logo: DRIVE('1OIlX5OHakugTmHzCtKlComJ8RymEILDk'),
     paleta: { dark: '#003B8E', mid: '#1A5FC8', light: '#D6E4F7', suave: '#EEF4FC' },
   },
@@ -297,8 +297,8 @@ export default function Home() {
         logo={DRIVE('1gE-bomh0TDrx9wiS_9Wbm5Y4W05uW1Qk')}
         paleta={AZUL}
         stats={[
-          { value: '1', label: 'Vertical activa' },
-          { value: '6', label: 'En desarrollo' },
+          { value: '2', label: 'Verticales activas' },
+          { value: '5', label: 'En desarrollo' },
         ]}
       />
       <section className="max-w-6xl mx-auto px-8 py-8">
