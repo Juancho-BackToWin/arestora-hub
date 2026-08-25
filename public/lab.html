@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Innovation Lab OS</title>
+<style>
+:root{
+  color-scheme:light;
+  --paper:#f3f5f3;
+  --sheet:#ffffff;
+  --sheet-2:#eceff0;
+  --rule:#d3d9d8;
+  --rule-2:#bcc4c3;
+  --ink:#12181a;
+  --ink-2:#4d5658;
+  --ink-3:#5f6a6c;
+  --rule-ui:#8b9695;
+  --good-ink:#0a6b22; --warning-ink:#8a5a00; --serious-ink:#a4441c; --critical-ink:#b3261e;
+  --stamp:#1f4fa8;
+  --stamp-soft:#e7eefa;
+  --seal:#b3261e;
+  --seal-soft:#fbeceb;
+  --surface-1:#fcfcfb;
+  --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#101413;
+  --sheet:#181d1d;
+  --sheet-2:#1f2525;
+  --rule:#2c3433;
+  --rule-2:#3d4746;
+  --ink:#e8edec;
+  --ink-2:#a3adac;
+  --ink-3:#939d9b;
+  --rule-ui:#5c6867;
+  --good-ink:#5fd07f; --warning-ink:#f0b429; --serious-ink:#f09a6d; --critical-ink:#f08a8a;
+  --stamp:#6ea3ef;
+  --stamp-soft:#1a2740;
+  --seal:#e88079;
+  --seal-soft:#2c1a18;
+  --surface-1:#1a1a19;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:14.5px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--stamp);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- estructura ---------- */
+#app{display:grid;grid-template-columns:224px 1fr;min-height:100vh}
+aside{
+  background:var(--sheet);border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.brand{padding:20px 18px 16px;border-bottom:1px solid var(--rule)}
+.brand .k{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);display:block;margin-bottom:5px
+}
+.brand .n{display:block;font-size:14px;font-weight:700;letter-spacing:-.1px;line-height:1.3}
+.brand .o{display:block;font-size:11.5px;color:var(--ink-2);margin-top:3px}
+nav.mods{padding:10px 8px;flex:1}
+nav.mods button{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;
+  padding:8px 10px;border-radius:5px;cursor:pointer;color:var(--ink-2);font-size:13.5px;
+}
+nav.mods button:hover{background:var(--sheet-2);color:var(--ink)}
+nav.mods button[aria-current="page"]{background:var(--stamp-soft);color:var(--stamp);font-weight:600}
+nav.mods .code{
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;border:1px solid var(--rule-2);
+  border-radius:3px;padding:1px 4px;color:var(--ink-3);min-width:26px;text-align:center;flex:none
+}
+nav.mods button[aria-current="page"] .code{border-color:currentColor;color:inherit}
+nav.mods .sep{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);padding:14px 10px 5px
+}
+.side-foot{padding:12px;border-top:1px solid var(--rule);display:grid;gap:6px}
+.side-foot .save{font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+
+main{min-width:0;display:flex;flex-direction:column}
+.topbar{
+  display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--rule);
+  background:var(--sheet);position:sticky;top:0;z-index:9;flex-wrap:wrap
+}
+.topbar h1{font-size:20px;margin:0;font-weight:700;letter-spacing:-.3px}
+.topbar .sub{font-size:12px;color:var(--ink-2);margin:0}
+.spacer{flex:1}
+.content{padding:22px 24px 70px;max-width:1240px;width:100%}
+
+/* ---------- controles ---------- */
+.btn{
+  background:var(--sheet);border:1px solid var(--rule-ui);border-radius:5px;padding:6px 12px;
+  cursor:pointer;font-size:13px;color:var(--ink);white-space:nowrap;min-height:32px
+}
+.btn:hover{border-color:var(--ink-3)}
+.btn.pri{background:var(--stamp);border-color:var(--stamp);color:#fff;font-weight:600}
+html[data-theme="dark"] .btn.pri{color:#0d1522}
+.btn.dgr{color:var(--seal);border-color:var(--seal)}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn.dgr{color:var(--seal);border-color:var(--seal)}
+.btn.sm{padding:5px 10px;font-size:12px;min-height:30px}
+.field{display:grid;gap:4px;margin-bottom:13px}
+.field label{font-size:11.5px;font-weight:650;color:var(--ink-2);letter-spacing:.02em}
+.field .hint{font-size:11px;color:var(--ink-3);line-height:1.4}
+input[type=text],input[type=date],input[type=number],select,textarea{
+  background:var(--sheet);border:1px solid var(--rule-ui);border-radius:5px;padding:7px 9px;width:100%
+}
+textarea{min-height:76px;resize:vertical;line-height:1.5}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}}
+
+/* ---------- tarjetas y listas ---------- */
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:8px}
+.sheet + .sheet{margin-top:14px}
+.sheet-h{
+  padding:13px 16px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px;flex-wrap:wrap
+}
+.sheet-h h2{font-size:13.5px;margin:0;font-weight:600}
+.sheet-b{padding:16px}
+.eyebrow{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)
+}
+.rec{
+  display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;
+  padding:13px 16px;border-bottom:1px solid var(--rule);cursor:pointer
+}
+.rec:last-child{border-bottom:0}
+.rec:hover{background:var(--sheet-2)}
+.rec .id{
+  font-family:var(--mono);font-size:11px;border:1px solid var(--rule-2);border-radius:4px;
+  padding:2px 6px;color:var(--ink-2);white-space:nowrap
+}
+.rec .t{font-weight:600;font-size:14px;margin:0 0 2px;overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rec .d{font-size:12.5px;color:var(--ink-2);margin:0;overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rec .meta{font-size:11.5px;color:var(--ink-3);margin-top:5px;display:flex;gap:12px;flex-wrap:wrap}
+.empty{padding:38px 16px;text-align:center;color:var(--ink-2)}
+.empty p{margin:0 0 12px;font-size:13.5px}
+
+/* etiquetas */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:2px 8px;border-radius:20px;
+  border:1px solid var(--rule-2);color:var(--ink-2);background:var(--sheet);white-space:nowrap
+}
+.chip .dot{width:8px;height:8px;border-radius:50%;flex:none;background:currentColor}
+.chip.st{font-weight:600}
+.st-good{color:var(--good-ink);border-color:currentColor}
+.st-warn{color:var(--warning-ink);border-color:currentColor}
+.st-ser{color:var(--serious-ink);border-color:currentColor}
+.st-crit{color:var(--critical-ink);border-color:currentColor}
+.st-idle{color:var(--ink-3)}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(8,12,12,.42);z-index:40;display:none}
+.scrim.on{display:block}
+.drawer{
+  position:fixed;top:0;right:0;height:100%;width:min(660px,100%);background:var(--sheet);
+  border-left:1px solid var(--rule);z-index:41;display:none;flex-direction:column
+}
+.drawer.on{display:flex}
+.drawer-h{padding:15px 20px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px}
+.drawer-h h3{margin:0;font-size:14.5px;font-weight:680}
+.drawer-b{padding:20px;overflow-y:auto;flex:1}
+.drawer-f{padding:13px 20px;border-top:1px solid var(--rule);display:flex;gap:9px;justify-content:flex-end}
+
+/* ---------- panel de indicadores ---------- */
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:900px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:14px 16px}
+.tile .v{font-family:var(--mono);font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+.tile .k{font-size:11.5px;color:var(--ink-2);margin-top:3px}
+.tile .s{font-size:11px;color:var(--ink-3);margin-top:5px}
+
+.viz-root{--surface-1:var(--sheet)}
+.barrow{display:grid;grid-template-columns:minmax(140px,26ch) 1fr 62px;gap:12px;align-items:center;margin-bottom:9px}
+.barrow .lb{font-size:12.5px;color:var(--ink-2);overflow-wrap:anywhere}
+.barrow .vl{font-family:var(--mono);font-size:12px;color:var(--ink-2);text-align:right}
+.track{display:block;height:12px;background:var(--sheet-2);border-radius:6px;overflow:hidden}
+.fill{display:block;height:100%;min-width:3px;border-radius:0 4px 4px 0;background:var(--s1)}
+.stackbar{display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--sheet-2);gap:2px}
+.stackbar span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:11px}
+.legend i{display:inline-flex;align-items:center;gap:6px;font-style:normal;font-size:12px;color:var(--ink-2)}
+.legend b{width:10px;height:10px;border-radius:3px;display:block}
+
+table.data{width:100%;border-collapse:collapse;font-size:13px}
+table.data th{
+  text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule-2);color:var(--ink-2);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:650;font-family:var(--mono)
+}
+table.data td{padding:9px 10px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+table.data td strong{color:var(--ink)}
+table.data tr:last-child td{border-bottom:0}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.note{border-left:3px solid var(--stamp);background:var(--sheet-2);padding:11px 14px;border-radius:0 6px 6px 0;font-size:13px;color:var(--ink-2);margin:12px 0}
+.note.seal{border-left-color:var(--seal)}
+.note strong{color:var(--ink)}
+.toast{
+  position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--paper);
+  padding:9px 16px;border-radius:6px;font-size:13px;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s
+}
+.toast.on{opacity:1}
+.filters{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.filters input[type=text]{width:220px}
+.filters select{width:auto;min-width:130px;max-width:230px}
+.crit-row{display:grid;grid-template-columns:1fr 92px 120px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--rule)}
+.crit-row:last-child{border-bottom:0}
+@media(max-width:640px){
+  .rec{grid-template-columns:auto 1fr;row-gap:8px}
+  .rec > div:last-child{grid-column:1 / -1;flex-direction:row!important;align-items:center!important;flex-wrap:wrap;gap:6px}
+  .rec .chip{white-space:normal;max-width:100%}
+  .crit-row{grid-template-columns:1fr;gap:8px}
+}
+@media(max-width:900px){
+  #app{grid-template-columns:1fr}
+  .topbar{position:static}
+  nav.mods button{min-height:44px}
+  aside{position:static;height:auto;flex-direction:column}
+  nav.mods{display:flex;flex-wrap:wrap;gap:4px}
+  nav.mods button{width:auto}
+  nav.mods .sep{display:none}
+  .barrow{grid-template-columns:1fr;gap:4px}
+  .barrow .vl{text-align:left}
+}
+@media print{
+  aside,.topbar,#viewActions,.filters{display:none!important}
+  #app{grid-template-columns:1fr}
+  .content{max-width:none;padding:0}
+  .sheet{break-inside:avoid;border-color:#999}
+}
+.skip{position:absolute;left:-9999px;top:0;background:var(--stamp);color:#fff;padding:9px 14px;border-radius:0 0 6px 0;z-index:99}
+.skip:focus{left:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+fieldset.grp{border:1px solid var(--rule);border-radius:7px;padding:14px 15px 4px;margin:0 0 16px}
+fieldset.grp legend{font-size:11.5px;font-weight:700;letter-spacing:.03em;color:var(--ink-2);padding:0 6px}
+.danger-zone{border-color:var(--seal)}
+.pctlbl{font-size:11.5px;color:var(--ink-2);font-family:var(--mono);margin-top:4px}
+.flowline{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}
+.flowline .step{
+  flex:1 1 120px;background:var(--sheet-2);border:1px solid var(--rule);border-radius:8px;
+  padding:13px 12px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:auto
+}
+.flowline .step:hover{border-color:var(--stamp)}
+.flowline .step .n{font-family:var(--mono);font-size:23px;font-weight:600;line-height:1.1;color:var(--ink)}
+.flowline .step .l{font-size:11.5px;color:var(--ink-2)}
+.flowline .arrow{display:flex;align-items:center;color:var(--ink-3);font-size:15px;flex:none}
+@media(max-width:640px){.flowline .arrow{display:none}.flowline .step{flex:1 1 44%}}
+</style>
+</head>
+<body>
+<a class="skip" href="#view">Ir al contenido</a>
+<div id="app">
+  <aside>
+    <div class="brand">
+      <span class="k">Innovation Lab OS</span>
+      <span class="n" id="orgName">Arestora Innovation Lab</span>
+      <span class="o" id="orgSub">Departamento de I+D+i</span>
+    </div>
+    <nav class="mods" id="nav" aria-label="Módulos"></nav>
+    <div class="side-foot">
+      <button class="btn sm" id="btnTheme">Cambiar a modo oscuro</button>
+      <span class="save" id="saveState">—</span>
+    </div>
+  </aside>
+  <main>
+    <div class="topbar">
+      <div>
+        <h1 id="viewTitle">Panel</h1>
+        <p class="sub" id="viewSub"></p>
+      </div>
+      <div class="spacer"></div>
+      <div id="viewActions" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    </div>
+    <div class="content" id="view" tabindex="-1"></div>
+  </main>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer-h">
+    <h3 id="drawerTitle">Ficha</h3>
+    <div class="spacer" style="flex:1"></div>
+    <button class="btn sm" id="drawerClose">Cerrar</button>
+  </div>
+  <div class="drawer-b" id="drawerBody"></div>
+  <div class="drawer-f" id="drawerFoot"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ============================================================
+   INNOVATION LAB OS — esquema
+   Motor dirigido por metadatos: los módulos declaran sus campos
+   y de ahí salen lista, ficha, formulario, filtros y exportación.
+   Añadir una línea, una convocatoria o un tipo de proyecto no
+   requiere tocar código.
+   ============================================================ */
+
+const ROLES = ['admin','gestor','cliente','rb','cbp','candidato','empresa'];
+
+/* Estado del Hub derivado del estado de desarrollo: una sola fuente, dos vocabularios. */
+const ESTADO_HUB = {
+  'En producción':'activo','En desarrollo':'en_proceso','En rediseño':'en_proceso',
+  'En diseño':'proximamente','Idea':'idea','Retirada':''
+};
+
+const SERIES = ['--s1','--s2','--s3','--s4','--s5','--s6','--s7','--s8'];
+
+const TRL = [
+  [1,'Principios básicos observados'],[2,'Concepto tecnológico formulado'],
+  [3,'Prueba de concepto experimental'],[4,'Validación en laboratorio'],
+  [5,'Validación en entorno relevante'],[6,'Demostración en entorno relevante'],
+  [7,'Demostración en entorno real'],[8,'Sistema completo y cualificado'],
+  [9,'Sistema probado en entorno real']
+];
+
+const ODS = ['1 Fin de la pobreza','2 Hambre cero','3 Salud y bienestar','4 Educación de calidad',
+'5 Igualdad de género','6 Agua limpia','7 Energía asequible','8 Trabajo decente y crecimiento',
+'9 Industria, innovación e infraestructura','10 Reducción de desigualdades','11 Ciudades sostenibles',
+'12 Producción y consumo responsables','13 Acción por el clima','14 Vida submarina','15 Vida de ecosistemas',
+'16 Paz y justicia','17 Alianzas'];
+
+/* --- tipos de campo admitidos: text, textarea, select, multiselect, date, number, ref, refs, chips --- */
+
+const MODULES = [
+  {
+    id:'panel', code:'KP', name:'Panel', kind:'custom', group:'Dirección'
+  },
+  {
+    id:'lineas', code:'LI', name:'Líneas', group:'Dirección',
+    singular:'línea', article:'la', prefix:'L',
+    titleField:'nombre', descField:'objetivo',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true,hint:'Identificador corto y estable. Ej.: L-IV'},
+      {k:'nombre',l:'Denominación',t:'text',req:true},
+      {k:'ambito',l:'Ámbito',t:'select',o:['Investigación aplicada','Desarrollo tecnológico','Innovación organizativa','Innovación de producto o servicio','Innovación social','Mixta']},
+      {k:'estado',l:'Estado',t:'select',o:['Tractora','Captura activa','Exploratoria','En pausa','Cerrada'],st:{'Tractora':'good','Captura activa':'warn','Exploratoria':'idle','En pausa':'ser','Cerrada':'idle'}},
+      {k:'objetivo',l:'Objetivo',t:'textarea'},
+      {k:'preguntas',l:'Preguntas de investigación',t:'textarea',hint:'Una por línea.'},
+      {k:'activos',l:'Activos que la alimentan',t:'textarea'},
+      {k:'responsable',l:'Referente',t:'text'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'proyectos', code:'CA', name:'Cartera', group:'Innovación',
+    singular:'proyecto', article:'el', prefix:'P',
+    titleField:'titulo', descField:'resumen',
+    fields:[
+      {k:'codigo',l:'Código de expediente',t:'text',req:true,hint:'Ej.: AIL-02'},
+      {k:'titulo',l:'Título',t:'text',req:true},
+      {k:'lineaId',l:'Línea',t:'ref',ref:'lineas'},
+      {k:'tipo',l:'Naturaleza',t:'select',o:['Investigación aplicada','Desarrollo experimental','Innovación en proceso','Innovación organizativa','Innovación de producto o servicio','Metodológico','Infraestructura de datos']},
+      {k:'estado',l:'Estado',t:'select',o:['Idea','Definición','En ejecución','En validación','Cerrado','Descartado'],st:{'En ejecución':'good','En validación':'warn','Definición':'idle','Idea':'idle','Cerrado':'idle','Descartado':'crit'}},
+      {k:'prioridad',l:'Prioridad',t:'select',o:['Crítica','Alta','Media','Baja'],st:{'Crítica':'crit','Alta':'ser','Media':'warn','Baja':'idle'}},
+      {k:'resumen',l:'Resumen',t:'textarea',hint:'Qué se hace y para qué, en cinco líneas.'},
+      {k:'problema',l:'Problema y situación de partida',t:'textarea',hint:'Cuantificado siempre que sea posible: horas, coste, porcentajes, volúmenes. Sin cifras de partida no hay forma de saber después si mejoró.'},
+      {k:'hipotesis',l:'Hipótesis',t:'textarea',hint:'Formulada de modo que pueda resultar falsa.'},
+      {k:'incertidumbre',l:'Incertidumbre técnica o científica',t:'textarea',hint:'Qué no sabemos resolver de antemano. Si ya sabemos hacerlo, es implantación, no investigación.'},
+      {k:'objetivos',l:'Objetivos',t:'textarea',hint:'Uno por línea, medibles.'},
+      {k:'actividades',l:'Actividades y método',t:'textarea'},
+      {k:'entregables',l:'Entregables',t:'textarea',hint:'Uno por línea.'},
+      {k:'trlIni',l:'TRL de partida',t:'select',o:TRL.map(x=>String(x[0]))},
+      {k:'trlAct',l:'TRL actual',t:'select',o:TRL.map(x=>String(x[0]))},
+      {k:'trlObj',l:'TRL objetivo',t:'select',o:TRL.map(x=>String(x[0]))},
+      {k:'inicio',l:'Inicio',t:'date'},
+      {k:'fin',l:'Fin previsto',t:'date'},
+      {k:'responsable',l:'Responsable',t:'text'},
+      {k:'equipo',l:'Equipo y dedicaciones',t:'textarea',hint:'Persona, perfil y porcentaje o horas.'},
+      {k:'horas',l:'Horas imputadas',t:'number'},
+      {k:'presupuesto',l:'Presupuesto (€)',t:'number'},
+      {k:'financiacion',l:'Financiación',t:'text'},
+      {k:'socios',l:'Socios y colaboradores',t:'refs',ref:'ecosistema'},
+      {k:'ods',l:'ODS',t:'multiselect',o:ODS},
+      {k:'kpis',l:'Indicadores del proyecto',t:'textarea',hint:'Indicador, valor de partida y valor objetivo.'},
+      {k:'resultados',l:'Resultados obtenidos',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'apps', code:'AP', name:'Apps propias', group:'Fuentes',
+    singular:'app', article:'la', prefix:'AP',
+    titleField:'nombre', descField:'proposito',
+    intro:'Las herramientas del Grupo son la fuente. Cada una hace el trabajo diario y, a la vez, produce los datos con los que se investiga.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'nombre',l:'Aplicación',t:'text',req:true},
+      {k:'proposito',l:'Para qué sirve en el día a día',t:'textarea',hint:'Es también la descripción que sale al catálogo del Hub.'},
+      {k:'espacio',l:'Espacio del Hub',t:'text',hint:'Agrupación en el catálogo: Arestora Segura, IgualdadSegura, EmpleoSeguro, AresJobs, Innovation Lab.'},
+      {k:'hubId',l:'Identificador en el Hub',t:'text',hint:'Debe coincidir exactamente con el id del catálogo. Es lo que permite sincronizar en los dos sentidos.'},
+      {k:'sector',l:'Sector',t:'text',hint:'Deporte, educación, administración local, empresa, empleo, transversal.'},
+      {k:'vertical',l:'¿Es un vertical de cumplimiento normativo?',t:'select',o:['Sí','No'],hint:'Decide la nomenclatura: los verticales van en CamelCase terminados en Seguro.'},
+      {k:'estado',l:'Estado de desarrollo',t:'select',o:['Idea','En diseño','En desarrollo','En producción','En rediseño','Retirada'],st:{'En producción':'good','En desarrollo':'warn','En rediseño':'warn','En diseño':'ser','Idea':'idle','Retirada':'idle'}},
+      {k:'usuarios',l:'Quién la usa y cuántos',t:'text'},
+      {k:'volumen',l:'Volumen de uso',t:'text',hint:'Registros, expedientes o sesiones al mes. Es lo que determina si habrá datos suficientes.'},
+      {k:'genera',l:'Qué datos genera hoy',t:'textarea',hint:'Lo que ya guarda, aunque no lo estemos aprovechando.'},
+      {k:'deberia',l:'Qué datos debería capturar y todavía no captura',t:'textarea',hint:'La lista de la que salen los desarrollos pendientes.'},
+      {k:'medicion',l:'Cómo mide el resultado de la intervención',t:'textarea',hint:'Si no lo mide, no se puede saber si lo que hacemos funciona.'},
+      {k:'entidades',l:'Entidades del modelo canónico que alimenta',t:'refs',ref:'canonico'},
+      {k:'conexion',l:'Conexión con el Data Core',t:'select',o:['Sin conectar','Exportación manual','Exportación periódica','Integrada'],st:{'Integrada':'good','Exportación periódica':'warn','Exportación manual':'ser','Sin conectar':'crit'}},
+      {k:'lineas',l:'Líneas a las que alimenta',t:'refs',ref:'lineas'},
+      {k:'url',l:'Dirección pública',t:'text',hint:'Solo si existe dirección de producción. Nada de localhost ni entornos de prueba: se deja vacío.'},
+      {k:'repo',l:'Repositorio',t:'text'},
+      {k:'carpeta',l:'Carpeta en Drive',t:'text'},
+      {k:'stack',l:'Stack técnico',t:'text',hint:'Por defecto en el ecosistema: Next.js en Vercel con Supabase.'},
+      {k:'acceso',l:'Quién puede entrar',t:'multiselect',o:ROLES,hint:'Es documentación para el Hub, no control de acceso: la autorización la valida cada herramienta en su servidor.'},
+      {k:'color',l:'Color identificativo',t:'text',hint:'Hexadecimal con contraste suficiente sobre blanco. Azul institucional del grupo: #1B4FD8.'},
+      {k:'responsable',l:'Responsable',t:'text'},
+      {k:'proveedor',l:'Quién la desarrolla',t:'text'},
+      {k:'aiact',l:'Reglamento europeo de IA',t:'select',o:['No aplica','Por evaluar','Riesgo limitado','Alto riesgo: en adaptación','Alto riesgo: conforme'],st:{'Alto riesgo: conforme':'good','No aplica':'good','Riesgo limitado':'warn','Alto riesgo: en adaptación':'ser','Por evaluar':'crit'}},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'servicios', code:'SV', name:'Servicios', group:'Fuentes',
+    singular:'servicio', article:'el', prefix:'S',
+    titleField:'nombre', descField:'descripcion',
+    intro:'La triple pregunta. Cada servicio recurrente se analiza una vez: qué datos genera, qué se puede investigar con ellos y qué innovación cabe desarrollar.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'nombre',l:'Servicio',t:'text',req:true},
+      {k:'area',l:'Área',t:'text'},
+      {k:'volumen',l:'Volumen anual',t:'text',hint:'Nº de intervenciones, clientes o expedientes al año.'},
+      {k:'descripcion',l:'En qué consiste',t:'textarea'},
+      {k:'q1',l:'1. ¿Qué datos genera?',t:'textarea'},
+      {k:'q2',l:'2. ¿Qué podemos investigar con ellos?',t:'textarea'},
+      {k:'q3',l:'3. ¿Qué innovación podemos desarrollar?',t:'textarea'},
+      {k:'entidades',l:'Entidades del modelo canónico que alimenta',t:'refs',ref:'canonico'},
+      {k:'herramienta',l:'Herramienta que lo soporta',t:'text'},
+      {k:'captura',l:'Estado de la captura',t:'select',o:['Sin instrumentar','Manual','Parcial en herramienta','Automática en herramienta'],st:{'Automática en herramienta':'good','Parcial en herramienta':'warn','Manual':'ser','Sin instrumentar':'crit'}},
+      {k:'baseJuridica',l:'Base jurídica del uso para investigación',t:'select',o:['Sin resolver','En análisis','Cláusula incorporada','Datos anonimizados','No aplica: sin datos personales'],st:{'Cláusula incorporada':'good','Datos anonimizados':'good','No aplica: sin datos personales':'good','En análisis':'warn','Sin resolver':'crit'}},
+      {k:'lineaId',l:'Línea a la que aporta',t:'ref',ref:'lineas'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'pilotos', code:'PI', name:'Pilotos', group:'Investigación',
+    singular:'piloto', article:'el', prefix:'PIL',
+    titleField:'titulo', descField:'objetivo',
+    intro:'Toda intervención es un piloto potencial. Antes de empezar: ¿qué podemos medir aquí, antes y después?',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'titulo',l:'Título',t:'text',req:true},
+      {k:'proyectoId',l:'Proyecto',t:'ref',ref:'proyectos'},
+      {k:'organizacion',l:'Organización o demostrador',t:'text'},
+      {k:'tipo',l:'Tipo de intervención',t:'text'},
+      {k:'objetivo',l:'Qué se quiere demostrar',t:'textarea'},
+      {k:'variables',l:'Variables medidas',t:'textarea',hint:'Una por línea, con su instrumento.'},
+      {k:'instrumento',l:'Instrumento de medida',t:'text'},
+      {k:'diseno',l:'Diseño',t:'select',o:['Pre-post','Pre-post con grupo de comparación','Longitudinal','Series temporales','Estudio de caso','Transversal']},
+      {k:'t0',l:'Medición T0',t:'date'},
+      {k:'t1',l:'Medición T1',t:'date'},
+      {k:'t2',l:'Medición T2',t:'date'},
+      {k:'estado',l:'Estado',t:'select',o:['Diseño','T0 realizado','Intervención en curso','T1 realizado','T2 realizado','Cerrado'],st:{'Cerrado':'good','T2 realizado':'good','T1 realizado':'warn','Intervención en curso':'warn','T0 realizado':'ser','Diseño':'idle'}},
+      {k:'etica',l:'Dictamen ético',t:'select',o:['No requerido','Pendiente de solicitar','Solicitado','Aprobado'],st:{'Aprobado':'good','No requerido':'good','Solicitado':'warn','Pendiente de solicitar':'crit'}},
+      {k:'n',l:'Tamaño de muestra',t:'number'},
+      {k:'resultados',l:'Resultados',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'preguntas', code:'PG', name:'Preguntas', group:'Investigación',
+    singular:'pregunta', article:'la', prefix:'PG',
+    titleField:'pregunta', descField:'porque',
+    intro:'El banco de preguntas del Grupo. Aquí entra todo lo que nos gustaría saber y no sabemos: de ahí salen las investigaciones, no al revés.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'pregunta',l:'Pregunta',t:'text',req:true,hint:'Formulada como pregunta, no como tema. «¿Qué predice la permanencia a doce meses?», no «permanencia».'},
+      {k:'lineaId',l:'Línea',t:'ref',ref:'lineas'},
+      {k:'porque',l:'Por qué importa',t:'textarea',hint:'Qué haríamos distinto si tuviéramos la respuesta.'},
+      {k:'origen',l:'De dónde sale',t:'select',o:['Duda del equipo','Petición de cliente','Observación en un servicio','Literatura o congreso','Oportunidad de producto','Requisito normativo']},
+      {k:'datoNecesario',l:'Qué dato hace falta para responderla',t:'textarea'},
+      {k:'apps',l:'Apps que pueden darlo',t:'refs',ref:'apps'},
+      {k:'disponibilidad',l:'¿Tenemos ya ese dato?',t:'select',o:['Sí, completo','Sí, parcial','No, pero es capturable','No, requiere desarrollo','No es obtenible'],st:{'Sí, completo':'good','Sí, parcial':'warn','No, pero es capturable':'ser','No, requiere desarrollo':'ser','No es obtenible':'crit'}},
+      {k:'estado',l:'Estado',t:'select',o:['Abierta','Esperando datos','En análisis','Respondida','Descartada'],st:{'Respondida':'good','En análisis':'warn','Esperando datos':'ser','Abierta':'idle','Descartada':'idle'}},
+      {k:'prioridad',l:'Prioridad',t:'select',o:['Alta','Media','Baja'],st:{'Alta':'ser','Media':'warn','Baja':'idle'}},
+      {k:'valor',l:'Qué valor tendría la respuesta',t:'multiselect',o:['Mejora un servicio existente','Abre un producto nuevo','Argumento comercial','Publicable','Apoya un peritaje','Reduce coste interno','Reduce un riesgo']},
+      {k:'metodo',l:'Cómo la responderíamos',t:'textarea'},
+      {k:'quien',l:'Quién la analiza',t:'text',hint:'Interno, universidad, TFM o TFG.'},
+      {k:'proyectoId',l:'Proyecto de la cartera',t:'ref',ref:'proyectos'},
+      {k:'fecha',l:'Fecha de alta',t:'date'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'hallazgos', code:'HA', name:'Hallazgos', group:'Investigación',
+    singular:'hallazgo', article:'el', prefix:'HA',
+    titleField:'titulo', descField:'enunciado',
+    intro:'Lo que hemos averiguado. Un hallazgo es conocimiento que antes no teníamos y que podemos sostener con datos.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'titulo',l:'Título',t:'text',req:true},
+      {k:'preguntaId',l:'Pregunta que responde',t:'ref',ref:'preguntas'},
+      {k:'lineaId',l:'Línea',t:'ref',ref:'lineas'},
+      {k:'enunciado',l:'Qué hemos encontrado',t:'textarea',hint:'En una frase que se pueda repetir delante de un cliente sin matizarla.'},
+      {k:'datos',l:'Sobre qué datos',t:'textarea',hint:'Fuente, periodo y qué se midió.'},
+      {k:'n',l:'Tamaño de muestra',t:'number'},
+      {k:'confianza',l:'Solidez',t:'select',o:['Indicio','Consistente','Sólido','Validado externamente'],st:{'Validado externamente':'good','Sólido':'good','Consistente':'warn','Indicio':'ser'}},
+      {k:'limites',l:'Qué no dice este hallazgo',t:'textarea',hint:'Escribir aquí lo que evita que alguien lo use de más.'},
+      {k:'implicacion',l:'Qué deberíamos hacer con esto',t:'textarea'},
+      {k:'usos',l:'Dónde se puede usar',t:'multiselect',o:['Mejorar un servicio','Producto nuevo','Argumentario comercial','Publicación científica','Congreso','Peritaje','Formación','Política pública']},
+      {k:'estado',l:'Estado',t:'select',o:['Provisional','Confirmado','Aplicado','Publicado','Refutado'],st:{'Aplicado':'good','Publicado':'good','Confirmado':'warn','Provisional':'ser','Refutado':'crit'}},
+      {k:'fecha',l:'Fecha',t:'date'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'mejoras', code:'ME', name:'Mejoras', group:'Innovación',
+    singular:'mejora', article:'la', prefix:'ME',
+    titleField:'titulo', descField:'descripcion',
+    intro:'Lo que hemos cambiado gracias a lo que averiguamos. Es aquí donde el ciclo se cierra: sin mejoras aplicadas, investigar no ha servido para nada.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'titulo',l:'Mejora',t:'text',req:true},
+      {k:'hallazgoId',l:'Hallazgo que la motiva',t:'ref',ref:'hallazgos'},
+      {k:'appId',l:'App afectada',t:'ref',ref:'apps'},
+      {k:'servicioId',l:'Servicio afectado',t:'ref',ref:'servicios'},
+      {k:'tipo',l:'Tipo',t:'select',o:['Cambio en un algoritmo','Funcionalidad nueva','Cambio de metodología','Servicio nuevo','Cambio de precio o modelo','Automatización interna','Material o formación']},
+      {k:'descripcion',l:'En qué consiste',t:'textarea'},
+      {k:'estado',l:'Estado',t:'select',o:['Propuesta','Aprobada','En desarrollo','Implantada','Descartada'],st:{'Implantada':'good','En desarrollo':'warn','Aprobada':'ser','Propuesta':'idle','Descartada':'idle'}},
+      {k:'fecha',l:'Fecha de implantación',t:'date'},
+      {k:'efectoEsperado',l:'Efecto esperado',t:'textarea',hint:'Con cifra, para poder comprobarlo después.'},
+      {k:'efectoMedido',l:'Efecto medido',t:'textarea',hint:'Qué pasó de verdad. Incluir también cuando no funcionó.'},
+      {k:'valor',l:'Valor generado',t:'text',hint:'Horas ahorradas, ingresos, clientes, margen. Lo que se pueda cuantificar.'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'evidencias', code:'EV', name:'Evidencias', group:'Respaldo',
+    singular:'evidencia', article:'la', prefix:'E',
+    titleField:'titulo', descField:'descripcion',
+    intro:'El repositorio que hace reutilizable el trabajo: una evidencia registrada una vez se vincula después a cualquier convocatoria, nacional o internacional.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'titulo',l:'Título',t:'text',req:true},
+      {k:'tipo',l:'Tipo',t:'select',o:['Documento de proyecto','Publicación científica','Comunicación a congreso','TFM o TFG dirigido','Convenio o contrato','Certificación','Informe motivado','Registro de propiedad industrial','Software o prototipo','Dataset','Acta o decisión interna','Resultado de piloto','Ayuda concedida','Contrato con cliente','Nota de prensa o difusión','Otro']},
+      {k:'fecha',l:'Fecha',t:'date'},
+      {k:'proyectoId',l:'Proyecto',t:'ref',ref:'proyectos'},
+      {k:'lineaId',l:'Línea',t:'ref',ref:'lineas'},
+      {k:'descripcion',l:'Qué acredita',t:'textarea',hint:'Escrito pensando en quien lo va a leer sin conocer el proyecto.'},
+      {k:'ubicacion',l:'Dónde está',t:'text',hint:'Ruta, carpeta, expediente o enlace.'},
+      {k:'verificable',l:'Verificable por un tercero',t:'select',o:['Sí','Parcialmente','No'],st:{'Sí':'good','Parcialmente':'warn','No':'crit'}},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'propiedad', code:'PR', name:'Propiedad intelectual', group:'Innovación',
+    singular:'activo', article:'el', prefix:'PI',
+    titleField:'denominacion', descField:'descripcion',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'denominacion',l:'Denominación',t:'text',req:true},
+      {k:'tipo',l:'Tipo de activo',t:'select',o:['Marca','Nombre comercial','Software','Metodología','Índice o indicador','Protocolo','Dataset','Base de datos','Diseño industrial','Patente o modelo de utilidad','Contenido o material formativo','Sello o certificación propia']},
+      {k:'estado',l:'Estado de protección',t:'select',o:['Sin proteger','Identificado','En preparación','Solicitado','Registrado','Denegado'],st:{'Registrado':'good','Solicitado':'warn','En preparación':'ser','Identificado':'ser','Sin proteger':'crit','Denegado':'crit'}},
+      {k:'titular',l:'Titular',t:'text'},
+      {k:'ambito',l:'Ámbito',t:'select',o:['España','Unión Europea','Internacional','Interno, sin registro']},
+      {k:'numero',l:'Número de expediente',t:'text'},
+      {k:'fSolicitud',l:'Fecha de solicitud',t:'date'},
+      {k:'fConcesion',l:'Fecha de concesión',t:'date'},
+      {k:'proyectoId',l:'Proyecto de origen',t:'ref',ref:'proyectos'},
+      {k:'descripcion',l:'Descripción',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'ecosistema', code:'EC', name:'Ecosistema', group:'Respaldo',
+    singular:'entidad', article:'la', prefix:'EC',
+    titleField:'nombre', descField:'objeto',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'nombre',l:'Entidad',t:'text',req:true},
+      {k:'tipo',l:'Tipo',t:'select',o:['Universidad','Centro tecnológico','Organismo público de investigación','Administración pública','Empresa','Clúster o asociación','Entidad demostradora','Proveedor tecnológico','Entidad certificadora']},
+      {k:'ambito',l:'Ámbito',t:'select',o:['Local','Autonómico','Nacional','Europeo','Internacional']},
+      {k:'instrumento',l:'Instrumento de relación',t:'select',o:['Sin formalizar','Contacto previo','Carta de interés','Convenio marco','Convenio específico','Contrato de investigación','Cátedra','Consorcio en proyecto'],st:{'Convenio marco':'good','Convenio específico':'good','Contrato de investigación':'good','Cátedra':'good','Consorcio en proyecto':'good','Carta de interés':'warn','Contacto previo':'ser','Sin formalizar':'crit'}},
+      {k:'fFirma',l:'Fecha de firma',t:'date'},
+      {k:'objeto',l:'Objeto de la colaboración',t:'textarea'},
+      {k:'titularidad',l:'Titularidad de datos y resultados',t:'textarea',hint:'Quién es titular del dataset, quién publica, en qué orden firma y a quién pertenece lo que se desarrolle.'},
+      {k:'personas',l:'Personas de contacto',t:'textarea'},
+      {k:'lineas',l:'Líneas en las que participa',t:'refs',ref:'lineas'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'convocatorias', code:'CV', name:'Convocatorias', kind:'calls', group:'Respaldo',
+    singular:'convocatoria', article:'la', prefix:'CV',
+    titleField:'nombre', descField:'objeto',
+    intro:'Cada convocatoria trae su propio baremo. Se define aquí una vez —autonómica, nacional o europea— y la candidatura se construye vinculando evidencias del repositorio a cada criterio.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'nombre',l:'Convocatoria',t:'text',req:true},
+      {k:'organismo',l:'Organismo',t:'text'},
+      {k:'ambito',l:'Ámbito',t:'select',o:['Autonómico','Nacional','Europeo','Internacional','Privado']},
+      {k:'instrumento',l:'Instrumento',t:'select',o:['Subvención','Préstamo','Mixto','Deducción fiscal','Certificación','Premio','Contratación pública de innovación']},
+      {k:'modalidad',l:'Línea o modalidad',t:'text'},
+      {k:'objeto',l:'Objeto',t:'textarea'},
+      {k:'proyectoId',l:'Proyecto candidato',t:'ref',ref:'proyectos'},
+      {k:'apertura',l:'Apertura prevista',t:'date'},
+      {k:'cierre',l:'Cierre de plazo',t:'date'},
+      {k:'presupMin',l:'Presupuesto mínimo (€)',t:'number'},
+      {k:'presupMax',l:'Presupuesto máximo (€)',t:'number'},
+      {k:'intensidad',l:'Intensidad de ayuda',t:'text'},
+      {k:'estado',l:'Estado',t:'select',o:['En vigilancia','En preparación','Presentada','Concedida','Denegada','Lista de espera','Descartada'],st:{'Concedida':'good','Presentada':'warn','En preparación':'warn','En vigilancia':'idle','Lista de espera':'ser','Denegada':'crit','Descartada':'idle'}},
+      {k:'obtenida',l:'Puntuación obtenida',t:'number'},
+      {k:'corte',l:'Puntuación de corte',t:'number'},
+      {k:'url',l:'Enlace a las bases',t:'text'},
+      {k:'requisitos',l:'Requisitos y gastos elegibles',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'actas', code:'AC', name:'Actas', group:'Respaldo',
+    singular:'acta', article:'el', prefix:'AC',
+    titleField:'titulo', descField:'acuerdos',
+    intro:'El acta con fecha y decisiones es, además de gobierno, una de las evidencias que acreditan un sistema de gestión de la I+D+i.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'titulo',l:'Sesión',t:'text',req:true},
+      {k:'fecha',l:'Fecha',t:'date'},
+      {k:'tipo',l:'Tipo',t:'select',o:['Comité de Innovación','Revisión estratégica','Reunión de proyecto','Reunión con socio externo']},
+      {k:'asistentes',l:'Asistentes',t:'textarea'},
+      {k:'orden',l:'Orden del día',t:'textarea'},
+      {k:'acuerdos',l:'Acuerdos y decisiones',t:'textarea',hint:'Cada acuerdo con responsable y fecha.'},
+      {k:'proximos',l:'Compromisos para la próxima sesión',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'canonico', code:'MD', name:'Modelo de datos', group:'Fuentes',
+    singular:'entidad', article:'la', prefix:'MD',
+    titleField:'nombre', descField:'descripcion',
+    intro:'El diccionario común. Toda herramienta del Grupo debe poder exportar a estas entidades: sin identificadores compartidos no hay investigación transversal, por muchos datos que se acumulen.',
+    fields:[
+      {k:'codigo',l:'Código',t:'text',req:true},
+      {k:'nombre',l:'Entidad',t:'text',req:true},
+      {k:'descripcion',l:'Descripción',t:'textarea'},
+      {k:'clave',l:'Identificador',t:'text',hint:'Cómo se identifica de forma estable y única.'},
+      {k:'campos',l:'Campos',t:'textarea',hint:'Uno por línea: nombre, tipo y definición operativa.'},
+      {k:'relaciones',l:'Relaciones',t:'textarea'},
+      {k:'herramientas',l:'Herramientas que la deben exportar',t:'textarea'},
+      {k:'sensibilidad',l:'Sensibilidad',t:'select',o:['Sin datos personales','Datos personales identificativos','Datos personales pseudonimizados','Categorías especiales (art. 9 RGPD)','Datos de menores'],st:{'Sin datos personales':'good','Datos personales pseudonimizados':'warn','Datos personales identificativos':'ser','Categorías especiales (art. 9 RGPD)':'crit','Datos de menores':'crit'}},
+      {k:'retencion',l:'Conservación y anonimización',t:'textarea'},
+      {k:'notas',l:'Notas',t:'textarea'}
+    ]
+  },
+  {
+    id:'ajustes', code:'AJ', name:'Datos y ajustes', kind:'custom', group:'Sistema'
+  }
+];
+
+
+/* --- nombres en español: plural, botón de alta y llamada del estado vacío --- */
+const NAMING={
+  lineas:{nuevo:'Nueva línea',vacio:'Todavía no hay líneas registradas.',cta:'Crear la primera línea'},
+  proyectos:{nuevo:'Nuevo proyecto',vacio:'Todavía no hay proyectos en la cartera.',cta:'Crear el primer proyecto'},
+  servicios:{nuevo:'Nuevo servicio',vacio:'Todavía no hay servicios analizados.',cta:'Analizar el primer servicio'},
+  pilotos:{nuevo:'Nuevo piloto',vacio:'Todavía no hay pilotos registrados.',cta:'Registrar el primer piloto'},
+  evidencias:{nuevo:'Nueva evidencia',vacio:'El repositorio de evidencias está vacío.',cta:'Registrar la primera evidencia'},
+  propiedad:{nuevo:'Nuevo activo',vacio:'Todavía no hay activos inventariados.',cta:'Inventariar el primer activo'},
+  ecosistema:{nuevo:'Nueva entidad',vacio:'Todavía no hay entidades en el ecosistema.',cta:'Registrar la primera entidad'},
+  convocatorias:{nuevo:'Nueva convocatoria',vacio:'No hay convocatorias en el radar.',cta:'Añadir la primera convocatoria'},
+  actas:{nuevo:'Nueva acta',vacio:'Todavía no hay actas registradas.',cta:'Registrar la primera acta'},
+  apps:{nuevo:'Nueva app',vacio:'Todavía no hay apps registradas.',cta:'Registrar la primera app'},
+  preguntas:{nuevo:'Nueva pregunta',vacio:'El banco de preguntas está vacío.',cta:'Anotar la primera pregunta'},
+  hallazgos:{nuevo:'Nuevo hallazgo',vacio:'Todavía no hay hallazgos registrados.',cta:'Registrar el primer hallazgo'},
+  mejoras:{nuevo:'Nueva mejora',vacio:'Todavía no hay mejoras registradas.',cta:'Registrar la primera mejora'},
+  canonico:{nuevo:'Nueva entidad',vacio:'El diccionario de datos está vacío.',cta:'Definir la primera entidad'}
+};
+MODULES.forEach(m=>{if(NAMING[m.id])Object.assign(m,NAMING[m.id])});
+
+/* --- etiquetas cortas para los desplegables de filtro --- */
+const FL={conexion:'estado de conexión',disponibilidad:'disponibilidad del dato',confianza:'solidez',aiact:'clasificación de IA',baseJuridica:'base jurídica',captura:'estado de captura',verificable:'verificabilidad',
+  sensibilidad:'sensibilidad',instrumento:'instrumento',etica:'dictamen ético',diseno:'diseño'};
+MODULES.filter(m=>m.fields).forEach(m=>m.fields.forEach(f=>{if(FL[f.k])f.fl=FL[f.k]}));
+
+/* --- agrupación del formulario de proyecto --- */
+const MOD_GROUPS={
+  proyectos:[
+    ['Identificación',['codigo','titulo','lineaId','tipo','estado','prioridad','resumen']],
+    ['Planteamiento científico',['problema','hipotesis','incertidumbre','objetivos']],
+    ['Plan de trabajo',['actividades','entregables','kpis']],
+    ['Madurez y calendario',['trlIni','trlAct','trlObj','inicio','fin']],
+    ['Recursos y alianzas',['responsable','equipo','horas','presupuesto','financiacion','socios']],
+    ['Resultados',['ods','resultados','notas']]
+  ]
+};
+
+/* --- orden del ciclo: fuentes → investigación → innovación → respaldo --- */
+const ORDEN=['panel','lineas','apps','servicios','canonico','preguntas','pilotos','hallazgos',
+             'mejoras','proyectos','propiedad','evidencias','ecosistema','convocatorias','actas','ajustes'];
+MODULES.sort((a,b)=>ORDEN.indexOf(a.id)-ORDEN.indexOf(b.id));
+
+const MOD = Object.fromEntries(MODULES.map(m=>[m.id,m]));
+const COLLECTIONS = MODULES.filter(m=>m.fields).map(m=>m.id);
+</script>
+<script>
+/* ============================ estado y persistencia ============================ */
+const KEY='arestora-lab-os-v1';
+let DB=null, VIEW='panel', EDIT=null, FILTER={}, memoryOnly=false;
+
+function blankDB(){
+  const d={meta:{org:'Arestora Innovation Lab',sub:'Departamento de I+D+i',created:today(),saved:null,seq:{}}};
+  COLLECTIONS.forEach(c=>d[c]=[]);
+  return d;
+}
+function today(){return new Date().toISOString().slice(0,10)}
+function uid(){return 'r'+Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){DB=migrate(JSON.parse(raw));return}
+  }catch(e){memoryOnly=true}
+  DB=seedDB();
+  save();
+}
+function migrate(d){
+  const base=blankDB();
+  COLLECTIONS.forEach(c=>{
+    d[c]=Array.isArray(d[c])?d[c].filter(r=>r&&typeof r==='object'&&!Array.isArray(r)):[];
+    d[c].forEach(r=>{if(!r.id)r.id=uid()});
+  });
+  (d.convocatorias||[]).forEach(c=>{
+    c.criterios=Array.isArray(c.criterios)?c.criterios.filter(x=>x&&typeof x==='object'):[];
+  });
+  d.meta=Object.assign(base.meta,(d.meta&&typeof d.meta==='object')?d.meta:{});
+  return d;
+}
+function save(){
+  DB.meta.saved=new Date().toISOString();
+  try{
+    localStorage.setItem(KEY,JSON.stringify(DB));
+    memoryOnly=false;
+  }catch(e){memoryOnly=true}
+  paintSaveState();
+}
+function paintSaveState(){
+  const el=document.getElementById('saveState');
+  if(memoryOnly){
+    el.textContent='Sin guardado local — exporta antes de cerrar';
+    el.style.color='var(--seal)';
+    return;
+  }
+  const t=DB.meta.saved?new Date(DB.meta.saved):null;
+  el.textContent=t?('Guardado '+t.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})):'—';
+  el.style.color='';
+}
+
+/* ============================ utilidades ============================ */
+const $=s=>document.querySelector(s);
+const norm=s=>String(s==null?'':s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nl=s=>esc(s).replace(/\n/g,'<br>');
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2200)}
+function fmtDate(d){
+  if(d==null||d==='')return '—';
+  d=String(d);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)){const p=d.split('-');return `${p[2]}/${p[1]}/${p[0]}`}
+  return d;
+}
+function fd(d){return esc(fmtDate(d))}
+function num(n){return (n==null||n==='')?null:Number(n)}
+function fmtNum(n){return (n==null||n==='' ||isNaN(n))?'—':Number(n).toLocaleString('es-ES')}
+function rec(col,id){return (DB[col]||[]).find(r=>r.id===id)||null}
+function recTitle(col,id){const m=MOD[col],r=rec(col,id);return r?(r[m.titleField]||r.codigo||'—'):'—'}
+function lineColor(lineaId){
+  const i=DB.lineas.findIndex(l=>l.id===lineaId);
+  return i<0?'var(--ink-3)':`var(${SERIES[i%SERIES.length]})`;
+}
+function nextCode(mid){
+  const m=MOD[mid],rows=DB[mid]||[];
+  let pre=m.prefix;
+  for(let i=rows.length-1;i>=0;i--){
+    const c=String(rows[i].codigo||'');
+    const mm=c.match(/^(.*?)[-_ ]?(\d+)$/);
+    if(mm&&mm[1]){pre=mm[1].replace(/[-_ ]$/,'');break}
+  }
+  const used=new Set(rows.map(r=>String(r.codigo||'')));
+  let n=rows.length+1,code;
+  do{code=`${pre}-${String(n).padStart(2,'0')}`;n++}while(used.has(code)&&n<999);
+  return code;
+}
+function statusClass(m,f,v){
+  const def=m.fields.find(x=>x.k===f);
+  if(!def||!def.st)return 'st-idle';
+  return 'st-'+({good:'good',warn:'warn',ser:'ser',crit:'crit',idle:'idle'}[def.st[v]]||'idle');
+}
+
+/* ============================ navegación ============================ */
+function buildNav(){
+  const nav=$('#nav');let html='',g=null;
+  MODULES.forEach(m=>{
+    if(m.group!==g){g=m.group;html+=`<div class="sep">${esc(g)}</div>`}
+    const cur=(VIEW===m.id)||(String(VIEW).startsWith('call:')&&m.id==='convocatorias');
+    html+=`<button data-m="${m.id}" ${cur?'aria-current="page"':''}>
+      <span class="code">${esc(m.code)}</span><span>${esc(m.name)}</span></button>`;
+  });
+  nav.innerHTML=html;
+  nav.querySelectorAll('button').forEach(b=>b.onclick=()=>go(b.dataset.m));
+}
+function go(id){VIEW=id;FILTER={};buildNav();render();window.scrollTo({top:0})}
+function wireRows(sel,fn){
+  document.querySelectorAll(sel).forEach(el=>{
+    el.onclick=()=>fn(el);
+    el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn(el)}};
+  });
+}
+
+/* ============================ render principal ============================ */
+function render(){
+  if(String(VIEW).startsWith('call:')){return renderCall(VIEW.slice(5))}
+  const m=MOD[VIEW];
+  $('#viewTitle').textContent=m.name;
+  $('#viewSub').textContent=m.intro||'';
+  $('#viewActions').innerHTML='';
+  if(m.id==='panel')return renderPanel();
+  if(m.id==='ajustes')return renderAjustes();
+  if(m.kind==='calls')return renderCalls();
+  renderList(m);
+}
+
+function actionBtn(label,fn,cls){
+  const b=document.createElement('button');b.className='btn '+(cls||'');b.textContent=label;b.onclick=fn;
+  $('#viewActions').appendChild(b);return b;
+}
+
+/* ---------- lista genérica ---------- */
+function renderList(m){
+  actionBtn('Descargar CSV',()=>exportCSV(m.id));
+  if(m.id==='apps'){
+    actionBtn('Cargar catálogo del Hub',()=>pegarCatalogo());
+    actionBtn('Exportar catálogo del Hub',()=>exportHub());
+    actionBtn('Pegar ficha de alta',()=>pegarFicha());
+  }
+  actionBtn(m.nuevo||'Nueva ficha',()=>openForm(m.id,null),'pri');
+  const rows=applyFilter(m,DB[m.id]);
+  let h='';
+  h+=filterBar(m);
+  h+='<div class="sheet"><div class="sheet-h"><span class="eyebrow">'+esc(m.code)+'</span><h2>'+esc(m.name)+'</h2>'
+    +'<span class="chip">'+rows.length+' de '+DB[m.id].length+' registros</span>'
+    +(m.id==='apps'&&DB.meta.hubLeido?'<span class="chip st st-good">Sincronizado con el Hub</span>':'')
+    +'</div>';
+  if(!DB[m.id].length){
+    h+=`<div class="empty"><p>${esc(m.vacio||'Todavía no hay registros.')}</p>
+      <button class="btn pri" onclick="openForm('${m.id}',null)">${esc(m.cta||'Crear el primero')}</button></div>`;
+  }else if(!rows.length){
+    h+='<div class="empty"><p>Ningún registro coincide con el filtro.</p><button class="btn" onclick="clearFilter()">Quitar filtros</button></div>';
+  }else{
+    rows.forEach(r=>{h+=recRow(m,r)});
+  }
+  h+='</div>';
+  $('#view').innerHTML=h;
+  wireRows('[data-open]',el=>openDetail(m.id,el.dataset.open));
+  wireFilterBar(m);
+}
+
+function recRow(m,r){
+  const badges=[];
+  if(r.lineaId)badges.push(`<span class="chip"><span class="dot" style="color:${lineColor(r.lineaId)}"></span>${esc(recTitle('lineas',r.lineaId))}</span>`);
+  m.fields.filter(f=>f.st&&r[f.k]).slice(0,2).forEach(f=>{
+    badges.push(`<span class="chip st ${statusClass(m,f.k,r[f.k])}">${esc(r[f.k])}</span>`);
+  });
+  const meta=[];
+  if(r.trlAct)meta.push('TRL '+esc(r.trlAct));
+  if(r.fecha)meta.push(fd(r.fecha));
+  if(r.responsable)meta.push(esc(r.responsable));
+  if(r.organismo)meta.push(esc(r.organismo));
+  return `<div class="rec" data-open="${r.id}" tabindex="0" role="button" aria-label="Abrir ficha ${esc(r.codigo||'')} ${esc(r[m.titleField]||'')}">
+    <span class="id">${esc(r.codigo||'—')}</span>
+    <div><p class="t">${esc(r[m.titleField]||'Sin título')}</p>
+      <p class="d">${esc(r[m.descField]||'')}</p>
+      ${meta.length?`<div class="meta">${meta.map(x=>`<span>${x}</span>`).join('')}</div>`:''}</div>
+    <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">${badges.join('')}</div>
+  </div>`;
+}
+
+/* ---------- filtros ---------- */
+function filterBar(m){
+  const sel=m.fields.filter(f=>f.t==='select'&&f.st).slice(0,2);
+  let h='<div class="filters"><input type="text" id="fq" placeholder="Buscar" value="'+esc(FILTER.q||'')+'" aria-label="Buscar">';
+  if(DB.lineas.length&&m.fields.some(f=>f.k==='lineaId')){
+    h+='<select id="fl" aria-label="Línea"><option value="">Todas las líneas</option>'+
+      DB.lineas.map(l=>`<option value="${l.id}" ${FILTER.lineaId===l.id?'selected':''}>${esc(l.nombre)}</option>`).join('')+'</select>';
+  }
+  sel.forEach(f=>{
+    h+=`<select data-fk="${f.k}" aria-label="${esc(f.l)}"><option value="">Cualquier ${esc(f.fl||f.l.toLowerCase())}</option>`+
+      f.o.map(o=>`<option ${FILTER[f.k]===o?'selected':''}>${esc(o)}</option>`).join('')+'</select>';
+  });
+  h+='<button class="btn sm" onclick="clearFilter()">Limpiar</button></div>';
+  return h;
+}
+function wireFilterBar(m){
+  const q=$('#fq');if(q)q.oninput=()=>{FILTER.q=q.value;softRefresh(m)};
+  const fl=$('#fl');if(fl)fl.onchange=()=>{FILTER.lineaId=fl.value;renderList(m)};
+  document.querySelectorAll('[data-fk]').forEach(s=>s.onchange=()=>{FILTER[s.dataset.fk]=s.value;renderList(m)});
+}
+function softRefresh(m){
+  const pos=$('#fq').selectionStart;renderList(m);
+  const q=$('#fq');if(q){q.focus();q.setSelectionRange(pos,pos)}
+}
+function clearFilter(){FILTER={};render()}
+function applyFilter(m,rows){
+  let out=rows.slice();
+  if(FILTER.q){
+    const q=norm(FILTER.q);
+    const keys=m.fields.map(f=>f.k);
+    out=out.filter(r=>keys.some(k=>typeof r[k]==='string'&&norm(r[k]).includes(q)));
+  }
+  if(FILTER.lineaId)out=out.filter(r=>r.lineaId===FILTER.lineaId);
+  m.fields.filter(f=>f.t==='select').forEach(f=>{if(FILTER[f.k])out=out.filter(r=>r[f.k]===FILTER[f.k])});
+  return out;
+}
+
+/* ============================ drawer: ficha y formulario ============================ */
+let LASTFOCUS=null;
+function openDrawer(title){
+  LASTFOCUS=document.activeElement;
+  $('#drawerTitle').textContent=title;
+  $('#drawer').classList.add('on');$('#scrim').classList.add('on');
+  document.getElementById('app').inert=true;
+}
+function closeDrawer(force){
+  if(EDIT&&!force&&formTouched()){
+    if(!confirm('Hay cambios sin guardar en esta ficha. ¿Descartarlos?'))return;
+  }
+  $('#drawer').classList.remove('on');$('#scrim').classList.remove('on');
+  document.getElementById('app').inert=false;
+  EDIT=null;FORM0=null;
+  if(LASTFOCUS&&document.contains(LASTFOCUS))LASTFOCUS.focus();
+}
+let FORM0=null;
+function formSnapshot(){
+  const f=$('#frm');if(!f)return null;
+  return Array.from(f.elements).map(el=>el.multiple?Array.from(el.selectedOptions).map(o=>o.value).join(','):el.value).join('\u0001');
+}
+function formTouched(){return FORM0!==null&&formSnapshot()!==FORM0}
+$('#drawerClose').onclick=()=>closeDrawer();
+$('#scrim').onclick=()=>closeDrawer();
+document.addEventListener('keydown',e=>{
+  const open=$('#drawer').classList.contains('on');
+  if(!open)return;
+  if(e.key==='Escape'){e.preventDefault();closeDrawer();return}
+  if(e.key==='Tab'){
+    const f=$('#drawer').querySelectorAll('button,input,select,textarea,[href],[tabindex]:not([tabindex="-1"])');
+    if(!f.length)return;
+    const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  }
+});
+
+function openDetail(mid,id){
+  const m=MOD[mid],r=rec(mid,id);if(!r)return;
+  openDrawer(r.codigo+' · '+(r[m.titleField]||''));
+  let h='';
+  m.fields.forEach(f=>{
+    const v=r[f.k];
+    if(v===undefined||v===null||v===''||(Array.isArray(v)&&!v.length))return;
+    let disp;
+    if(f.t==='ref')disp=esc(recTitle(f.ref,v));
+    else if(f.t==='refs'||f.t==='multiselect')disp=(Array.isArray(v)?v:[v]).map(x=>`<span class="chip">${esc(f.t==='refs'?recTitle(f.ref,x):x)}</span>`).join(' ');
+    else if(f.t==='date')disp=fd(v);
+    else if(f.t==='number')disp='<span style="font-family:var(--mono)">'+fmtNum(v)+'</span>';
+    else if(f.st)disp=`<span class="chip st ${statusClass(m,f.k,v)}">${esc(v)}</span>`;
+    else disp=nl(v);
+    h+=`<div style="margin-bottom:15px"><div style="font-size:11.5px;font-weight:650;color:var(--ink-2);margin-bottom:3px">${esc(f.l)}</div><div>${disp}</div></div>`;
+  });
+  const links=linkedRecords(mid,id);
+  if(links)h+=links;
+  h+=`<div class="eyebrow" style="margin-top:20px">Registro</div>
+      <div style="font-size:12px;color:var(--ink-3);font-family:var(--mono)">alta ${fd(r._c)} · última modificación ${fd(r._m)}</div>`;
+  $('#drawerBody').innerHTML=h;
+  $('#drawerFoot').innerHTML='';
+  const del=document.createElement('button');del.className='btn dgr';del.textContent='Eliminar';
+  del.onclick=()=>{if(confirm('Se elimina este registro y no se puede deshacer. ¿Continuar?')){DB[mid]=DB[mid].filter(x=>x.id!==id);save();cloudDelete(mid,id);closeDrawer(true);render();toast('Registro eliminado')}};
+  const ed=document.createElement('button');ed.className='btn pri';ed.textContent='Editar';ed.onclick=()=>openForm(mid,id);
+  if(mid==='proyectos'){
+    const ex=document.createElement('button');ex.className='btn';ex.textContent='Descargar ficha (MD)';
+    ex.onclick=()=>exportProject(id);
+    $('#drawerFoot').append(del,ex,ed);
+  }else{
+    $('#drawerFoot').append(del,ed);
+  }
+}
+
+function linkedRecords(mid,id){
+  const map={proyectos:[['evidencias','proyectoId','Evidencias'],['pilotos','proyectoId','Pilotos'],['propiedad','proyectoId','Activos protegidos'],['convocatorias','proyectoId','Convocatorias']],
+             lineas:[['proyectos','lineaId','Proyectos'],['servicios','lineaId','Servicios'],['evidencias','lineaId','Evidencias']]};
+  const defs=map[mid];if(!defs)return '';
+  let h='';
+  defs.forEach(([col,fk,label])=>{
+    const rows=DB[col].filter(r=>r[fk]===id);
+    if(!rows.length)return;
+    h+=`<div class="eyebrow" style="margin-top:18px;margin-bottom:5px">${esc(label)} (${rows.length})</div>`;
+    h+=rows.map(r=>`<div style="padding:7px 0;border-bottom:1px solid var(--rule);font-size:13px">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--ink-3)">${esc(r.codigo)}</span>
+      &nbsp;${esc(r[MOD[col].titleField]||'')}</div>`).join('');
+  });
+  return h;
+}
+
+function openForm(mid,id){
+  const m=MOD[mid];
+  const r=id?Object.assign({},rec(mid,id)):{codigo:nextCode(mid)};
+  EDIT={mid,id};
+  openDrawer(id?('Editar '+r.codigo):('Nuev'+(m.article==='la'?'a':'o')+' '+m.singular));
+  const groups=MOD_GROUPS[mid];
+  let h='<form id="frm" autocomplete="off"><p style="font-size:12px;color:var(--ink-2);margin:0 0 14px">Los campos marcados con <abbr title="obligatorio">*</abbr> son obligatorios. El resto se puede completar más adelante.</p>';
+  if(groups){
+    const seen=new Set();
+    groups.forEach(([legend,keys])=>{
+      h+=`<fieldset class="grp"><legend>${esc(legend)}</legend>`;
+      keys.forEach(k=>{const f=m.fields.find(x=>x.k===k);if(f){seen.add(k);h+=formField(f,r)}});
+      h+='</fieldset>';
+    });
+    const restantes=m.fields.filter(f=>!seen.has(f.k));
+    if(restantes.length){h+='<fieldset class="grp"><legend>Otros datos</legend>'+restantes.map(f=>formField(f,r)).join('')+'</fieldset>'}
+  }else{
+    m.fields.forEach(f=>{h+=formField(f,r)});
+  }
+  h+='</form>';
+  $('#drawerBody').innerHTML=h;
+  $('#drawerFoot').innerHTML='';
+  const c=document.createElement('button');c.className='btn';c.textContent='Cancelar';c.onclick=()=>closeDrawer();
+  const sb=document.createElement('button');sb.className='btn pri';sb.textContent='Guardar';sb.onclick=()=>saveForm(mid,id);
+  $('#drawerFoot').append(c,sb);
+  FORM0=formSnapshot();
+  setTimeout(()=>{const el=$('#f_'+m.fields[1].k);if(el)el.focus()},40);
+}
+
+function formField(f,r){
+  const v=r[f.k]==null?'':r[f.k];
+  const dsc=f.hint?` aria-describedby="h_${f.k}"`:'';
+  const req=f.req?' required aria-required="true"':'';
+  let h='<div class="field"><label for="f_'+f.k+'">'+esc(f.l)+(f.req?' <abbr title="obligatorio">*</abbr>':'')+'</label>';
+  if(f.t==='textarea')h+=`<textarea id="f_${f.k}" name="${f.k}"${dsc}${req}>${esc(v)}</textarea>`;
+  else if(f.t==='select')h+=`<select id="f_${f.k}" name="${f.k}"${dsc}${req}><option value="">Sin definir</option>`+f.o.map(o=>`<option ${v===o?'selected':''}>${esc(o)}</option>`).join('')+'</select>';
+  else if(f.t==='ref'){
+    const opts=DB[f.ref]||[];
+    h+=`<select id="f_${f.k}" name="${f.k}"${dsc}${req}><option value="">Sin asignar</option>`+opts.map(o=>`<option value="${o.id}" ${v===o.id?'selected':''}>${esc(o.codigo)} · ${esc(o[MOD[f.ref].titleField]||'')}</option>`).join('')+'</select>';
+  }
+  else if(f.t==='refs'||f.t==='multiselect'){
+    const opts=f.t==='refs'?(DB[f.ref]||[]).map(o=>[o.id,esc(o.codigo)+' · '+esc(o[MOD[f.ref].titleField]||'')]):f.o.map(o=>[o,esc(o)]);
+    const arr=Array.isArray(v)?v:[];
+    h+=`<div style="max-height:186px;overflow-y:auto;border:1px solid var(--rule-ui);border-radius:5px;padding:8px 10px" role="group" aria-label="${esc(f.l)}">`;
+    if(!opts.length)h+='<span style="font-size:12.5px;color:var(--ink-3)">Todavía no hay opciones que elegir.</span>';
+    opts.forEach(([val,lab],i)=>{
+      h+=`<label style="display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:13px;padding:3px 0;cursor:pointer">
+        <input type="checkbox" name="${f.k}" value="${esc(val)}" ${arr.includes(val)?'checked':''} style="width:auto;margin-top:3px">
+        <span>${lab}</span></label>`;
+    });
+    h+='</div>';
+  }
+  else h+=`<input id="f_${f.k}" name="${f.k}" type="${f.t==='number'?'number':f.t==='date'?'date':'text'}" value="${esc(v)}"${dsc}${req}>`;
+  if(f.hint)h+=`<span class="hint" id="h_${f.k}">${esc(f.hint)}</span>`;
+  return h+'</div>';
+}
+
+function saveForm(mid,id){
+  const m=MOD[mid],frm=$('#frm'),out={};
+  m.fields.forEach(f=>{
+    if(f.t==='refs'||f.t==='multiselect'){
+      out[f.k]=Array.from(frm.querySelectorAll(`input[type=checkbox][name="${f.k}"]:checked`)).map(c=>c.value);
+      return;
+    }
+    const el=frm.elements[f.k];if(!el)return;
+    if(f.t==='number')out[f.k]=el.value===''?'':Number(el.value);
+    else out[f.k]=el.value.trim?el.value.trim():el.value;
+  });
+  const missing=m.fields.filter(f=>f.req&&!out[f.k]);
+  if(missing.length){
+    toast('Falta rellenar «'+missing[0].l+'»');
+    const el=$('#f_'+missing[0].k);if(el){el.focus();el.style.borderColor='var(--seal)'}
+    return;
+  }
+  if(out.codigo){
+    const dup=DB[mid].some(r=>r.id!==id&&String(r.codigo).toLowerCase()===String(out.codigo).toLowerCase());
+    if(dup){toast('Ya existe otro registro con el código '+out.codigo);const el=$('#f_codigo');if(el){el.focus();el.style.borderColor='var(--seal)'}return}
+  }
+  if(id){
+    const r=rec(mid,id);Object.assign(r,out);r._m=today();
+  }else{
+    out.id=uid();out._c=today();out._m=today();DB[mid].push(out);
+  }
+  save();
+  cloudPush(mid, id?rec(mid,id):out);
+  closeDrawer(true);render();toast(id?'Ficha actualizada':'Ficha creada');
+}
+</script>
+<script>
+/* ============================ panel de indicadores ============================ */
+let PANEL_TABLE=false;
+
+function pct(a,b){return b?Math.round(a*100/b):0}
+
+function renderPanel(){
+  if(COLLECTIONS.every(c=>!DB[c].length)){
+    $('#view').innerHTML=`<div class="sheet"><div class="sheet-b" style="padding:44px 28px;max-width:640px">
+      <h2 style="margin:0 0 10px;font-size:19px">Aún no hay nada registrado</h2>
+      <p style="color:var(--ink-2);font-size:14px;margin:0 0 20px">El ciclo empieza por las apps: son las que producen los datos. Después vienen las preguntas que esos datos pueden responder. Si prefieres ver la herramienta con contenido, restaura el ejemplo.</p>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <button class="btn pri" onclick="go('apps')">Registrar la primera app</button>
+        <button class="btn" onclick="reseed()">Restaurar el ejemplo de Arestora</button>
+        <button class="btn" onclick="go('ajustes')">Cargar una copia</button>
+      </div></div></div>`;
+    return;
+  }
+  actionBtn(PANEL_TABLE?'Ver gráficos':'Ver tabla',()=>{PANEL_TABLE=!PANEL_TABLE;render()});
+  actionBtn('Descargar informe (MD)',()=>exportPanel());
+
+  const AP=DB.apps, PG=DB.preguntas, HA=DB.hallazgos, ME=DB.mejoras;
+  const P=DB.proyectos, E=DB.evidencias, S=DB.servicios, PI=DB.propiedad, EC=DB.ecosistema, PL=DB.pilotos, CV=DB.convocatorias;
+
+  const appsConect=AP.filter(a=>['Exportación periódica','Integrada'].includes(a.conexion));
+  const pgAbiertas=PG.filter(q=>['Abierta','Esperando datos','En análisis'].includes(q.estado));
+  const pgResp=PG.filter(q=>q.estado==='Respondida');
+  const haAplic=HA.filter(h=>['Aplicado','Publicado'].includes(h.estado));
+  const meImpl=ME.filter(m=>m.estado==='Implantada');
+
+  let h='<div class="tiles">';
+  h+=tile(appsConect.length+'<span style="font-size:15px;color:var(--ink-3)">/'+AP.length+'</span>','Apps conectadas','exportan datos al sistema');
+  h+=tile(String(pgAbiertas.length),'Preguntas abiertas',pgResp.length+' ya respondidas');
+  h+=tile(String(HA.length),'Hallazgos',haAplic.length+' aplicados o publicados');
+  h+=tile(String(meImpl.length),'Mejoras implantadas','cambios reales en el producto');
+  h+='</div>';
+
+  /* --- el ciclo --- */
+  const datos=DB.canonico.length;
+  h+='<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">El ciclo</span><h2>De la actividad diaria a la innovación</h2></div><div class="sheet-b">';
+  h+='<div class="flowline">';
+  [['Apps',AP.length,'apps'],['Entidades de datos',datos,'canonico'],['Preguntas',PG.length,'preguntas'],
+   ['Hallazgos',HA.length,'hallazgos'],['Mejoras',ME.length,'mejoras']].forEach((x,i)=>{
+    if(i)h+='<span class="arrow" aria-hidden="true">→</span>';
+    h+=`<button class="step" onclick="go('${x[2]}')"><span class="n">${x[1]}</span><span class="l">${esc(x[0])}</span></button>`;
+  });
+  h+='</div>';
+  const conv=PG.length?Math.round(HA.length*100/PG.length):0;
+  const apl=HA.length?Math.round(meImpl.length*100/HA.length):0;
+  h+=`<p style="font-size:12.5px;color:var(--ink-2);margin:14px 0 0">
+    De cada 100 preguntas, ${conv} han producido un hallazgo. De cada 100 hallazgos, ${apl} han acabado en una mejora implantada.
+    ${HA.length&&apl<50?' Ahí está hoy el cuello de botella: se investiga más de lo que se aplica.':''}
+    ${PG.length&&!HA.length?' Todavía no hay ningún hallazgo: el sistema está en la fase de acumular preguntas y datos.':''}</p>`;
+  h+='</div></div>';
+
+  /* --- lo que hay que resolver --- */
+  const al=[];
+  HA.filter(x=>['Confirmado','Provisional'].includes(x.estado)&&!ME.some(m=>m.hallazgoId===x.id))
+    .forEach(x=>al.push(['crit','Hallazgo sin aplicar: '+(x.titulo||x.codigo)]));
+  PG.filter(q=>q.prioridad==='Alta'&&['No, pero es capturable','No, requiere desarrollo'].includes(q.disponibilidad))
+    .forEach(q=>al.push(['ser','Falta capturar el dato para: '+(q.pregunta||q.codigo)]));
+  AP.filter(a=>a.conexion==='Sin conectar'&&a.estado==='En producción')
+    .forEach(a=>al.push(['ser','App en producción sin conectar: '+(a.nombre||a.codigo)]));
+  AP.filter(a=>a.aiact==='Por evaluar').forEach(a=>al.push(['warn','Sin evaluar frente al Reglamento de IA: '+(a.nombre||a.codigo)]));
+  S.filter(x=>['Sin resolver','En análisis'].includes(x.baseJuridica)).forEach(x=>al.push(['crit','Base jurídica sin cerrar en '+(x.nombre||x.codigo)]));
+  PL.filter(x=>x.etica==='Pendiente de solicitar').forEach(x=>al.push(['crit','Dictamen ético sin solicitar en '+(x.titulo||x.codigo)]));
+  PI.filter(x=>x.estado==='Sin proteger').forEach(x=>al.push(['warn','Activo sin proteger: '+(x.denominacion||x.codigo)]));
+  ME.filter(m=>m.estado==='Implantada'&&!m.efectoMedido).forEach(m=>al.push(['warn','Mejora implantada sin medir el efecto: '+(m.titulo||m.codigo)]));
+  CV.filter(c=>c.cierre&&c.cierre>=today()&&daysTo(c.cierre)<=120&&['En vigilancia','En preparación'].includes(c.estado))
+    .forEach(c=>al.push(['ser','Cierra en '+daysTo(c.cierre)+' días: '+(c.nombre||c.codigo)]));
+  if(al.length){
+    h+='<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">Atención</span><h2>Lo que hay que resolver</h2>'
+      +'<span class="chip st st-crit">'+al.filter(a=>a[0]==='crit').length+' bloqueantes</span></div><div class="sheet-b">';
+    al.slice(0,14).forEach(([lvl,txt])=>{
+      const c=lvl==='crit'?'st-crit':lvl==='ser'?'st-ser':'st-warn';
+      const icon=lvl==='crit'?'▲':lvl==='ser'?'●':'○';
+      const pre=lvl==='crit'?'Bloqueante':lvl==='ser'?'Cuello de botella':'Atención';
+      h+=`<div style="display:flex;gap:9px;align-items:baseline;padding:5px 0">
+        <span class="${c}" aria-hidden="true">${icon}</span>
+        <span style="font-size:13.5px"><strong class="${c}">${pre}:</strong> ${esc(txt)}</span></div>`;
+    });
+    if(al.length>14)h+=`<div style="font-size:12px;color:var(--ink-3);margin-top:8px">y ${al.length-14} más</div>`;
+    h+='</div></div>';
+  }
+
+  if(PANEL_TABLE){
+    h+=panelTable(P,E);
+  }else{
+    h+='<div class="viz-root">';
+    h+=chartBars('Preguntas abiertas por línea',DB.lineas.map((l,i)=>({
+      label:l.nombre,value:pgAbiertas.filter(q=>q.lineaId===l.id).length,color:`var(${SERIES[i%SERIES.length]})`})),'preguntas sin responder');
+    h+=chartBars('Datos que faltan por app',AP.map((a,i)=>({
+      label:a.nombre,value:PG.filter(q=>(q.apps||[]).includes(a.id)&&['No, pero es capturable','No, requiere desarrollo'].includes(q.disponibilidad)).length,
+      color:'var(--s2)'})),'preguntas bloqueadas esperando que esa app capture el dato');
+    h+=chartStack('Cartera por línea',P);
+    const trlRows=P.filter(p=>p.trlAct).sort((a,b)=>Number(b.trlAct)-Number(a.trlAct))
+      .map(p=>({label:p.codigo+' '+(p.titulo||''),value:Number(p.trlAct),max:9,color:lineColor(p.lineaId),suffix:'/9'}));
+    if(trlRows.length)h+=chartBars('Madurez tecnológica alcanzada',trlRows,'TRL',9);
+    h+='</div>';
+  }
+  $('#view').innerHTML=h;
+}
+function tile(v,k,s,plain){
+  const val=plain?`<span style="font-family:var(--sans);font-size:20px;font-weight:660">${esc(v)}</span>`:v;
+  return `<div class="tile"><div class="v">${val}</div><div class="k">${esc(k)}</div><div class="s">${esc(s||'')}</div></div>`;
+}
+function daysTo(d){return Math.ceil((new Date(d)-new Date(today()))/86400000)}
+
+function chartStack(title,P){
+  const parts=DB.lineas.map((l,i)=>({name:l.nombre,n:P.filter(p=>p.lineaId===l.id).length,c:`var(${SERIES[i%SERIES.length]})`}))
+    .concat([{name:'Transversal',n:P.filter(p=>!p.lineaId).length,c:'var(--ink-3)'},
+             {name:'Línea eliminada',n:P.filter(p=>p.lineaId&&!rec('lineas',p.lineaId)).length,c:'var(--critical)'}])
+    .filter(x=>x.n>0);
+  const tot=parts.reduce((a,x)=>a+x.n,0);
+  if(!tot)return '';
+  let h=`<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">Cartera</span><h2>${esc(title)}</h2></div><div class="sheet-b">`;
+  h+='<div class="stackbar">'+parts.map(p=>`<span style="background:${p.c};width:${p.n*100/tot}%" title="${esc(p.name)}: ${p.n}"></span>`).join('')+'</div>';
+  h+='<div class="legend">'+parts.map(p=>`<i><b style="background:${p.c}"></b>${esc(p.name)} <span style="font-family:var(--mono);color:var(--ink-3)">${p.n}</span></i>`).join('')+'</div>';
+  h+='</div></div>';
+  return h;
+}
+function chartBars(title,rows,unit,forcedMax){
+  rows=rows.filter(r=>r.value>0);
+  if(!rows.length)return '';
+  const max=forcedMax||Math.max(...rows.map(r=>r.value));
+  let h=`<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">Indicador</span><h2>${esc(title)}</h2></div><div class="sheet-b">`;
+  rows.forEach(r=>{
+    h+=`<div class="barrow"><span class="lb" title="${esc(r.label)}">${esc(r.label)}</span>
+      <span class="track"><span class="fill" style="width:${Math.max(2,r.value*100/max)}%;background:${r.color||'var(--s1)'}"></span></span>
+      <span class="vl">${r.value}${r.suffix||''}</span></div>`;
+  });
+  h+=`<div style="font-size:11.5px;color:var(--ink-3);margin-top:6px">${esc(unit||'')}</div></div></div>`;
+  return h;
+}
+function chartCalls(CV){
+  const rows=CV.filter(c=>Array.isArray(c.criterios)&&c.criterios.length).map(c=>{
+    const tot=c.criterios.reduce((a,x)=>a+(Number(x.max)||0),0);
+    const got=c.criterios.reduce((a,x)=>a+(Number(x.auto)||0),0);
+    return {label:c.nombre,value:tot?Math.round(got*100/tot):0,color:'var(--s1)',suffix:'%'};
+  });
+  if(!rows.length)return '';
+  return chartBars('Autoevaluación por convocatoria',rows,'Porcentaje del baremo cubierto según estimación propia, no puntuación oficial',100);
+}
+function panelTable(P,E){
+  let h='<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">Tabla</span><h2>Los mismos datos en texto</h2></div>';
+  h+='<div class="sheet-b" style="overflow-x:auto"><table class="data"><tr><th>Línea</th><th class="num">Proyectos</th><th class="num">Evidencias</th><th class="num">Servicios</th><th class="num">Pilotos</th></tr>';
+  DB.lineas.forEach(l=>{
+    h+=`<tr><td><strong>${esc(l.nombre)}</strong></td>
+      <td class="num">${P.filter(p=>p.lineaId===l.id).length}</td>
+      <td class="num">${E.filter(e=>e.lineaId===l.id).length}</td>
+      <td class="num">${DB.servicios.filter(s=>s.lineaId===l.id).length}</td>
+      <td class="num">${DB.pilotos.filter(p=>{const pr=rec('proyectos',p.proyectoId);return pr&&pr.lineaId===l.id}).length}</td></tr>`;
+  });
+  const huerf=P.filter(p=>p.lineaId&&!rec('lineas',p.lineaId)).length;
+  if(huerf)h+=`<tr><td><strong>Línea eliminada</strong></td><td class="num">${huerf}</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>`;
+  h+=`<tr><td><strong>Transversal</strong></td><td class="num">${P.filter(p=>!p.lineaId).length}</td><td class="num">${E.filter(e=>!e.lineaId).length}</td><td class="num">${DB.servicios.filter(s=>!s.lineaId).length}</td><td class="num">—</td></tr>`;
+  h+='</table></div></div>';
+  h+='<div class="sheet"><div class="sheet-h"><span class="eyebrow">Tabla</span><h2>Madurez por proyecto</h2></div><div class="sheet-b" style="overflow-x:auto">';
+  h+='<table class="data"><tr><th>Código</th><th>Proyecto</th><th>Estado</th><th class="num">TRL actual</th><th class="num">TRL objetivo</th></tr>';
+  P.forEach(p=>{h+=`<tr><td><strong>${esc(p.codigo)}</strong></td><td>${esc(p.titulo||'')}</td><td>${esc(p.estado||'—')}</td><td class="num">${esc(p.trlAct||'—')}</td><td class="num">${esc(p.trlObj||'—')}</td></tr>`});
+  h+='</table></div></div>';
+  return h;
+}
+
+/* ============================ convocatorias y baremo ============================ */
+function renderCalls(){
+  const m=MOD.convocatorias;
+  actionBtn('Descargar CSV',()=>exportCSV('convocatorias'));
+  actionBtn('Nueva convocatoria',()=>openForm('convocatorias',null),'pri');
+  const rows=applyFilter(m,DB.convocatorias);
+  let h=filterBar(m);
+  h+='<div class="sheet"><div class="sheet-h"><span class="eyebrow">CV</span><h2>Radar de convocatorias</h2><span class="chip">'+rows.length+' de '+DB.convocatorias.length+'</span></div>';
+  if(!rows.length){
+    h+='<div class="empty"><p>No hay convocatorias en el radar.</p><button class="btn pri" onclick="openForm(\'convocatorias\',null)">Añadir la primera convocatoria</button></div>';
+  }else{
+    rows.sort((a,b)=>(a.cierre||'9999')<(b.cierre||'9999')?-1:1).forEach(c=>{
+      const cr=c.criterios||[];
+      const tot=cr.reduce((a,x)=>a+(Number(x.max)||0),0);
+      const got=cr.reduce((a,x)=>a+(Number(x.auto)||0),0);
+      const cov=cr.length?pct(cr.filter(x=>(x.evidencias||[]).length).length,cr.length):0;
+      h+=`<div class="rec" data-call="${c.id}" tabindex="0" role="button" aria-label="Abrir convocatoria ${esc(c.codigo||'')} ${esc(c.nombre||'')}">
+        <span class="id">${esc(c.codigo)}</span>
+        <div><p class="t">${esc(c.nombre)}</p>
+          <p class="d">${esc(c.organismo||'')}${c.modalidad?' · '+esc(c.modalidad):''}</p>
+          <div class="meta">
+            <span>${c.cierre?('Cierra '+fd(c.cierre)):'Sin fecha de cierre'}</span>
+            ${tot?`<span>Autoevaluación ${got} de ${tot}</span>`:'<span>Baremo sin definir</span>'}
+            ${cr.length?`<span>${cov}% de criterios con evidencia</span>`:''}
+          </div></div>
+        <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+          <span class="chip">${esc(c.ambito||'—')}</span>
+          <span class="chip st ${statusClass(m,'estado',c.estado)}">${esc(c.estado||'—')}</span>
+        </div></div>`;
+    });
+  }
+  h+='</div>';
+  $('#view').innerHTML=h;
+  wireRows('[data-call]',el=>{VIEW='call:'+el.dataset.call;buildNav();renderCall(el.dataset.call)});
+  wireFilterBar(m);
+}
+
+function renderCall(id){
+  const c=rec('convocatorias',id);
+  if(!c){go('convocatorias');return}
+  c.criterios=c.criterios||[];
+  $('#viewTitle').textContent=c.nombre;
+  $('#viewSub').textContent=(c.organismo||'')+(c.modalidad?' · '+c.modalidad:'');
+  $('#viewActions').innerHTML='';
+  actionBtn('Volver',()=>go('convocatorias'));
+  actionBtn('Eliminar',()=>{
+    if(confirm('Se elimina esta convocatoria y su baremo, y no se puede deshacer. ¿Continuar?')){
+      DB.convocatorias=DB.convocatorias.filter(x=>x.id!==id);save();cloudDelete('convocatorias',id);go('convocatorias');toast('Convocatoria eliminada');
+    }
+  },'dgr');
+  actionBtn('Editar datos',()=>openForm('convocatorias',id));
+  actionBtn('Descargar dossier (MD)',()=>exportDossier(id),'pri');
+
+  const tot=c.criterios.reduce((a,x)=>a+(Number(x.max)||0),0);
+  const got=c.criterios.reduce((a,x)=>a+(Number(x.auto)||0),0);
+  const sinEv=c.criterios.filter(x=>!(x.evidencias||[]).length);
+
+  let h='<div class="tiles">';
+  h+=tile(String(got)+'<span style="font-size:15px;color:var(--ink-3)">/'+tot+'</span>','Autoevaluación','estimación propia, no puntuación oficial');
+  h+=tile(esc(c.obtenida!==''&&c.obtenida!=null?String(c.obtenida):'—'),'Puntuación obtenida',c.corte?('Corte en '+c.corte):'Sin dato de corte');
+  h+=tile(String(c.criterios.length-sinEv.length)+'<span style="font-size:15px;color:var(--ink-3)">/'+c.criterios.length+'</span>','Criterios con evidencia',sinEv.length?(sinEv.length+' sin respaldo documental'):'todos respaldados');
+  if(c.cierre&&daysTo(c.cierre)<0)h+=tile('Cerrada','Plazo','Cerró el '+fmtDate(c.cierre),true);
+  else h+=tile(c.cierre?(daysTo(c.cierre)+' d'):'—','Hasta el cierre',c.cierre?fmtDate(c.cierre):'Fecha sin fijar');
+  h+='</div>';
+
+  h+='<div class="sheet" style="margin-top:16px"><div class="sheet-h"><span class="eyebrow">Baremo</span><h2>Criterios de valoración</h2>'
+    +'<div style="flex:1"></div><button class="btn sm" id="addCrit">Añadir criterio</button></div><div class="sheet-b">';
+  if(!c.criterios.length){
+    h+='<div class="empty" style="padding:24px 0"><p>El baremo de esta convocatoria todavía no está cargado. Cárgalo una vez y la candidatura se construye vinculando evidencias.</p></div>';
+  }else{
+    c.criterios.forEach((cr,i)=>{
+      const ev=(cr.evidencias||[]);
+      const mx=Math.max(0,Number(cr.max)||0), au=Math.min(mx,Math.max(0,Number(cr.auto)||0));
+      const p=mx?Math.round(au*100/mx):0;
+      const col=p>=70?'var(--good)':p>=40?'var(--warning)':'var(--critical)';
+      h+=`<div style="padding:14px 0;border-bottom:1px solid var(--rule)">
+        <div class="crit-row" style="border:0;padding:0">
+          <div><div style="font-weight:600;font-size:13.5px">${esc(cr.codigo||'')} ${esc(cr.nombre||'Criterio')}</div>
+            <div style="font-size:12px;color:var(--ink-2)">${ev.length?ev.length+' evidencia'+(ev.length>1?'s':'')+' vinculada'+(ev.length>1?'s':''):'Sin evidencia vinculada'}</div></div>
+          <div><label class="sr-only" for="crit_${i}_auto">Autoevaluación del criterio ${esc(cr.nombre||'')}</label>
+            <input id="crit_${i}_auto" type="number" min="0" step="0.25" value="${esc(cr.auto==null?'':cr.auto)}" data-ci="${i}" data-cf="auto" style="text-align:right"></div>
+          <div style="display:flex;align-items:center;gap:6px"><span style="color:var(--ink-2);font-size:12px">de</span>
+            <label class="sr-only" for="crit_${i}_max">Puntuación máxima del criterio ${esc(cr.nombre||'')}</label>
+            <input id="crit_${i}_max" type="number" min="0" step="0.25" value="${esc(cr.max==null?'':cr.max)}" data-ci="${i}" data-cf="max" style="text-align:right"></div>
+        </div>
+        <div class="track" style="margin:9px 0 3px" aria-hidden="true"><span class="fill" style="width:${p}%;background:${col}"></span></div>
+        <div class="pctlbl">${au} de ${mx} · ${p} %</div>
+        <div class="field" style="margin:10px 0 9px"><label for="crit_${i}_texto">Argumentario</label>
+          <textarea id="crit_${i}_texto" data-ci="${i}" data-cf="texto" style="min-height:58px">${esc(cr.texto||'')}</textarea></div>
+        <div class="field" style="margin-bottom:0"><label id="lbl_ev_${i}">Evidencias que lo respaldan</label>
+          <div role="group" aria-labelledby="lbl_ev_${i}" style="max-height:150px;overflow-y:auto;border:1px solid var(--rule-ui);border-radius:5px;padding:8px 10px">
+          ${DB.evidencias.length?DB.evidencias.map(e=>`<label style="display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:13px;padding:3px 0;cursor:pointer">
+              <input type="checkbox" data-ci="${i}" data-cf="evidencias" value="${e.id}" ${ev.includes(e.id)?'checked':''} style="width:auto;margin-top:3px">
+              <span>${esc(e.codigo)} · ${esc(e.titulo)}</span></label>`).join('')
+            :'<span style="font-size:12.5px;color:var(--ink-2)">Todavía no hay evidencias en el repositorio. Regístralas en el módulo Evidencias y aparecerán aquí.</span>'}
+          </div></div>
+        <button class="btn sm dgr" data-del="${i}" style="margin-top:9px">Quitar criterio</button>
+      </div>`;
+    });
+  }
+  h+='</div></div>';
+
+  if(c.objeto||c.requisitos||c.notas){
+    h+='<div class="sheet"><div class="sheet-h"><span class="eyebrow">Ficha</span><h2>Condiciones</h2></div><div class="sheet-b">';
+    if(c.objeto)h+=`<div style="margin-bottom:13px"><div class="eyebrow">Objeto</div><div>${nl(c.objeto)}</div></div>`;
+    if(c.requisitos)h+=`<div style="margin-bottom:13px"><div class="eyebrow">Requisitos y gastos elegibles</div><div>${nl(c.requisitos)}</div></div>`;
+    if(c.url)h+=`<div style="margin-bottom:13px"><div class="eyebrow">Bases</div><div style="word-break:break-all;font-size:13px">${esc(c.url)}</div></div>`;
+    if(c.notas)h+=`<div><div class="eyebrow">Notas</div><div>${nl(c.notas)}</div></div>`;
+    h+='</div></div>';
+  }
+  $('#view').innerHTML=h;
+
+  const add=$('#addCrit');
+  if(add)add.onclick=()=>{c.criterios.push({codigo:'',nombre:'Nuevo criterio',max:10,auto:0,texto:'',evidencias:[]});save();cloudPush('convocatorias',c);renderCall(id)};
+  $('#view').querySelectorAll('[data-ci]').forEach(el=>{
+    const i=Number(el.dataset.ci),f=el.dataset.cf;
+    el.onchange=()=>{
+      const cr=c.criterios[i];if(!cr)return;
+      if(f==='evidencias'){
+        cr.evidencias=Array.from($('#view').querySelectorAll(`input[data-ci="${i}"][data-cf="evidencias"]:checked`)).map(x=>x.value);
+      }else if(f==='texto'){
+        cr.texto=el.value;
+      }else{
+        let n=el.value===''?0:Number(el.value);
+        if(isNaN(n)||n<0)n=0;
+        if(f==='auto'){cr.auto=Math.min(n,Math.max(0,Number(cr.max)||0))}
+        else{cr.max=n;cr.auto=Math.min(Math.max(0,Number(cr.auto)||0),n)}
+      }
+      save();cloudPush('convocatorias',c);
+      if(f!=='texto'&&f!=='evidencias')renderCall(id);
+    };
+  });
+  $('#view').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+    if(confirm('¿Quitar este criterio del baremo?')){c.criterios.splice(Number(b.dataset.del),1);save();cloudPush('convocatorias',c);renderCall(id)}
+  });
+}
+
+
+/* ============================ puente con el Arestora Hub ============================ */
+/* El catálogo del Hub y el registro de apps del Lab son la misma información vista
+   de dos maneras. La fuente es esta: el Hub se regenera desde aquí. */
+
+function slugId(nombre){
+  return String(nombre||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[®™]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'').trim();
+}
+function contrasteBlanco(hex){
+  const m=/^#?([0-9a-f]{6})$/i.exec(String(hex||'').trim());
+  if(!m)return null;
+  const n=parseInt(m[1],16);
+  const c=[(n>>16&255)/255,(n>>8&255)/255,(n&255)/255]
+    .map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));
+  const L=0.2126*c[0]+0.7152*c[1]+0.0722*c[2];
+  return Math.round(((1.05)/(L+0.05))*100)/100;
+}
+
+function fichaHub(a){
+  return {
+    id: slugId(a.nombre),
+    nombre: a.nombre||'',
+    descripcion: (a.proposito||'').split('\n')[0],
+    sector: a.sector||'',
+    estado: ESTADO_HUB[a.estado]||'',
+    color: a.color||'',
+    url: a.url||'',
+    repo: a.repo||'',
+    carpeta: a.carpeta||'',
+    stack: a.stack||'',
+    acceso: Array.isArray(a.acceso)?a.acceso:[],
+    notas: a.notas||''
+  };
+}
+
+/* ---------- lectura del catálogo del Hub ---------- */
+const E2L={activo:'En producción',en_proceso:'En desarrollo',proximamente:'En diseño',idea:'Idea',archivado:'Retirada'};
+const L2E={'En producción':'activo','En desarrollo':'en_proceso','En rediseño':'en_proceso','En diseño':'proximamente','Idea':'idea','Retirada':'archivado'};
+
+function importarCatalogo(cat,silencioso){
+  if(!cat||!Array.isArray(cat.espacios))throw new Error('formato');
+  let nuevas=0,actualizadas=0;
+  DB.meta.hub={meta:cat.meta,estados:cat.estados,
+    espacios:cat.espacios.map(e=>({id:e.id,nombre:e.nombre,descripcion:e.descripcion,color:e.color,logo:e.logo}))};
+  cat.espacios.forEach(esp=>{
+    (esp.herramientas||[]).forEach(h=>{
+      if(!h||!h.id)return;
+      let a=DB.apps.find(x=>x.hubId===h.id)||DB.apps.find(x=>slugId(x.nombre)===slugId(h.nombre));
+      const esNueva=!a;
+      if(esNueva){a={id:uid(),_c:today(),codigo:nextCode('apps'),conexion:'Sin conectar',aiact:'Por evaluar'};DB.apps.push(a);nuevas++}
+      else actualizadas++;
+      Object.assign(a,{
+        hubId:h.id,nombre:h.nombre||a.nombre,espacio:esp.nombre||'',
+        proposito:h.descripcion||a.proposito||'',
+        sector:h.sector||a.sector||'',
+        estado:E2L[h.estado]||a.estado||'',
+        color:h.color||a.color||'',
+        url:h.url||'',repo:h.repo||a.repo||'',
+        carpeta:h.carpeta||a.carpeta||'',
+        stack:h.stack||a.stack||'',
+        acceso:Array.isArray(h.acceso)&&h.acceso.length?h.acceso:(a.acceso||[]),
+        logo:h.logo||a.logo||'',emoji:h.emoji||a.emoji||'',
+        _m:today()
+      });
+      if(h.notas&&!a.notas)a.notas=h.notas;
+    });
+  });
+  save();
+  if(!silencioso){buildNav();render();toast('Catálogo del Hub incorporado: '+nuevas+' nuevas y '+actualizadas+' actualizadas')}
+  return {nuevas,actualizadas};
+}
+
+async function leerCatalogoDelHub(){
+  if(!/^https?:$/.test(location.protocol))return false;
+  for(const ruta of ['../catalogo.json','catalogo.json','../_HUB/catalogo.json']){
+    try{
+      const r=await fetch(ruta,{cache:'no-store'});
+      if(!r.ok)continue;
+      const cat=await r.json();
+      if(!cat||!Array.isArray(cat.espacios))continue;
+      const res=importarCatalogo(cat,true);
+      DB.meta.hubOrigen=ruta;DB.meta.hubLeido=new Date().toISOString();
+      save();
+      return res;
+    }catch(e){}
+  }
+  return false;
+}
+
+function pegarCatalogo(){
+  openDrawer('Cargar el catálogo del Hub');
+  $('#drawerBody').innerHTML=`
+    <p style="margin-top:0;font-size:13.5px;color:var(--ink-2)">Carga el fichero <code>catalogo.json</code> del Hub y las herramientas del ecosistema quedan sincronizadas aquí, conservando lo que este módulo sabe de cada una: qué datos genera, qué le falta capturar y cómo mide el resultado.</p>
+    <div class="field"><label for="fCat">Fichero catalogo.json</label>
+      <input type="file" id="fCat" accept="application/json,.json"></div>
+    <div class="field"><label for="txtCat">O pégalo aquí</label>
+      <textarea id="txtCat" style="min-height:170px;font-family:var(--mono);font-size:12px"></textarea></div>
+    <div id="catMsg" style="font-size:13px;min-height:20px"></div>`;
+  $('#drawerFoot').innerHTML='';
+  const c=document.createElement('button');c.className='btn';c.textContent='Cancelar';c.onclick=()=>closeDrawer(true);
+  const ok=document.createElement('button');ok.className='btn pri';ok.textContent='Sincronizar';
+  const tratar=(txt)=>{
+    const msg=$('#catMsg');
+    try{
+      const cat=JSON.parse(String(txt).trim().replace(/^```(?:json)?/,'').replace(/```$/,''));
+      const prev=JSON.parse(JSON.stringify(DB.apps));
+      try{
+        const r=importarCatalogo(cat);
+        cloudReplaceAllApps();
+        closeDrawer(true);
+      }catch(e2){DB.apps=prev;save();msg.style.color='var(--seal)';msg.textContent='Ese fichero no tiene la estructura del catálogo del Hub.'}
+    }catch(e){msg.style.color='var(--seal)';msg.textContent='Eso no es JSON válido.'}
+  };
+  $('#fCat').onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    const rd=new FileReader();rd.onload=()=>tratar(rd.result);rd.readAsText(f);
+  };
+  ok.onclick=()=>tratar($('#txtCat').value);
+  $('#drawerFoot').append(c,ok);
+}
+
+function cloudReplaceAllApps(){
+  if(!CLOUD||!sb)return;
+  DB.apps.forEach(a=>cloudPush('apps',a));
+}
+
+function exportHub(){
+  const guardado=DB.meta.hub||{};
+  const metaBase=guardado.meta||{
+    marca:'Arestora Hub',organizacion:'Grupo Arestora',version:'2.1',
+    nota:'FUENTE ÚNICA DE VERDAD. Para añadir o cambiar una herramienta, edítala en el Innovation Lab y vuelve a exportar este fichero. No toques el HTML a mano.',
+    roles:{admin:'Dirección de Grupo Arestora',gestor:'Equipo interno de Arestora',cliente:'Entidad contratante',
+      rb:'Responsable de Bienestar (deporte)',cbp:'Coordinador de Bienestar y Protección (educación)',
+      candidato:'Persona candidata (AresJobs)',empresa:'Empresa que publica ofertas (AresJobs)'},
+    nota_permisos:'El campo «acceso» es informativo en el Hub. La autorización real la valida cada herramienta en su propio backend: el Hub es escaparate, no puerta.'
+  };
+  const meta=Object.assign({},metaBase,{actualizado:today(),origen:'Innovation Lab OS'});
+  const estados=guardado.estados||{activo:{etiqueta:'ACTIVO',orden:1},en_proceso:{etiqueta:'EN PROCESO',orden:2},
+    proximamente:{etiqueta:'PRÓXIMAMENTE',orden:3},idea:{etiqueta:'IDEA',orden:4},archivado:{etiqueta:'ARCHIVADO',orden:5}};
+
+  const defsEsp=guardado.espacios||[];
+  const orden=defsEsp.map(e=>e.nombre);
+  const grupos={};
+  const avisos=[];
+  DB.apps.forEach(a=>{
+    if(a.estado==='Retirada')return;
+    const nombreEsp=a.espacio||'Otras herramientas';
+    (grupos[nombreEsp]=grupos[nombreEsp]||[]).push(a);
+    if(!L2E[a.estado])avisos.push(a.nombre+': sin estado, no se puede traducir al vocabulario del Hub');
+    if(a.estado==='En producción'&&!a.url)avisos.push(a.nombre+': marcada como activa y sin dirección');
+    if(!a.color)avisos.push(a.nombre+': sin color');
+    else{
+      const r=contrasteBlanco(a.color);
+      if(r===null)avisos.push(a.nombre+': el color no es un hexadecimal de seis dígitos');
+      else if(r<3)avisos.push(a.nombre+': color con contraste '+r+':1 sobre blanco, por debajo de 3:1');
+    }
+    if(!(a.acceso||[]).length)avisos.push(a.nombre+': sin roles de acceso documentados');
+    if(!a.logo&&!a.emoji)avisos.push(a.nombre+': sin logotipo ni icono en el Hub');
+  });
+
+  const nombres=Object.keys(grupos).sort((x,y)=>{
+    const a=orden.indexOf(x),b=orden.indexOf(y);
+    return (a<0?99:a)-(b<0?99:b);
+  });
+  const espacios=nombres.map(n=>{
+    const d=defsEsp.find(e=>e.nombre===n)||{};
+    return {
+      id:d.id||slugId(n),nombre:n,
+      descripcion:d.descripcion||'',color:d.color||grupos[n][0].color||'#1B4FD8',
+      logo:d.logo||'',
+      herramientas:grupos[n].map(a=>{
+        const h={
+          id:a.hubId||slugId(a.nombre),
+          nombre:a.nombre||'',
+          descripcion:(a.proposito||'').split('\n')[0],
+          sector:a.sector||'',
+          estado:L2E[a.estado]||'',
+          color:a.color||'',
+          url:a.url||'',repo:a.repo||'',carpeta:a.carpeta||'',
+          stack:a.stack||'',
+          notas:a.notas||'',
+          acceso:Array.isArray(a.acceso)?a.acceso:[]
+        };
+        if(a.logo)h.logo=a.logo;
+        if(a.emoji)h.emoji=a.emoji;
+        return h;
+      })
+    };
+  });
+
+  dl('catalogo.json',JSON.stringify({meta,estados,espacios},null,1),'application/json');
+  const n=espacios.reduce((s,e)=>s+e.herramientas.length,0);
+  if(avisos.length){
+    openDrawer('Catálogo descargado, con avisos');
+    $('#drawerBody').innerHTML='<p style="margin-top:0;font-size:13.5px;color:var(--ink-2)">'+espacios.length+' espacios y '+n+' herramientas. El fichero es válido, pero estas fichas van incompletas:</p>'
+      +[...new Set(avisos)].map(x=>`<div style="padding:5px 0;border-bottom:1px solid var(--rule);font-size:13px">${esc(x)}</div>`).join('')
+      +'<p style="font-size:12.5px;color:var(--ink-3);margin-top:14px">Sustituye con él el <code>catalogo.json</code> del Hub y ejecuta <code>generar_hub.py</code>. Un campo vacío es preferible a un dato inventado.</p>';
+    $('#drawerFoot').innerHTML='';
+    const b=document.createElement('button');b.className='btn pri';b.textContent='Entendido';b.onclick=()=>closeDrawer(true);
+    $('#drawerFoot').appendChild(b);
+  }else{
+    toast('Catálogo descargado: '+espacios.length+' espacios, '+n+' herramientas');
+  }
+}
+
+function pegarFicha(){
+  openDrawer('Pegar ficha de alta del Hub');
+  $('#drawerBody').innerHTML=`
+    <p style="margin-top:0;font-size:13.5px;color:var(--ink-2)">Pega aquí el bloque JSON que devuelve el prompt de alta en el proyecto de la herramienta. Si el <code>id</code> coincide con una app ya registrada, se actualiza; si no, se crea.</p>
+    <div class="field"><label for="jsonAlta">Ficha en JSON</label>
+      <textarea id="jsonAlta" style="min-height:230px;font-family:var(--mono);font-size:12.5px" placeholder='{ "id": "deporteseguro", "nombre": "DeporteSeguro", ... }'></textarea></div>
+    <div id="altaMsg" style="font-size:13px;min-height:20px"></div>`;
+  $('#drawerFoot').innerHTML='';
+  const c=document.createElement('button');c.className='btn';c.textContent='Cancelar';c.onclick=()=>closeDrawer(true);
+  const ok=document.createElement('button');ok.className='btn pri';ok.textContent='Incorporar';
+  ok.onclick=()=>{
+    const msg=$('#altaMsg');
+    let f;
+    try{
+      let txt=$('#jsonAlta').value.trim().replace(/^```(?:json)?/,'').replace(/```$/,'').trim();
+      f=JSON.parse(txt);
+    }catch(e){msg.style.color='var(--seal)';msg.textContent='Eso no es JSON válido. Pega solo el bloque, desde la llave inicial hasta la final.';return}
+    if(!f||typeof f!=='object'||Array.isArray(f)||!f.nombre){
+      msg.style.color='var(--seal)';msg.textContent='A la ficha le falta al menos el nombre.';return;
+    }
+    const id=slugId(f.id||f.nombre);
+    const est=Object.keys(ESTADO_HUB).find(k=>ESTADO_HUB[k]===f.estado)||'';
+    let a=DB.apps.find(x=>slugId(x.nombre)===id);
+    const nueva=!a;
+    if(nueva){a={id:uid(),_c:today(),codigo:nextCode('apps')};DB.apps.push(a)}
+    Object.assign(a,{
+      nombre:f.nombre||a.nombre,
+      proposito:f.descripcion||a.proposito||'',
+      sector:f.sector||a.sector||'',
+      estado:est||a.estado||'',
+      color:f.color||a.color||'',
+      url:f.url||a.url||'',
+      repo:f.repo||a.repo||'',
+      carpeta:f.carpeta||a.carpeta||'',
+      stack:f.stack||a.stack||'',
+      acceso:Array.isArray(f.acceso)&&f.acceso.length?f.acceso:(a.acceso||[]),
+      notas:f.notas||a.notas||'',
+      _m:today()
+    });
+    if(!a.conexion)a.conexion='Sin conectar';
+    if(!a.aiact)a.aiact='Por evaluar';
+    save();cloudPush('apps',a);closeDrawer(true);render();
+    const roles=(a.acceso||[]).filter(r=>!ROLES.includes(r));
+    toast((nueva?'App incorporada: ':'App actualizada: ')+a.nombre+(roles.length?' · rol nuevo sin declarar: '+roles.join(', '):''));
+  };
+  $('#drawerFoot').append(c,ok);
+  setTimeout(()=>{const el=$('#jsonAlta');if(el)el.focus()},40);
+}
+
+/* ============================ ajustes, datos y exportación ============================ */
+function renderAjustes(){
+  let h='';
+  h+='<div class="sheet"><div class="sheet-h"><h2>Tus datos</h2></div><div class="sheet-b">';
+  h+='<p style="margin-top:0;font-size:13.5px;color:var(--ink-2);max-width:70ch">Todo lo que registras vive en este navegador. El fichero JSON es la copia buena: guárdalo en la carpeta compartida del Grupo y ábrelo desde cualquier equipo.</p>';
+  h+='<div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px">';
+  h+='<button class="btn pri" onclick="exportJSON()">Descargar copia (JSON)</button>';
+  h+='<button class="btn" onclick="document.getElementById(\'imp\').click()">Cargar copia</button>';
+  h+='<button class="btn" onclick="exportAllCSV()">Descargar todo en CSV</button>';
+  h+='<input type="file" id="imp" accept="application/json,.json" style="display:none">';
+  h+='</div>';
+  h+='<p class="hint" style="margin-top:10px">Al descargar todo en CSV se generan '+COLLECTIONS.length+' ficheros seguidos: tu navegador puede pedirte permiso para descargar varios.</p>';
+  if(memoryOnly)h+='<div class="note seal" style="margin-top:14px"><strong>Este navegador no permite guardar en local.</strong> Los cambios viven solo mientras la pestaña esté abierta: descarga la copia antes de cerrarla.</div>';
+  h+='</div></div>';
+
+  h+='<div class="sheet"><div class="sheet-h"><h2>Nombre del departamento</h2></div><div class="sheet-b">';
+  h+=`<div class="row2"><div class="field"><label for="orgN">Denominación</label><input id="orgN" type="text" value="${esc(DB.meta.org)}"></div>
+      <div class="field"><label for="orgS">Adscripción</label><input id="orgS" type="text" value="${esc(DB.meta.sub)}"></div></div>`;
+  h+='<button class="btn pri" id="saveOrg">Guardar nombre</button></div></div>';
+
+  h+='<div class="sheet"><div class="sheet-h"><h2>Registros</h2></div><div class="sheet-b">';
+  h+='<table class="data" style="max-width:620px"><tr><th>Módulo</th><th class="num">Registros</th><th><span class="sr-only">Descargar</span></th></tr>';
+  COLLECTIONS.forEach(c=>{h+=`<tr><td><strong>${esc(MOD[c].name)}</strong></td><td class="num">${DB[c].length}</td>
+    <td class="num"><button class="btn sm" onclick="exportCSV('${c}')">CSV</button></td></tr>`});
+  h+='</table></div></div>';
+
+  h+='<div class="sheet danger-zone"><div class="sheet-h"><h2 style="color:var(--seal)">Zona de riesgo</h2></div><div class="sheet-b">';
+  h+='<p style="margin-top:0;font-size:13.5px;color:var(--ink-2);max-width:70ch">La herramienta viene con el arranque de Arestora precargado. Si vas a usarla para otra organización, vacíala y define tus propias líneas y convocatorias. Vaciar borra todos los registros de forma irreversible.</p>';
+  h+='<div style="display:flex;gap:9px;flex-wrap:wrap"><button class="btn" onclick="reseed()">Restaurar el ejemplo de Arestora</button>';
+  h+='<button class="btn dgr" onclick="wipe()">Descargar copia y vaciar</button>';
+  h+='<button class="btn dgr" onclick="wipe(true)">Vaciar sin copia</button></div></div></div>';
+
+  $('#view').innerHTML=h;
+  $('#saveOrg').onclick=()=>{DB.meta.org=$('#orgN').value.trim()||'Innovation Lab';DB.meta.sub=$('#orgS').value.trim();save();cloudMeta();paintOrg();toast('Nombre actualizado')};
+  $('#imp').onchange=e=>{
+    const f=e.target.files[0];if(!f)return;
+    const rd=new FileReader();
+    rd.onload=()=>{
+      let cand;
+      try{
+        const d=JSON.parse(rd.result);
+        if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('formato');
+        if(!COLLECTIONS.some(c=>Array.isArray(d[c])))throw new Error('formato');
+        const sano=(d.meta&&typeof d.meta.org==='string')||
+          COLLECTIONS.some(c=>Array.isArray(d[c])&&d[c].some(r=>r&&typeof r==='object'&&!Array.isArray(r)));
+        if(!sano)throw new Error('contenido');
+        cand=migrate(JSON.parse(JSON.stringify(d)));
+      }catch(err){
+        toast('Ese fichero no es una copia de Innovation Lab OS. Debe ser un .json descargado con «Descargar copia».');
+        e.target.value='';return;
+      }
+      const total=COLLECTIONS.reduce((n,c)=>n+cand[c].length,0);
+      const actual=COLLECTIONS.reduce((n,c)=>n+DB[c].length,0);
+      if(actual&&!confirm(`Se sustituirán los ${actual} registros actuales por los ${total} de esta copia. ¿Continuar?`)){e.target.value='';return}
+      const prev=DB;
+      DB=cand;
+      try{
+        paintOrg();VIEW='panel';buildNav();render();
+        save();toast('Copia cargada');
+        if(CLOUD)cloudReplaceAll();
+      }catch(err2){
+        DB=prev;paintOrg();VIEW='ajustes';buildNav();render();
+        toast('Esa copia está dañada y no se ha cargado. Tus datos siguen intactos.');
+      }
+      e.target.value='';
+    };
+    rd.readAsText(f);
+  };
+}
+function paintOrg(){$('#orgName').textContent=DB.meta.org;$('#orgSub').textContent=DB.meta.sub}
+function reseed(){if(confirm('Se sustituye el contenido actual por el ejemplo de Arestora y se pierde lo que hayas registrado. ¿Continuar?')){DB=seedDB();save();paintOrg();go('panel');toast('Ejemplo restaurado');if(CLOUD)cloudReplaceAll()}}
+function wipe(sinCopia){
+  if(!confirm('Se borran todos los registros de forma irreversible. ¿Continuar?'))return;
+  if(!sinCopia)exportJSON();
+  setTimeout(()=>{DB=blankDB();save();paintOrg();go('panel');toast('Se han borrado todos los registros.');if(CLOUD)cloudReplaceAll()},sinCopia?0:500);
+}
+
+function dl(name,text,mime){
+  const b=new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'});
+  const u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(u);a.remove()},400);
+}
+function stamp(){return today().replace(/-/g,'')}
+function exportJSON(){dl('lab-os-'+stamp()+'.json',JSON.stringify(DB,null,2),'application/json');toast('Copia descargada')}
+
+function csvOf(mid){
+  const m=MOD[mid];
+  const cols=m.fields.map(f=>f.k);
+  const head=m.fields.map(f=>f.l);
+  const q=v=>{
+    let t=String(v==null?'':v);
+    if(/^[=+\-@\t\r]/.test(t))t="'"+t;
+    return '"'+t.replace(/"/g,'""')+'"';
+  };
+  const lines=[head.map(q).join(';')];
+  DB[mid].forEach(r=>{
+    lines.push(cols.map(k=>{
+      const f=m.fields.find(x=>x.k===k),v=r[k];
+      if(f.t==='ref')return q(recTitle(f.ref,v));
+      if(f.t==='refs')return q((v||[]).map(x=>recTitle(f.ref,x)).join(' | '));
+      if(f.t==='multiselect')return q((v||[]).join(' | '));
+      return q(v);
+    }).join(';'));
+  });
+  return '﻿'+lines.join('\r\n');
+}
+function exportCSV(mid){dl(mid+'-'+stamp()+'.csv',csvOf(mid),'text/csv');toast('CSV descargado')}
+function exportAllCSV(){COLLECTIONS.forEach((c,i)=>setTimeout(()=>dl(c+'-'+stamp()+'.csv',csvOf(c),'text/csv'),i*250));toast('Descargando '+COLLECTIONS.length+' ficheros')}
+
+function mdField(l,v){return v?`\n**${l}**\n\n${v}\n`:''}
+function exportProject(pid){
+  const p=rec('proyectos',pid);if(!p)return;
+  const m=MOD.proyectos;
+  let t=`# ${p.codigo} — ${p.titulo}\n\n_${DB.meta.org} · ficha de proyecto generada el ${fmtDate(today())}_\n`;
+  m.fields.forEach(f=>{
+    if(['codigo','titulo'].includes(f.k))return;
+    let v=p[f.k];if(v==null||v===''||(Array.isArray(v)&&!v.length))return;
+    if(f.t==='ref')v=recTitle(f.ref,v);
+    else if(f.t==='refs')v=v.map(x=>recTitle(f.ref,x)).join(', ');
+    else if(f.t==='multiselect')v=v.join(', ');
+    else if(f.t==='date')v=fmtDate(v);
+    t+=mdField(f.l,v);
+  });
+  const ev=DB.evidencias.filter(e=>e.proyectoId===pid);
+  if(ev.length){
+    t+='\n**Evidencias**\n\n';
+    ev.forEach(e=>{t+=`- ${e.codigo} · ${e.titulo} (${e.tipo||'—'}, ${fmtDate(e.fecha)}) — ${e.ubicacion||'ubicación sin indicar'}\n`});
+  }
+  const pl=DB.pilotos.filter(x=>x.proyectoId===pid);
+  if(pl.length){
+    t+='\n**Pilotos y validaciones**\n\n';
+    pl.forEach(x=>{t+=`- ${x.codigo} · ${x.titulo} — ${x.diseno||'diseño sin definir'}, estado: ${x.estado||'—'}\n`});
+  }
+  dl(p.codigo+'-'+stamp()+'.md',t,'text/markdown');toast('Ficha de proyecto descargada');
+}
+function exportDossier(cid){
+  const c=rec('convocatorias',cid);if(!c)return;
+  const cr=c.criterios||[];
+  const tot=cr.reduce((a,x)=>a+(Number(x.max)||0),0),got=cr.reduce((a,x)=>a+(Number(x.auto)||0),0);
+  let t=`# Dossier de candidatura — ${c.nombre}\n\n_${DB.meta.org} · ${fmtDate(today())}_\n\n`;
+  t+=`Organismo: ${c.organismo||'—'} · Ámbito: ${c.ambito||'—'} · Modalidad: ${c.modalidad||'—'}\n\n`;
+  t+=`Cierre de plazo: ${fmtDate(c.cierre)} · Autoevaluación: ${got} de ${tot}\n`;
+  if(c.proyectoId)t+=`\nProyecto candidato: ${recTitle('proyectos',c.proyectoId)}\n`;
+  if(c.objeto)t+=`\n## Objeto\n\n${c.objeto}\n`;
+  t+='\n## Criterios, argumentario y evidencias\n';
+  cr.forEach(x=>{
+    t+=`\n### ${x.codigo||''} ${x.nombre||'Criterio'} — ${x.auto||0} de ${x.max||0}\n`;
+    t+=`\n${x.texto||'_Argumentario pendiente de redactar._'}\n`;
+    const ev=(x.evidencias||[]).map(id=>rec('evidencias',id)).filter(Boolean);
+    if(ev.length){
+      t+='\nEvidencias:\n\n';
+      ev.forEach(e=>{t+=`- ${e.codigo} · ${e.titulo} (${e.tipo||'—'}, ${fmtDate(e.fecha)}) — ${e.descripcion||''} [${e.ubicacion||'sin ubicación'}]\n`});
+    }else{
+      t+='\n> Sin evidencia vinculada. Este criterio se defiende hoy solo con el relato.\n';
+    }
+  });
+  const sin=cr.filter(x=>!(x.evidencias||[]).length);
+  if(sin.length){
+    t+=`\n## Puntos débiles\n\n${sin.length} criterio(s) sin respaldo documental: ${sin.map(x=>x.nombre).join(', ')}.\n`;
+  }
+  if(c.requisitos)t+=`\n## Requisitos y gastos elegibles\n\n${c.requisitos}\n`;
+  dl('dossier-'+(c.codigo||'cv')+'-'+stamp()+'.md',t,'text/markdown');toast('Dossier descargado');
+}
+function exportPanel(){
+  const P=DB.proyectos,E=DB.evidencias,S=DB.servicios;
+  let t=`# ${DB.meta.org} — situación a ${fmtDate(today())}\n\n`;
+  t+=`## El ciclo\n\n`;
+  t+=`Apps: ${DB.apps.length} (${DB.apps.filter(a=>['Exportación periódica','Integrada'].includes(a.conexion)).length} conectadas)\n`;
+  t+=`Preguntas: ${DB.preguntas.length} (${DB.preguntas.filter(q=>q.estado==='Respondida').length} respondidas)\n`;
+  t+=`Hallazgos: ${DB.hallazgos.length} (${DB.hallazgos.filter(x=>['Aplicado','Publicado'].includes(x.estado)).length} aplicados)\n`;
+  t+=`Mejoras implantadas: ${DB.mejoras.filter(m=>m.estado==='Implantada').length}\n\n`;
+  t+=`## Resto\n\n`;
+  t+=`Proyectos en cartera: ${P.length} (${P.filter(p=>['En ejecución','En validación'].includes(p.estado)).length} en marcha)\n`;
+  t+=`Evidencias registradas: ${E.length}\n`;
+  t+=`Servicios con la triple pregunta resuelta: ${S.filter(s=>s.q1&&s.q2&&s.q3).length} de ${S.length}\n`;
+  t+=`Activos de propiedad intelectual registrados: ${DB.propiedad.filter(x=>x.estado==='Registrado').length} de ${DB.propiedad.length}\n`;
+  t+=`Alianzas con instrumento firmado: ${DB.ecosistema.filter(x=>['Convenio marco','Convenio específico','Contrato de investigación','Cátedra','Consorcio en proyecto'].includes(x.instrumento)).length}\n`;
+  t+=`Horas imputadas: ${P.reduce((a,p)=>a+(Number(p.horas)||0),0)}\n\n## Cartera\n\n`;
+  P.forEach(p=>{t+=`- **${p.codigo}** ${p.titulo} · ${recTitle('lineas',p.lineaId)} · ${p.estado||'—'} · TRL ${p.trlAct||'—'}→${p.trlObj||'—'}\n`});
+  t+='\n## Convocatorias en radar\n\n';
+  DB.convocatorias.forEach(c=>{t+=`- **${c.codigo}** ${c.nombre} (${c.organismo||'—'}) · ${c.estado||'—'} · cierre ${fmtDate(c.cierre)}\n`});
+  dl('situacion-'+stamp()+'.md',t,'text/markdown');toast('Informe descargado');
+}
+</script>
+<script>
+/* ============================================================
+   CAPA DE NUBE — opcional
+   Sin configurar, la aplicación funciona igual que siempre:
+   los datos viven en este navegador.
+   Con SUPABASE configurado, el departamento entero comparte
+   los mismos registros y cada ficha lleva quién la tocó.
+   ============================================================ */
+
+/* ---- CONFIGURACIÓN ----
+   Rellena estos dos valores para activar el modo compartido.
+   La clave "anon" de Supabase es pública por diseño: no es un
+   secreto. Quien protege los datos es la lista de correos
+   autorizados y las políticas de seguridad del esquema SQL. */
+const SUPABASE_URL = '';        // ej.: https://xxxxxxxx.supabase.co
+const SUPABASE_ANON_KEY = '';   // ej.: eyJhbGciOi...
+
+const CLOUD = !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+let sb=null, ME=null, PULLING=false;
+
+/* ---------- carga del cliente ---------- */
+const CDN=[
+  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js',
+  'https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js'
+];
+function cargarSupabase(i){
+  i=i||0;
+  return new Promise((ok,err)=>{
+    if(window.supabase&&window.supabase.createClient){ok();return}
+    if(i>=CDN.length){err(new Error('sin librería'));return}
+    const s=document.createElement('script');
+    s.src=CDN[i];
+    s.onload=()=>{window.supabase?ok():cargarSupabase(i+1).then(ok,err)};
+    s.onerror=()=>{s.remove();cargarSupabase(i+1).then(ok,err)};
+    document.head.appendChild(s);
+  });
+}
+function avisoSinConexion(){
+  const d=document.createElement('div');
+  d.className='note seal';
+  d.style.cssText='margin:16px 24px 0;border-left-color:var(--seal)';
+  d.innerHTML='<strong>Sin conexión con el servidor compartido.</strong> Estás trabajando sobre la copia guardada en este navegador. Lo que registres ahora no lo verán los demás: cuando vuelva la conexión, recarga la página y súbelo desde Datos y ajustes.';
+  const main=document.querySelector('main');
+  main.insertBefore(d,main.children[1]);
+}
+
+/* ---------- pantalla de acceso ---------- */
+function pantallaAcceso(mensaje,tipo){
+  document.getElementById('app').style.display='none';
+  let box=document.getElementById('login');
+  if(!box){
+    box=document.createElement('div');box.id='login';
+    box.style.cssText='min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px';
+    document.body.appendChild(box);
+  }
+  box.innerHTML=`
+    <div class="sheet" style="max-width:430px;width:100%;padding:30px 32px">
+      <span class="eyebrow">Innovation Lab OS</span>
+      <h1 style="font-size:21px;margin:8px 0 6px;font-weight:700">Acceso al departamento</h1>
+      <p style="color:var(--ink-2);font-size:13.5px;margin:0 0 20px">
+        Escribe tu correo del Grupo. Te llega un enlace de acceso: al pulsarlo entras, sin contraseña.</p>
+      <div class="field"><label for="mail">Correo electrónico</label>
+        <input id="mail" type="text" inputmode="email" placeholder="nombre@grupoarestora.com"></div>
+      <button class="btn pri" id="entrar" style="width:100%">Enviarme el enlace</button>
+      <div id="msg" style="margin-top:14px;font-size:13px;min-height:20px;color:${tipo==='err'?'var(--seal)':'var(--ink-2)'}">${esc(mensaje||'')}</div>
+      <p style="font-size:11.5px;color:var(--ink-3);margin:18px 0 0;line-height:1.5">
+        Solo entran los correos dados de alta por la dirección del Lab. Si el tuyo no lo está, el enlace llegará pero el acceso se rechazará.</p>
+    </div>`;
+  const mail=document.getElementById('mail'), btn=document.getElementById('entrar'), msg=document.getElementById('msg');
+  const enviar=async()=>{
+    const email=mail.value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){msg.style.color='var(--seal)';msg.textContent='Ese correo no parece válido.';return}
+    btn.disabled=true;btn.textContent='Enviando…';
+    const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.href.split('#')[0]}});
+    btn.disabled=false;btn.textContent='Enviarme el enlace';
+    if(error){msg.style.color='var(--seal)';msg.textContent='No se pudo enviar: '+error.message;return}
+    msg.style.color='var(--ink-2)';
+    msg.textContent='Enlace enviado a '+email+'. Revisa el correo, y también la carpeta de no deseado.';
+  };
+  btn.onclick=enviar;
+  mail.onkeydown=e=>{if(e.key==='Enter')enviar()};
+  mail.focus();
+}
+function cerrarAcceso(){
+  const box=document.getElementById('login');if(box)box.remove();
+  document.getElementById('app').style.display='';
+}
+
+/* ---------- lectura y escritura ---------- */
+async function cloudPull(silencioso){
+  if(!CLOUD||!sb||PULLING)return;
+  PULLING=true;
+  try{
+    const {data,error}=await sb.from('registros').select('id,coleccion,datos,modificado,modificado_por');
+    if(error)throw error;
+    const nuevo=blankDB();
+    (data||[]).forEach(r=>{
+      if(!COLLECTIONS.includes(r.coleccion))return;
+      const d=r.datos||{};d.id=r.id;d._m=(r.modificado||'').slice(0,10)||d._m;d._por=r.modificado_por||d._por;
+      nuevo[r.coleccion].push(d);
+    });
+    const {data:aj}=await sb.from('ajustes').select('clave,valor').eq('clave','meta').maybeSingle();
+    if(aj&&aj.valor)nuevo.meta=Object.assign(nuevo.meta,aj.valor);
+    DB=nuevo;
+    try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}
+    paintOrg();paintSaveState();
+    if(!silencioso){buildNav();render()}
+  }catch(e){
+    if(!silencioso)toast('No se pudo leer del servidor: '+(e.message||e));
+  }finally{PULLING=false}
+}
+
+async function cloudPush(coleccion,registro){
+  if(!CLOUD||!sb)return;
+  try{
+    const {error}=await sb.from('registros').upsert({id:registro.id,coleccion,datos:registro});
+    if(error)throw error;
+    sb.from('actividad').insert({usuario:ME,accion:'guardar',coleccion,registro_id:registro.id,
+      detalle:(registro.codigo||'')+' '+(registro.titulo||registro.nombre||registro.denominacion||'')}).then(()=>{},()=>{});
+  }catch(e){toast('Guardado aquí, pero no en el servidor: '+(e.message||e))}
+}
+
+async function cloudDelete(coleccion,id){
+  if(!CLOUD||!sb)return;
+  try{
+    const {error}=await sb.from('registros').delete().eq('id',id);
+    if(error)throw error;
+    sb.from('actividad').insert({usuario:ME,accion:'eliminar',coleccion,registro_id:id}).then(()=>{},()=>{});
+  }catch(e){toast('Eliminado aquí, pero no en el servidor: '+(e.message||e))}
+}
+
+async function cloudReplaceAll(){
+  if(!CLOUD||!sb)return;
+  if(!confirm('Esta operación sustituye TODO el contenido del servidor, para todo el departamento. ¿Continuar?'))return;
+  try{
+    const filas=[];
+    COLLECTIONS.forEach(c=>DB[c].forEach(r=>filas.push({id:r.id,coleccion:c,datos:r})));
+    const {error:e1}=await sb.from('registros').delete().neq('id','__ninguno__');
+    if(e1)throw e1;
+    if(filas.length){
+      for(let i=0;i<filas.length;i+=200){
+        const {error}=await sb.from('registros').insert(filas.slice(i,i+200));
+        if(error)throw error;
+      }
+    }
+    await sb.from('ajustes').upsert({clave:'meta',valor:DB.meta});
+    sb.from('actividad').insert({usuario:ME,accion:'sustituir_todo',detalle:filas.length+' registros'}).then(()=>{},()=>{});
+    toast('Servidor actualizado: '+filas.length+' registros');
+  }catch(e){toast('No se pudo sustituir en el servidor: '+(e.message||e))}
+}
+
+async function cloudMeta(){
+  if(!CLOUD||!sb)return;
+  try{await sb.from('ajustes').upsert({clave:'meta',valor:DB.meta})}catch(e){}
+}
+
+async function cerrarSesion(){
+  if(!CLOUD||!sb)return;
+  await sb.auth.signOut();
+  location.reload();
+}
+
+/* ---------- indicador de estado ---------- */
+function pintarEstadoNube(){
+  if(!CLOUD)return;
+  const el=document.getElementById('saveState');
+  el.innerHTML=`Compartido · ${esc(ME||'')}`;
+  el.style.color='';
+  if(!document.getElementById('btnSalir')){
+    const b=document.createElement('button');
+    b.id='btnSalir';b.className='btn sm';b.textContent='Cerrar sesión';b.onclick=cerrarSesion;
+    document.querySelector('.side-foot').appendChild(b);
+  }
+}
+
+/* ---------- arranque ---------- */
+async function bootstrap(){
+  if(!CLOUD){
+    load();initTheme();paintOrg();paintSaveState();buildNav();render();
+    return;
+  }
+  initTheme();
+  try{
+    await cargarSupabase();
+  }catch(e){
+    // sin red o CDN bloqueado: se sigue trabajando en local para no dejar a nadie parado
+    load();paintOrg();paintSaveState();buildNav();render();avisoSinConexion();
+    return;
+  }
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  DB=blankDB();
+
+  let session=null;
+  try{
+    const r=await sb.auth.getSession();session=r.data.session;
+  }catch(e){
+    load();paintOrg();paintSaveState();buildNav();render();avisoSinConexion();return;
+  }
+  if(!session){pantallaAcceso();return}
+  ME=session.user.email;
+
+  const {data:autorizado,error}=await sb.from('usuarios_autorizados').select('email,rol').maybeSingle();
+  if(error||!autorizado){
+    await sb.auth.signOut();
+    pantallaAcceso('Tu correo no está dado de alta en este departamento. Pídeselo a la dirección del Lab.','err');
+    return;
+  }
+
+  cerrarAcceso();
+  await cloudPull(true);
+  paintOrg();pintarEstadoNube();buildNav();render();
+
+  // traer cambios de los demás
+  setInterval(()=>{if(!document.hidden&&!$('#drawer').classList.contains('on'))cloudPull(true).then(()=>{if(!$('#drawer').classList.contains('on'))render()})},45000);
+  window.addEventListener('focus',()=>{if(!$('#drawer').classList.contains('on'))cloudPull(true).then(()=>render())});
+}
+
+/* al volver de un enlace de acceso, Supabase deja el token en el hash */
+if(CLOUD&&location.hash.includes('access_token')){
+  history.replaceState(null,'',location.pathname+location.search);
+}
+</script>
+<script>
+/* ============================ arranque precargado ============================ */
+function seedDB(){
+  const d=blankDB();
+  const L=(o)=>{o.id=uid();o._c=today();o._m=today();d.lineas.push(o);return o.id};
+  const add=(col,o)=>{o.id=uid();o._c=today();o._m=today();d[col].push(o);return o.id};
+
+  const l1=L({codigo:'L-I',nombre:'Protección, prevención y cumplimiento',ambito:'Investigación aplicada',estado:'Captura activa',
+    objetivo:'Convertir el cumplimiento normativo, la tecnología y los datos en modelos preventivos basados en evidencia.',
+    preguntas:'¿Qué factores predicen el riesgo en entornos con menores?\n¿Qué protocolos funcionan y en qué condiciones?\n¿Cómo se compara la protección entre deporte, educación y municipio?',
+    activos:'Arestora Segura, Deporte Seguro, Educa Seguro, Concello Seguro, Igualdad, SaaS LOPIVI, sellos, clubes piloto'});
+  const l2=L({codigo:'L-II',nombre:'Bienestar, experiencia y absentismo',ambito:'Investigación aplicada',estado:'Captura activa',
+    objetivo:'Demostrar científicamente qué intervenciones organizativas mejoran el bienestar y reducen el absentismo, en qué condiciones y con qué retorno.',
+    preguntas:'¿Qué intervenciones reducen el absentismo y en qué tipo de organización?\n¿Qué predice el absentismo antes de que ocurra?\n¿Cuál es el retorno económico de la intervención?',
+    activos:'Empleo Seguro, PAMEE, estudio UVigo-USC, empresas intervenidas, potencial SERGAS'});
+  const l3=L({codigo:'L-III',nombre:'Talento, selección y mercado laboral',ambito:'Desarrollo tecnológico',estado:'Captura activa',
+    objetivo:'Comprender y predecir qué hace que una oferta, una candidatura y una contratación tengan éxito.',
+    preguntas:'¿Qué predice el éxito y la permanencia de una contratación?\n¿Qué hace atractiva a una oferta?\n¿Dónde aparecen sesgos en la selección asistida por algoritmos?',
+    activos:'ARESJOBS, 300-400 procesos al año, candidatos, ofertas, empresas cliente'});
+  const l4=L({codigo:'L-IV',nombre:'Organización, desempeño y futuro del trabajo',ambito:'Mixta',estado:'Tractora',
+    objetivo:'Estudiar cómo deben transformarse las organizaciones, los puestos y las personas ante la incorporación de tecnología.',
+    preguntas:'¿Qué porcentaje de las tareas de un puesto es automatizable, aumentable o esencialmente humana?\n¿Qué efecto real tiene la tecnología sobre la carga y el dimensionamiento?\n¿Qué predice el alto desempeño?',
+    activos:'DPT, organigramas, cargas de trabajo, valoración del desempeño, peritajes organizativos',
+    notas:'Elegida como tractora por baja fricción jurídica, ciclo corto hasta el primer resultado y actividad que ya factura. Pendiente de confirmar el volumen anual real de casos.'});
+
+  /* --- modelo canónico --- */
+  const mdOrg=add('canonico',{codigo:'MD-01',nombre:'Organización',descripcion:'Entidad cliente: empresa, club, centro educativo o concello.',clave:'Código interno estable, independiente del CIF.',campos:'sector\ntamaño (plantilla)\nubicación\nfecha de alta como cliente\nservicios contratados',sensibilidad:'Sin datos personales',herramientas:'Todas'});
+  const mdUni=add('canonico',{codigo:'MD-02',nombre:'Unidad',descripcion:'Centro, departamento o equipo dentro de la organización.',clave:'Organización + código de unidad.',campos:'nombre\ntipo\nresponsable\nplantilla asignada',sensibilidad:'Sin datos personales',herramientas:'Empleo Seguro, DPT, Igualdad'});
+  const mdPue=add('canonico',{codigo:'MD-03',nombre:'Puesto',descripcion:'Definición del puesto y sus tareas.',clave:'Organización + código de puesto.',campos:'denominación\nfamilia\nnivel\ntareas (lista)\ntiempo dedicado por tarea\ncompetencias requeridas',sensibilidad:'Sin datos personales',herramientas:'DPT, herramienta de organización, peritajes'});
+  const mdPer=add('canonico',{codigo:'MD-04',nombre:'Persona',descripcion:'Trabajador, candidato o participante.',clave:'Código pseudonimizado estable. La tabla de correspondencia no sale del entorno operativo.',campos:'código pseudonimizado\naño de nacimiento (no fecha)\nsexo\nnivel formativo\nantigüedad',sensibilidad:'Datos personales pseudonimizados',retencion:'El entorno de investigación recibe solo el código. Reidentificación técnicamente imposible desde ese entorno.',herramientas:'ARESJOBS, Empleo Seguro, Deporte Seguro'});
+  const mdInt=add('canonico',{codigo:'MD-05',nombre:'Intervención',descripcion:'Cualquier actuación de Arestora: implantación, diagnóstico, formación, selección, evaluación o peritaje.',clave:'Código correlativo por tipo y año.',campos:'tipo\nfecha de inicio y fin\nalcance\nresponsable\norganización y unidad',sensibilidad:'Sin datos personales',herramientas:'Todas'});
+  const mdMed=add('canonico',{codigo:'MD-06',nombre:'Medición',descripcion:'Cualquier dato observado en un momento t.',clave:'Intervención + instrumento + fecha.',campos:'instrumento\nfecha\nmomento (T0, T1, T2)\nvariable\nvalor\nunidad',sensibilidad:'Categorías especiales (art. 9 RGPD)',retencion:'Las mediciones de salud y bienestar se agregan antes de salir al entorno de investigación.',herramientas:'Empleo Seguro, Deporte Seguro, evaluación de desempeño'});
+  const mdRes=add('canonico',{codigo:'MD-07',nombre:'Resultado',descripcion:'Desenlace observado tras la intervención.',clave:'Persona o puesto + fecha.',campos:'tipo (contratación, permanencia, absentismo, incidencia, desempeño, cumplimiento)\nfecha\nvalor',sensibilidad:'Datos personales pseudonimizados',herramientas:'ARESJOBS, Empleo Seguro, Arestora Segura'});
+
+  /* --- ecosistema --- */
+  const ecUvigo=add('ecosistema',{codigo:'EC-01',nombre:'Universidade de Vigo',tipo:'Universidad',ambito:'Autonómico',instrumento:'Contacto previo',
+    objeto:'Estudio de absentismo ya realizado. Base para un convenio marco que cubra las cuatro líneas.',
+    titularidad:'Pendiente de negociar. El convenio debe fijar que el dataset es de Arestora, el orden de autoría y la titularidad de los desarrollos derivados.',lineas:[l2,l4]});
+  const ecUsc=add('ecosistema',{codigo:'EC-02',nombre:'Universidade de Santiago de Compostela',tipo:'Universidad',ambito:'Autonómico',instrumento:'Contacto previo',
+    objeto:'Coautoría en el estudio de absentismo. Vía de acceso al comité de ética de investigación.',lineas:[l2]});
+  const ecSergas=add('ecosistema',{codigo:'EC-03',nombre:'SERGAS',tipo:'Administración pública',ambito:'Autonómico',instrumento:'Sin formalizar',
+    objeto:'Posible implantación de PAMEE como gran demostrador con diseño T0-T1-T2 y comparación entre centros.',lineas:[l2],
+    notas:'Es el demostrador de mayor impacto potencial y el que menos controlamos. No dimensionar ninguna línea contando con él.'});
+  const ecIgape=add('ecosistema',{codigo:'EC-04',nombre:'IGAPE',tipo:'Administración pública',ambito:'Autonómico',instrumento:'Sin formalizar',
+    objeto:'Organismo convocante del programa Igape Innova.'});
+
+  /* --- apps propias: sincronizadas con el catálogo del Arestora Hub --- */
+  const apDep=add('apps',{codigo:'AP-01', hubId:'deporteseguro', nombre:'DeporteSeguro®', espacio:'Arestora Segura®', estado:'En producción', sector:'Clubes y entidades deportivas', vertical:'Sí', color:'#C4520A', url:'https://backtowin-chatbot.vercel.app', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\DEPORTE SEGURO', stack:'Next.js + Vercel + Supabase', acceso:["admin", "gestor", "cliente", "rb"], proposito:'Protección de menores en entidades deportivas. Cumplimiento LOPIVI.', genera:'Medidas implantadas y su fecha, formación realizada por persona, protocolos activados, incidencias registradas, estado del sello.', deberia:'Grado de implantación efectiva de cada medida, no solo su formalización. Fecha de cada hito para poder construir series. Resultado de la intervención tras la implantación.', medicion:'Hoy no mide resultado: mide cumplimiento formal. Es la carencia principal.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1], notas:'Primer vertical desplegado. Núcleo del que deben derivar los demás. Es el primer vertical desplegado y el núcleo del que derivan los demás: lo que se capture aquí marca lo que podrán capturar Educa, Concello, Ocio, Campamento, Extraescolar y Social. Datos de menores: la reutilización para investigación no puede iniciarse hasta el dictamen jurídico.'});
+  const apEdu=add('apps',{codigo:'AP-02', hubId:'educaseguro', nombre:'EducaSeguro®', espacio:'Arestora Segura®', estado:'En producción', sector:'Colegios y centros educativos', vertical:'Sí', color:'#1B4FD8', url:'', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\EDUCA SEGURO', stack:'Next.js + Vercel + Supabase', acceso:["admin", "gestor", "cliente", "cbp"], proposito:'Protección de menores en centros educativos y colegios.', genera:'Las mismas entidades que DeporteSeguro, en el ámbito educativo.', deberia:'Idénticos nombres de variable que DeporteSeguro, para poder comparar entornos. Es la comparación deporte-educación que ninguna de las dos apps permite hoy.', medicion:'Pendiente de definir.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1], notas:'Desplegada en Vercel; falta registrar aquí la URL de producción. Ya está activo, así que la ventana de aplicar la regla de doble finalidad desde el origen se ha cerrado: ahora es un rediseño y no un diseño.'});
+  add('apps',{codigo:'AP-03', hubId:'concelloseguro', nombre:'ConcelloSeguro®', espacio:'Arestora Segura®', estado:'En diseño', sector:'Administración local', vertical:'Sí', color:'#0F7B4F', url:'', repo:'', carpeta:'', stack:'', acceso:["admin"], proposito:'Protección de menores en ayuntamientos y concellos.', deberia:'Indicadores comparables entre municipios.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdInt,mdMed], lineas:[l1], notas:'En preparación: es la oportunidad más barata de aplicar la regla de doble finalidad desde el diseño.'});
+  add('apps',{codigo:'AP-04', hubId:'ocioseguro', nombre:'OcioSeguro®', espacio:'Arestora Segura®', estado:'En diseño', sector:'Ocio y tiempo libre', vertical:'Sí', color:'#D69A0B', url:'', repo:'', carpeta:'', stack:'', acceso:["admin"], proposito:'Protección de menores en empresas de ocio y tiempo libre.', deberia:'Al derivar del núcleo de DeporteSeguro, hereda sus carencias de captura si no se corrigen antes.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1]});
+  add('apps',{codigo:'AP-05', hubId:'campamentoseguro', nombre:'CampamentoSeguro®', espacio:'Arestora Segura®', estado:'En diseño', sector:'Campamentos y colonias', vertical:'Sí', color:'#0E7C86', url:'', repo:'', carpeta:'', stack:'', acceso:["admin"], proposito:'Protección de menores en campamentos y colonias.', deberia:'Al derivar del núcleo de DeporteSeguro, hereda sus carencias de captura si no se corrigen antes.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1]});
+  add('apps',{codigo:'AP-06', hubId:'extraescolarseguro', nombre:'ExtraescolarSeguro®', espacio:'Arestora Segura®', estado:'En diseño', sector:'Actividades extraescolares', vertical:'Sí', color:'#8A4FBF', url:'', repo:'', carpeta:'', stack:'', acceso:["admin"], proposito:'Protección de menores en actividades extraescolares.', deberia:'Al derivar del núcleo de DeporteSeguro, hereda sus carencias de captura si no se corrigen antes.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1], notas:'falta logotipo propio.'});
+  add('apps',{codigo:'AP-07', hubId:'socialseguro', nombre:'SocialSeguro®', espacio:'Arestora Segura®', estado:'En diseño', sector:'Tercer sector y ONGs', vertical:'Sí', color:'#B8452F', url:'', repo:'', carpeta:'', stack:'', acceso:["admin"], proposito:'Protección de menores en entidades sociales y ONGs.', deberia:'Al derivar del núcleo de DeporteSeguro, hereda sus carencias de captura si no se corrigen antes.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdPer,mdInt,mdMed], lineas:[l1], notas:'falta logotipo propio.'});
+  const apIgual=add('apps',{codigo:'AP-08', hubId:'igualdadsegura', nombre:'IgualdadSegura®', espacio:'IgualdadSegura®', estado:'En desarrollo', sector:'Empresas obligadas a Plan de Igualdad', vertical:'Sí', color:'#7B3FBF', url:'', repo:'', carpeta:'', stack:'', acceso:["admin", "gestor", "cliente"], proposito:'Elaboración automatizada de Planes de Igualdad con asistencia técnica de Grupo Arestora.', genera:'Composición de plantilla por sexo y nivel, brecha salarial, promoción, conciliación.', deberia:'Indicadores normalizados y comparables entre organizaciones, no solo el informe final en PDF.', conexion:'Sin conectar', aiact:'Por evaluar', entidades:[mdOrg,mdUni,mdPer], lineas:[l1]});
+  const apPamee=add('apps',{codigo:'AP-09', hubId:'empleoseguro', nombre:'EmpleoSeguro®', espacio:'EmpleoSeguro®', estado:'En desarrollo', sector:'Empresas empleadoras', vertical:'Sí', color:'#1F7A3D', url:'', repo:'', carpeta:'', stack:'', acceso:["admin", "gestor", "cliente"], proposito:'Sello de calidad en empleo derivado de la implantación del PAMEE.', genera:'Diagnóstico inicial, indicadores de bienestar y experiencia, datos de absentismo, intervenciones aplicadas.', deberia:'La secuencia T0 → T1 → T2 con el mismo instrumento y su versión registrada. Intensidad de la intervención. Identificador de organización estable entre oleadas.', medicion:'Mide al principio; el seguimiento posterior depende de que el cliente lo pida.', conexion:'Exportación manual', aiact:'No aplica', entidades:[mdOrg,mdUni,mdPer,mdInt,mdMed,mdRes], lineas:[l2], notas:'Datos de salud: categorías especiales del artículo 9 del RGPD.'});
+  const apJobs=add('apps',{codigo:'AP-10', hubId:'aresjobs', nombre:'AresJobs', espacio:'AresJobs', estado:'En diseño', sector:'Empleo y empleabilidad', vertical:'No', color:'#1A56DB', url:'', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\ARESJOBS', stack:'', acceso:["admin", "gestor", "candidato", "empresa"], proposito:'Portal de empleo nacional con IA de matching, Ares Score™ y Career Coach. Base de datos de talento para los procesos de selección de Grupo Arestora.', genera:'Ofertas y sus atributos, candidaturas, fases superadas, tiempo de cobertura, candidato contratado.', deberia:'Motivo de rechazo codificado en lista cerrada. Permanencia a 6, 12 y 24 meses. Desempeño posterior. Trazas del algoritmo de matching para poder auditarlo.', medicion:'La contratación se registra; lo que ocurre después, no. Sin permanencia no hay nada que predecir.', conexion:'Sin conectar', aiact:'Por evaluar', entidades:[mdOrg,mdPue,mdPer,mdInt,mdRes], lineas:[l3], notas:'Especificación funcional redactada. Sistema de alto riesgo conforme al Anexo III del Reglamento (UE) 2024/1689. Arestora sería proveedor, no solo responsable del despliegue. Todavía está en preparación: es la única app grande donde aún se puede diseñar bien desde el origen.'});
+  add('apps',{codigo:'AP-11', hubId:'innovationlab', nombre:'Innovation Lab', espacio:'Innovation Lab', estado:'En producción', sector:'Transversal · I+D+i', vertical:'No', color:'#3B3FB6', url:'lab/index.html', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\ARESTORA INNOVATION LAB', stack:'HTML autocontenido · Supabase opcional', acceso:["admin", "gestor"], proposito:'Catálogo de apps, banco de preguntas de investigación, hallazgos y mejoras aplicadas al producto. Es la fuente de este catálogo.', genera:'Todo el registro del ciclo de innovación del Grupo y el catálogo de herramientas del ecosistema.', deberia:'Leer el estado de cada app directamente del Data Core en lugar de que se introduzca a mano.', medicion:'Mide el ciclo como un embudo, con la tasa de conversión entre preguntas, hallazgos y mejoras.', conexion:'Sin conectar', aiact:'No aplica', notas:'Vive dentro del propio Hub. Al abrirlo lee este catálogo y sincroniza las herramientas del ecosistema.'});
+  add('apps',{codigo:'AP-12', hubId:'arestoradatacore', nombre:'Arestora Data Core', espacio:'Innovation Lab', estado:'En diseño', sector:'Transversal · infraestructura', vertical:'No', color:'#0F5C63', url:'', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\ARESTORA INNOVATION LAB\\03. DESARROLLO', stack:'Por definir · PostgreSQL', acceso:["admin", "gestor"], proposito:'Capa común de datos: modelo canónico de siete entidades, entorno de investigación separado del operativo y pseudonimización.', deberia:'Ser lo primero que exista. Cada mes de retraso son datos capturados en formatos que habrá que rehacer.', conexion:'Sin conectar', aiact:'No aplica', entidades:[mdOrg,mdUni,mdPue,mdPer,mdInt,mdMed,mdRes], notas:'es la pieza de la que dependen todas las demás. Cada mes de retraso son datos capturados en formatos que habrá que rehacer.'});
+  const apOrg=add('apps',{codigo:'AP-13', hubId:'herramientapuestos', nombre:'Herramienta de Puestos', espacio:'Innovation Lab', estado:'En diseño', sector:'Empresa · organización', vertical:'No', color:'#A4441C', url:'', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\ARESTORA INNOVATION LAB\\03. DESARROLLO', stack:'Next.js · Vercel · Supabase', acceso:["admin", "gestor", "cliente"], proposito:'Inventario de tareas, tiempos y clasificación automatizable, aumentable o humana. Calcula el índice IATT y sostiene los peritajes organizativos.', deberia:'Horas anuales por tarea y clasificación con criterio y evaluador identificados. Versión del puesto, para comparar antes y después de la tecnología.', medicion:'Debe permitir redescribir el mismo puesto meses después y comparar.', conexion:'Sin conectar', aiact:'Por evaluar', entidades:[mdOrg,mdUni,mdPue,mdInt,mdMed], lineas:[l4], notas:'especificación funcional redactada y lista para desarrollo. Es la app de la línea tractora del Lab. Especificación funcional redactada. Es la app de la línea tractora y todavía no existe: prioridad de desarrollo.'});
+  const apMiprot=add('apps',{codigo:'AP-14', hubId:'miprot', nombre:'MIPROT', espacio:'Innovation Lab', estado:'En desarrollo', sector:'Interno', vertical:'No', color:'#4A3AA7', url:'', repo:'', carpeta:'D:\\Mi unidad\\ARESTORA HUB\\ARESTORA INNOVATION LAB\\03. DESARROLLO', stack:'IA · automatización documental', acceso:["admin", "gestor"], proposito:'Automatización con IA de la generación y el tratamiento documental de los servicios de consultoría.', genera:'Documentos generados, tiempo por documento, correcciones posteriores.', deberia:'Tiempo real por documento y porcentaje de retrabajo, medidos y no estimados: son las cifras que hoy faltan para saber cuánto mejora.', conexion:'Sin conectar', aiact:'Riesgo limitado', entidades:[mdInt], notas:'Primer antecedente documentado del tránsito hacia la infraestructura tecnológica transversal.'});
+
+  /* --- banco de preguntas --- */
+  const pq=(o)=>{o.fecha=today();return add('preguntas',o)};
+  pq({codigo:'PG-01',pregunta:'¿Qué predice que una contratación siga en la empresa a los doce meses?',lineaId:l3,prioridad:'Alta',
+    porque:'Si lo supiéramos, cambiaríamos los criterios de cribado y podríamos garantizar permanencia al cliente, que es lo que de verdad le preocupa.',
+    origen:'Duda del equipo',datoNecesario:'Fecha de baja o continuidad a 6, 12 y 24 meses de cada persona contratada, cruzada con los atributos del proceso.',
+    apps:[apJobs],disponibilidad:'No, pero es capturable',estado:'Esperando datos',
+    valor:['Mejora un servicio existente','Argumento comercial','Publicable'],
+    metodo:'Seguimiento longitudinal de las contrataciones de los últimos años y modelo de supervivencia.'});
+  pq({codigo:'PG-02',pregunta:'¿Qué hace que una oferta atraiga candidaturas de calidad?',lineaId:l3,prioridad:'Media',
+    porque:'Permitiría asesorar a la empresa sobre cómo redactar y dotar la oferta antes de publicarla.',
+    origen:'Petición de cliente',datoNecesario:'Atributos de la oferta y número y perfil de candidaturas recibidas.',
+    apps:[apJobs],disponibilidad:'Sí, parcial',estado:'Abierta',
+    valor:['Mejora un servicio existente','Abre un producto nuevo']});
+  pq({codigo:'PG-03',pregunta:'¿Qué proporción de las horas de un puesto administrativo corresponde a tareas automatizables?',lineaId:l4,prioridad:'Alta',
+    porque:'Es la base del índice IATT y de la metodología pericial. Hoy el debate se sostiene sobre estimaciones teóricas; nosotros podemos medirlo.',
+    origen:'Oportunidad de producto',datoNecesario:'Inventario de tareas con horas anuales y clasificación, en un número suficiente de puestos.',
+    apps:[apOrg],disponibilidad:'No, requiere desarrollo',estado:'Esperando datos',
+    valor:['Abre un producto nuevo','Publicable','Apoya un peritaje'],
+    metodo:'Análisis de los DPT y peritajes ya realizados, más captura estructurada en los nuevos.'});
+  pq({codigo:'PG-04',pregunta:'¿Coincide el impacto estimado antes de introducir la tecnología con el observado seis meses después?',lineaId:l4,prioridad:'Alta',
+    porque:'Es lo que convierte el índice en predictivo y no en descriptivo. Y es lo que un juez preguntaría.',
+    origen:'Requisito normativo',datoNecesario:'Dos descripciones del mismo puesto separadas en el tiempo, con la tecnología introducida entre medias.',
+    apps:[apOrg],disponibilidad:'No, requiere desarrollo',estado:'Esperando datos',
+    valor:['Apoya un peritaje','Publicable']});
+  pq({codigo:'PG-05',pregunta:'¿Qué intervenciones del PAMEE reducen de verdad el absentismo, y en qué tipo de organización?',lineaId:l2,prioridad:'Alta',
+    porque:'Hoy el programa se vende por su lógica, no por su evidencia. Con la respuesta podríamos ajustarlo al perfil de cada empresa.',
+    origen:'Duda del equipo',datoNecesario:'Absentismo antes y después, intervención aplicada e intensidad, y organizaciones comparables sin intervenir.',
+    apps:[apPamee],disponibilidad:'Sí, parcial',estado:'Esperando datos',
+    valor:['Mejora un servicio existente','Argumento comercial','Publicable'],
+    metodo:'Diseño pre-post con grupo de comparación.',quien:'UVigo y USC'});
+  pq({codigo:'PG-06',pregunta:'¿Se puede anticipar el absentismo antes de que ocurra?',lineaId:l2,prioridad:'Media',
+    porque:'Cambiaría el producto entero: de un programa correctivo a uno preventivo.',
+    origen:'Oportunidad de producto',datoNecesario:'Serie de indicadores de bienestar y su relación con bajas posteriores.',
+    apps:[apPamee],disponibilidad:'No, pero es capturable',estado:'Abierta',
+    valor:['Abre un producto nuevo','Publicable']});
+  pq({codigo:'PG-07',pregunta:'¿Qué medidas de la LOPIVI se implantan de verdad y cuáles se quedan en el papel?',lineaId:l1,prioridad:'Media',
+    porque:'Distinguir cumplimiento formal de protección real es la diferencia entre vender un sello y prevenir algo.',
+    origen:'Observación en un servicio',datoNecesario:'Grado de implantación efectiva por medida, no solo su registro.',
+    apps:[apDep,apEdu],disponibilidad:'No, pero es capturable',estado:'Esperando datos',
+    valor:['Mejora un servicio existente','Publicable','Política pública']});
+  pq({codigo:'PG-08',pregunta:'¿Difiere el riesgo entre el entorno deportivo y el educativo?',lineaId:l1,prioridad:'Baja',
+    porque:'Nadie lo ha comparado con datos propios y nosotros vamos a operar en los dos.',
+    origen:'Literatura o congreso',datoNecesario:'Los mismos indicadores en ambos entornos, con idéntica definición.',
+    apps:[apDep,apEdu],disponibilidad:'No, requiere desarrollo',estado:'Abierta',
+    valor:['Publicable','Política pública']});
+  pq({codigo:'PG-09',pregunta:'¿Aparecen sesgos en el cribado asistido por algoritmo, y de qué tipo?',lineaId:l3,prioridad:'Alta',
+    porque:'El Reglamento europeo de IA nos obliga a saberlo, y responderlo bien es un argumento comercial que casi nadie tiene.',
+    origen:'Requisito normativo',datoNecesario:'Trazas de las decisiones del algoritmo y atributos de las candidaturas.',
+    apps:[apJobs],disponibilidad:'No, requiere desarrollo',estado:'Abierta',
+    valor:['Reduce un riesgo','Argumento comercial','Publicable']});
+  pq({codigo:'PG-10',pregunta:'¿Cuánto tiempo y retrabajo ahorra realmente la automatización documental?',prioridad:'Media',
+    porque:'Es la cifra que faltó para justificar el proyecto y la que permitiría decidir dónde automatizar después.',
+    origen:'Duda del equipo',datoNecesario:'Tiempo por documento y porcentaje de corrección posterior, antes y después.',
+    apps:[apMiprot],disponibilidad:'No, pero es capturable',estado:'Esperando datos',
+    valor:['Reduce coste interno','Mejora un servicio existente']});
+  pq({codigo:'PG-11',pregunta:'¿Se relaciona la claridad con que está descrito un puesto con el desempeño de quien lo ocupa?',lineaId:l4,prioridad:'Baja',
+    porque:'Justificaría el valor del DPT con evidencia propia en lugar de con literatura ajena.',
+    origen:'Literatura o congreso',datoNecesario:'Calidad de la descripción del puesto y evaluación de desempeño posterior de la misma persona.',
+    apps:[apOrg],disponibilidad:'No, requiere desarrollo',estado:'Abierta',
+    valor:['Argumento comercial','Publicable']});
+  pq({codigo:'PG-12',pregunta:'¿Qué mueve de verdad los indicadores de un plan de igualdad?',lineaId:l1,prioridad:'Media',
+    porque:'Permitiría recomendar las medidas que funcionan y no las que se copian de plantilla.',
+    origen:'Observación en un servicio',datoNecesario:'Indicadores en dos momentos y medidas efectivamente aplicadas entre ambos.',
+    apps:[apIgual],disponibilidad:'No, pero es capturable',estado:'Abierta',
+    valor:['Mejora un servicio existente','Publicable']});
+
+  /* --- servicios --- */
+  add('servicios',{codigo:'S-01',nombre:'Selección de personal',area:'Talento',volumen:'300-400 procesos al año',lineaId:l3,
+    descripcion:'Procesos completos de selección para empresas cliente, desde la definición del perfil hasta la incorporación.',
+    q1:'Oferta y sus atributos, número y perfil de candidaturas, fases superadas, motivos de rechazo, tiempo de cobertura, candidato finalmente contratado.',
+    q2:'Qué predice el éxito de una contratación y su permanencia; qué hace atractiva a una oferta; dónde está el desajuste entre lo que pide la empresa y lo que ofrece el mercado; dificultad de cobertura por familia profesional.',
+    q3:'Índice de Éxito de Contratación, Índice de Escasez de Talento, motor de matching y observatorio del mercado laboral.',
+    herramienta:'ARESJOBS (en desarrollo)',captura:'Manual',baseJuridica:'Sin resolver',entidades:[mdOrg,mdPer,mdPue,mdInt,mdRes]});
+  add('servicios',{codigo:'S-02',nombre:'Descripción de puestos y análisis organizativo',area:'Organización',volumen:'Por confirmar',lineaId:l4,
+    descripcion:'Descripciones de puesto, organigramas, cargas de trabajo y rediseño organizativo en empresas cliente.',
+    q1:'Puesto, inventario de tareas, tiempo dedicado por tarea, competencias requeridas, encaje en el organigrama, duplicidades detectadas.',
+    q2:'Qué proporción de cada puesto es automatizable, aumentable o esencialmente humana; diferencia entre trabajo formal y trabajo real; relación entre claridad de rol y rendimiento.',
+    q3:'Metodología Arestora de Impacto Tecnológico sobre Puestos e Índice de Transformación Tecnológica del Puesto.',
+    herramienta:'Pendiente de desarrollo',captura:'Sin instrumentar',baseJuridica:'No aplica: sin datos personales',entidades:[mdOrg,mdUni,mdPue,mdInt]});
+  add('servicios',{codigo:'S-03',nombre:'Peritajes organizativos',area:'Organización',volumen:'Por confirmar',lineaId:l4,
+    descripcion:'Informe pericial que justifica de forma objetiva la amortización o transformación de puestos por introducción de tecnología.',
+    q1:'Situación del puesto antes y después de la tecnología, tareas eliminadas y transformadas, horas liberadas, impacto sobre el dimensionamiento.',
+    q2:'Cuál es el impacto real de la automatización sobre los puestos, medido con datos de campo y no con estimaciones teóricas.',
+    q3:'Metodología pericial estandarizada y baremo objetivo de transformación tecnológica del puesto.',
+    herramienta:'Pendiente de desarrollo',captura:'Manual',baseJuridica:'No aplica: sin datos personales',entidades:[mdPue,mdInt,mdMed]});
+  add('servicios',{codigo:'S-04',nombre:'PAMEE / Empleo Seguro',area:'Bienestar',volumen:'Por confirmar',lineaId:l2,
+    descripcion:'Programa de experiencia del empleado, bienestar y reducción del absentismo, con diagnóstico, intervención y sello.',
+    q1:'Diagnóstico inicial, indicadores de bienestar y experiencia, datos de absentismo, intervenciones aplicadas y su intensidad, evolución posterior.',
+    q2:'Qué intervenciones funcionan, en qué organizaciones y con qué retorno; qué predice el absentismo; relación entre bienestar y absentismo.',
+    q3:'Modelos predictivos de absentismo y una versión del programa que se ajuste al perfil de riesgo de cada organización.',
+    herramienta:'Plataforma de diagnóstico y seguimiento',captura:'Parcial en herramienta',baseJuridica:'En análisis',entidades:[mdOrg,mdUni,mdPer,mdInt,mdMed,mdRes]});
+  add('servicios',{codigo:'S-05',nombre:'Deporte Seguro (LOPIVI)',area:'Protección',volumen:'Clubes piloto',lineaId:l1,
+    descripcion:'SaaS de cumplimiento LOPIVI para clubes deportivos, con metodología, protocolos y sello.',
+    q1:'Grado de implantación de cada medida, formación realizada, protocolos activados, incidencias registradas, evolución del cumplimiento.',
+    q2:'Qué factores se asocian al riesgo; qué medidas se implantan de verdad y cuáles quedan en el papel; eficacia comparada de los protocolos.',
+    q3:'Modelo preventivo con indicadores de riesgo y un observatorio de protección de la infancia en el deporte.',
+    herramienta:'SaaS Deporte Seguro',captura:'Parcial en herramienta',baseJuridica:'Sin resolver',entidades:[mdOrg,mdPer,mdInt,mdMed]});
+  add('servicios',{codigo:'S-06',nombre:'Planes de igualdad',area:'Igualdad',volumen:'Por confirmar',lineaId:l1,
+    descripcion:'Diagnóstico, plan de igualdad, registro y seguimiento, con herramienta tecnológica en desarrollo.',
+    q1:'Brecha salarial, segregación horizontal y vertical, promoción, conciliación, composición de plantilla por sexo y nivel.',
+    q2:'Qué medidas mueven de verdad los indicadores; benchmarking anonimizado por sector y tamaño.',
+    q3:'Indicadores estandarizados de igualdad y modelo de detección temprana de brechas.',
+    herramienta:'Herramienta de igualdad (en desarrollo)',captura:'Sin instrumentar',baseJuridica:'En análisis',entidades:[mdOrg,mdUni,mdPer]});
+
+  /* --- proyectos --- */
+  const p00=add('proyectos',{codigo:'AIL-00',titulo:'Arestora Data Core',lineaId:null,tipo:'Infraestructura de datos',estado:'Definición',prioridad:'Crítica',
+    resumen:'Modelo canónico de datos, entorno de investigación separado del operativo, pseudonimización y gobernanza. Es la pieza de la que dependen todas las demás.',
+    problema:'Cada herramienta del Grupo guarda su información con su propia estructura. Sin identificadores comunes, la investigación transversal es imposible por mucho dato que se acumule, y cada mes de retraso son datos capturados en formatos que habrá que rehacer.',
+    hipotesis:'Un modelo canónico de siete entidades es suficiente para responder a las preguntas de investigación de las cuatro líneas sin obligar a rediseñar las herramientas existentes.',
+    incertidumbre:'No se sabe si las entidades definidas soportan la variedad real de intervenciones ni si la pseudonimización propuesta resiste el análisis longitudinal sin degradar la utilidad del dato.',
+    objetivos:'Definir el modelo canónico y su diccionario.\nSeparar entorno operativo y entorno de investigación.\nConseguir que al menos dos herramientas exporten al modelo.',
+    entregables:'Diccionario de datos\nEspecificación de exportación\nEntorno de investigación operativo\nProcedimiento de pseudonimización',
+    trlIni:'3',trlAct:'3',trlObj:'6',responsable:'Responsable de datos',ods:['9 Industria, innovación e infraestructura']});
+  const p01=add('proyectos',{codigo:'AIL-01',titulo:'Arestora Innovation Model',lineaId:null,tipo:'Innovación organizativa',estado:'Definición',prioridad:'Crítica',
+    resumen:'Diseño, implantación y validación de un sistema que convierte la actividad ordinaria de una pyme de servicios en investigación e innovación continuas.',
+    problema:'Una pyme de servicios no puede permitirse detener la actividad para investigar. El resultado es que acumula experiencia y no genera conocimiento acreditable ni propiedad intelectual.',
+    hipotesis:'Una pyme de servicios puede integrar tecnología y captura estructurada de datos en su actividad ordinaria para desarrollar una capacidad permanente de investigación e innovación sin desvincularla de su actividad productiva.',
+    incertidumbre:'Se desconoce si la disciplina de captura es sostenible con dedicación parcial, y a partir de qué volumen de datos el sistema empieza a devolver más de lo que cuesta.',
+    objetivos:'Implantar los cinco protocolos.\nMedir el efecto sobre productividad, conocimiento generado y negocio.\nDeterminar si el modelo es transferible a otras pymes.',
+    entregables:'Manual del sistema\nCinco protocolos operativos\nHerramienta de gestión\nInforme de validación',
+    trlIni:'4',trlAct:'4',trlObj:'7',responsable:'Dirección del Lab',ods:['8 Trabajo decente y crecimiento','9 Industria, innovación e infraestructura']});
+  const p02=add('proyectos',{codigo:'AIL-02',titulo:'IATT — Índice Arestora de Transformación Tecnológica del Puesto',lineaId:l4,tipo:'Metodológico',estado:'Idea',prioridad:'Alta',
+    resumen:'Metodología e índice que cuantifican qué proporción de un puesto es automatizable, aumentable mediante tecnología o esencialmente humana, con su impacto sobre carga, productividad y competencias.',
+    problema:'El debate sobre el impacto de la IA en el empleo se sostiene sobre estimaciones teóricas y encuestas de opinión. No hay mediciones de campo sobre puestos reales antes y después de introducir tecnología.',
+    hipotesis:'Es posible construir un índice reproducible que, a partir del inventario de tareas de un puesto y del tiempo dedicado a cada una, estime el porcentaje automatizable, aumentable y humano con acuerdo suficiente entre evaluadores.',
+    incertidumbre:'No se sabe si la clasificación de tareas alcanza fiabilidad entre evaluadores, ni si el índice predice el impacto observado seis meses después de introducir la tecnología.',
+    objetivos:'Definir el procedimiento de medición.\nValidar la fiabilidad entre evaluadores.\nConstruir el índice y contrastarlo con el impacto observado.',
+    entregables:'Manual metodológico\nPlantilla de inventario de tareas\nAlgoritmo de cálculo del índice\nInforme de validación con los primeros veinte casos',
+    trlIni:'2',trlAct:'2',trlObj:'5',responsable:'Referente de la Línea IV',ods:['8 Trabajo decente y crecimiento','9 Industria, innovación e infraestructura']});
+  const p03=add('proyectos',{codigo:'AIL-03',titulo:'ARESJOBS Intelligence',lineaId:l3,tipo:'Desarrollo experimental',estado:'Idea',prioridad:'Alta',
+    resumen:'Matching y predicción del éxito de contratación sobre datos propios, desarrollado conforme al Reglamento europeo de IA desde el diseño.',
+    problema:'La selección se apoya en criterio experto no formalizado y no se mide qué predice el éxito real de una contratación. Además, desde agosto de 2026 los sistemas de IA aplicados al empleo son de alto riesgo y casi ningún producto del sector lo ha resuelto.',
+    hipotesis:'Con datos propios de varios cientos de procesos al año es posible predecir la permanencia y el desempeño posterior mejor que con el criterio no asistido, manteniendo trazabilidad y control de sesgos.',
+    incertidumbre:'Se desconoce si el volumen y la calidad del histórico bastan para entrenar un modelo útil, y si el control de sesgos exigible degrada la capacidad predictiva.',
+    objetivos:'Construir el dataset de selección.\nDesarrollar el motor de matching explicable.\nDocumentar la conformidad con el Reglamento de IA.',
+    entregables:'Dataset\nMotor de matching\nDocumentación técnica de conformidad\nInforme de sesgos',
+    trlIni:'3',trlAct:'3',trlObj:'6',ods:['8 Trabajo decente y crecimiento','10 Reducción de desigualdades'],
+    notas:'Sistema de alto riesgo conforme al Anexo III del Reglamento (UE) 2024/1689. Arestora sería proveedor, no solo responsable del despliegue.'});
+  const p04=add('proyectos',{codigo:'AIL-04',titulo:'PAMEE Evidence',lineaId:l2,tipo:'Investigación aplicada',estado:'Idea',prioridad:'Media',
+    resumen:'Validación longitudinal de la eficacia del programa sobre bienestar y absentismo, con comparación entre organizaciones intervenidas y no intervenidas.',
+    problema:'El programa se vende por su lógica, no por su evidencia. No existe medición sistemática de su efecto ni del retorno económico.',
+    hipotesis:'La intervención produce una reducción medible del absentismo a doce meses, con efecto diferencial según el tamaño y el sector de la organización.',
+    incertidumbre:'No se sabe si es posible construir un grupo de comparación válido con clientes reales, ni cuánto del efecto es atribuible a la intervención frente a la evolución natural.',
+    objetivos:'Cerrar una primera cohorte T0-T1-T2.\nEstimar el efecto y su retorno.\nIdentificar predictores del absentismo.',
+    entregables:'Protocolo de medición\nDataset longitudinal\nInforme de resultados\nArtículo enviado a revista',
+    trlIni:'4',trlAct:'4',trlObj:'7',ods:['3 Salud y bienestar','8 Trabajo decente y crecimiento']});
+  add('proyectos',{codigo:'AIL-05',titulo:'Observatorio de Protección',lineaId:l1,tipo:'Investigación aplicada',estado:'Idea',prioridad:'Media',
+    resumen:'Indicadores de cumplimiento y eficacia preventiva en deporte, educación y administración local, con comparación entre entornos.',
+    problema:'El cumplimiento de la LOPIVI se mide por la existencia de documentos, no por su eficacia preventiva real.',
+    hipotesis:'El grado de implantación efectiva de las medidas, y no su mera formalización, se asocia a una menor incidencia de situaciones de riesgo.',
+    incertidumbre:'Se desconoce si la incidencia registrada es suficiente y suficientemente fiable para sostener el análisis, y cómo separar mayor detección de mayor incidencia.',
+    objetivos:'Definir indicadores de protección comparables entre entornos.\nConstruir la serie con los clubes y centros usuarios.',
+    entregables:'Batería de indicadores\nInforme anual de observatorio',
+    trlIni:'2',trlAct:'2',trlObj:'5',ods:['16 Paz y justicia','4 Educación de calidad']});
+  const p06=add('proyectos',{codigo:'AIL-06',titulo:'MIPROT — automatización documental con IA',lineaId:null,tipo:'Desarrollo experimental',estado:'En ejecución',prioridad:'Media',
+    resumen:'Automatización con inteligencia artificial de la generación y tratamiento documental de los servicios de consultoría. Primer antecedente documentado del tránsito hacia la infraestructura tecnológica transversal.',
+    problema:'Procesos manuales, dependencia del consultor, baja estandarización y problemas de trazabilidad y escalabilidad en la producción documental.',
+    hipotesis:'La generación asistida reduce de forma significativa el tiempo por documento y el retrabajo sin pérdida de calidad técnica.',
+    incertidumbre:'Grado de fiabilidad alcanzable en la extracción y generación sobre documentación heterogénea y poco estructurada.',
+    objetivos:'Elevar el TRL de 4 a 6.\nCuantificar el ahorro de tiempo y la reducción de retrabajo.',
+    entregables:'Prototipo funcional\nPiloto con KPIs\nInforme de resultados',
+    trlIni:'4',trlAct:'4',trlObj:'6',presupuesto:'',financiacion:'Solicitada a Igape Innova 2026, no concedida',
+    notas:'Cuantificar la situación de partida es prioritario: horas al año, minutos por documento, porcentaje de retrabajo y coste anual. Sin esas cifras el análisis previo no puntúa.'});
+
+  /* --- pilotos --- */
+  add('pilotos',{codigo:'PIL-01',titulo:'Primeros veinte casos de transformación tecnológica de puestos',proyectoId:p02,
+    organizacion:'Empresas cliente de DPT y peritajes',tipo:'Análisis organizativo',
+    objetivo:'Comprobar que el procedimiento de inventario y clasificación de tareas es aplicable en condiciones reales y alcanza fiabilidad suficiente entre evaluadores.',
+    variables:'Número de tareas por puesto\nTiempo dedicado por tarea\nClasificación automatizable / aumentable / humana\nAcuerdo entre evaluadores',
+    diseno:'Estudio de caso',estado:'Diseño',etica:'No requerido',n:20});
+  add('pilotos',{codigo:'PIL-02',titulo:'Cohorte longitudinal PAMEE',proyectoId:p04,organizacion:'Empresas con PAMEE implantado',
+    tipo:'Programa de bienestar y absentismo',
+    objetivo:'Medir el efecto del programa sobre absentismo y bienestar a doce y veinticuatro meses.',
+    variables:'Índice de absentismo\nBienestar percibido\nExperiencia del empleado\nRotación',
+    diseno:'Pre-post con grupo de comparación',estado:'Diseño',etica:'Pendiente de solicitar',
+    notas:'Requiere dictamen ético antes de iniciar la captura si se pretende publicar.'});
+
+  /* --- evidencias --- */
+  add('evidencias',{codigo:'E-01',titulo:'Memoria técnica MIPROT presentada a Igape Innova 2026',tipo:'Documento de proyecto',fecha:'2026-02-01',proyectoId:p06,
+    descripcion:'Memoria completa del proyecto de automatización documental con IA: objetivos, actividades, TRL 4 a 6, KPIs, presupuesto y piloto.',ubicacion:'Expediente IG408L 2026',verificable:'Sí'});
+  add('evidencias',{codigo:'E-02',titulo:'Estudio de absentismo con UVigo y USC',tipo:'Documento de proyecto',fecha:'2026-01-01',proyectoId:p04,lineaId:l2,
+    descripcion:'Investigación sobre absentismo realizada con dos universidades. Antecedente formal de la línea de bienestar y absentismo.',ubicacion:'Pendiente de localizar y archivar',verificable:'Parcialmente'});
+  add('evidencias',{codigo:'E-03',titulo:'Resolución IG408L 2026',tipo:'Ayuda concedida',fecha:'2026-08-01',
+    descripcion:'Resolución de la convocatoria: 50 puntos, posición 56 de 60 en lista de espera de la Línea 1. Corte del último financiado en 74 puntos.',ubicacion:'Notificación electrónica del expediente',verificable:'Sí',
+    notas:'Solicitar al IGAPE el desglose individual de la valoración criterio por criterio.'});
+
+  /* --- propiedad intelectual --- */
+  add('propiedad',{codigo:'PI-01',denominacion:'DeporteSeguro',tipo:'Marca',estado:'Sin proteger',ambito:'España',titular:'Grupo Arestora',
+    descripcion:'Denominación del vertical LOPIVI para clubes deportivos.',
+    notas:'DOS RIESGOS. Primero: existe la Fundación Española Deporte Seguro, entidad española activa desde 2018 en el mismo ámbito; aunque no tuviera marca registrada, un uso público anterior y notorio en el mismo sector permite oponerse a una solicitud posterior. Comprobar su expediente en la OEPM antes de nada. Segundo: «Deporte Seguro» es adjetivo más sustantivo en construcción ordinaria y describe literalmente el servicio, lo que da riesgo alto de objeción por el artículo 5.1.c) de la Ley 17/2001. La vía práctica es solicitarla en versión mixta con logotipo propio y clases bien acotadas, sabiendo que eso protege el conjunto y no impide a un competidor usar las palabras.'});
+  add('propiedad',{codigo:'PI-02',denominacion:'PAMEE',tipo:'Metodología',estado:'Sin proteger',ambito:'Interno, sin registro',titular:'Grupo Arestora',proyectoId:p04});
+  add('propiedad',{codigo:'PI-03',denominacion:'Índice Arestora de Transformación Tecnológica del Puesto (IATT)',tipo:'Índice o indicador',estado:'Identificado',ambito:'España',titular:'Grupo Arestora',proyectoId:p02,
+    descripcion:'Índice que cuantifica la proporción automatizable, aumentable y humana de un puesto de trabajo.'});
+  add('propiedad',{codigo:'PI-04',denominacion:'Arestora Segura',tipo:'Marca',estado:'Sin proteger',ambito:'España',titular:'Grupo Arestora',
+    notas:'Es el denominativo con mayor distintividad de todo el ecosistema: «Arestora» es término de fantasía y no tiene problema de descriptividad. Prioridad de registro alta, precisamente por ser el que sí se puede defender.'});
+  add('propiedad',{codigo:'PI-05',denominacion:'EmpleoSeguro',tipo:'Marca',estado:'Sin proteger',ambito:'España',titular:'Grupo Arestora',
+    notas:'Mismo problema de descriptividad que DeporteSeguro: describe el destino y la cualidad del servicio en el sector de RRHH. Además existen Empleo Seguro S.A. en Argentina y Empleo Seguro en Chile, esta última dedicada a selección; fuera de territorio, pero relevante si alguna vez presentaron marca de la UE o internacional.'});
+  add('propiedad',{codigo:'PI-06',denominacion:'AresJobs',tipo:'Marca',estado:'Sin proteger',ambito:'España',titular:'Grupo Arestora',
+    notas:'Sin problema de descriptividad. El riesgo aquí no es la identidad literal sino la similitud: hay numerosas marcas con el elemento «Ares» en varios sectores, y eso solo lo detecta una búsqueda fonética de similitud en TMview, no una búsqueda literal.'});
+  add('propiedad',{codigo:'PI-07',denominacion:'PAMEE',tipo:'Marca',estado:'Sin proteger',ambito:'España',titular:'Grupo Arestora',
+    notas:'Acrónimo de fantasía, buena distintividad y sin huella pública de terceros. De las marcas del ecosistema es la más despejada, junto con ConcelloSeguro.'});
+
+  /* --- convocatorias --- */
+  add('convocatorias',{codigo:'CV-01',nombre:'Igape Innova 2026 — Línea 1',organismo:'IGAPE · Xunta de Galicia',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Línea 1. Planes de innovación en procesos y organización',proyectoId:p06,estado:'Lista de espera',obtenida:50,corte:74,
+    cierre:'2026-02-16',presupMin:50000,presupMax:250000,intensidad:'50 % para pyme, entre 25.000 y 125.000 € de subvención',
+    url:'https://www.xunta.gal/dog/Publicados/2026/20260116/AnuncioO92-141225-0003_es.html',
+    objeto:'Planes de innovación en procesos y organización. Las bases incluyen expresamente entre sus ejemplos la creación de departamentos de I+D+i, el diseño de nuevos procesos de organización y la validación mediante pilotos de nuevos métodos de gestión del conocimiento y de recursos humanos.',
+    requisitos:'Presupuesto entre 50.000 y 250.000 €. Personal propio hasta el 60 % del coste. Subcontratación hasta el 50 % de los costes directos. Costes indirectos del 20 %. No son elegibles la formación, el cumplimiento de normativa obligatoria ni la implantación de soluciones digitales no innovadoras.',
+    notas:'RESUELTO: es una única convocatoria con dos anualidades presupuestarias, no dos ventanas de solicitud. El plazo fue del 17/01/2026 al 17/02/2026 y está cerrado; los 2 M€ de 2027 pagan los proyectos ya concedidos y el «2027» designa además el plazo de ejecución de los planes de dos anualidades. Las bases habilitan al IGAPE a convocar de nuevo, pero no programan nada para 2027 y esa anualidad ya está comprometida. Vigilar el DOG la primera quincena de enero de 2027 sin planificar sobre esa hipótesis. Se conserva el baremo porque es el espejo más útil de qué considera acreditable un evaluador.',
+    criterios:[
+      {codigo:'1.1.a',nombre:'Análisis previo de la situación o problema',max:10,auto:4,texto:'Situación de partida descrita cualitativamente. Falta cuantificarla: horas al año, minutos por documento, porcentaje de retrabajo, volumen anual y coste en euros.',evidencias:[]},
+      {codigo:'1.1.b',nombre:'Definición de actividades frente a objetivos de innovación',max:5,auto:3,texto:'',evidencias:[]},
+      {codigo:'1.1.c',nombre:'Definición de actividades frente a objetivos de sostenibilidad',max:5,auto:2,texto:'',evidencias:[]},
+      {codigo:'1.2.a',nombre:'Transversalidad y transferencia entre sectores',max:10,auto:4,texto:'La memoria declaraba uso exclusivamente interno mientras defendía la transferibilidad. Es una contradicción que penaliza. Corregir con vocación explícita de transferencia y un plan concreto.',evidencias:[]},
+      {codigo:'1.2.b',nombre:'Grado de madurez y nivel tecnológico',max:10,auto:6,texto:'TRL 4 a 6 declarado con IA y automatización.',evidencias:[]},
+      {codigo:'1.3.a',nombre:'Viabilidad técnica y económica',max:10,auto:6,texto:'',evidencias:[]},
+      {codigo:'1.3.b',nombre:'Descripción de aspectos clave y entregables',max:5,auto:3,texto:'',evidencias:[]},
+      {codigo:'1.3.c',nombre:'Coherencia de organización y planificación',max:5,auto:3,texto:'',evidencias:[]},
+      {codigo:'2.a',nombre:'Viabilidad y ratio inversión-facturación',max:10,auto:6,texto:'',evidencias:[]},
+      {codigo:'2.b',nombre:'Coherencia económica del presupuesto',max:5,auto:2,texto:'Subcontratación declarada de 85.000 € frente a una oferta de proveedor de 188.500 € para un alcance mayor. Toda discrepancia entre memoria, presupuesto y ofertas debe estar explicada.',evidencias:[]},
+      {codigo:'2.c.1',nombre:'Capacidad técnica de la entidad: experiencia en I+D+i',max:7.5,auto:2,texto:'Se afirmaba trayectoria en I+D+i y se acreditaban metodologías y proyectos de recursos humanos. No hay atajo de redacción: solo se corrige con acreditación real.',evidencias:[]},
+      {codigo:'2.c.2',nombre:'Capacidad del equipo humano en proyectos de I+D+i',max:7.5,auto:2,texto:'',evidencias:[]},
+      {codigo:'3.a',nombre:'Indicadores cuantificables, KPI y TRL',max:5,auto:3,texto:'',evidencias:[]},
+      {codigo:'3.b',nombre:'Adecuación a los objetivos de desarrollo sostenible',max:5,auto:2,texto:'',evidencias:[]}
+    ]});
+  add('convocatorias',{codigo:'CV-02',nombre:'Deducción fiscal por I+D+i',organismo:'AEAT · Ministerio de Ciencia',ambito:'Nacional',instrumento:'Deducción fiscal',
+    estado:'En vigilancia',
+    objeto:'Deducción en el impuesto de sociedades por actividades de investigación, desarrollo e innovación tecnológica. No compite con nadie ni depende de convocatoria.',
+    requisitos:'Proyectos documentados conforme a estándar. Para seguridad jurídica plena, certificación del proyecto por entidad acreditada e informe motivado vinculante del Ministerio.',
+    notas:'Vía de financiación más accesible para el Lab. La misma documentación que acredita capacidad ante el IGAPE sirve para deducir. Confirmar porcentajes y requisitos vigentes con la asesoría fiscal.',
+    criterios:[
+      {codigo:'D.1',nombre:'Proyecto documentado con objetivos, hipótesis e incertidumbre',max:10,auto:3,texto:'',evidencias:[]},
+      {codigo:'D.2',nombre:'Imputación de horas y costes trazable',max:10,auto:1,texto:'',evidencias:[]},
+      {codigo:'D.3',nombre:'Certificación del proyecto por entidad acreditada',max:10,auto:0,texto:'',evidencias:[]}
+    ]});
+  add('convocatorias',{codigo:'CV-03',nombre:'Certificación UNE 166002 — sistema de gestión de la I+D+i',organismo:'Entidad certificadora acreditada',ambito:'Nacional',instrumento:'Certificación',
+    estado:'En vigilancia',
+    objeto:'Certifica que la organización dispone de un sistema para gestionar la I+D+i: vigilancia, identificación de ideas, cartera, seguimiento y protección de resultados. Es exactamente lo que el Innovation Lab está creando.',
+    notas:'Convierte la creación del departamento en un activo acreditable ante cualquier evaluador y es una de las vías de acceso al Registro de PYME Innovadora. Confirmar requisitos y coste con la entidad certificadora.',
+    criterios:[
+      {codigo:'U.1',nombre:'Política y objetivos de I+D+i documentados',max:10,auto:2,texto:'',evidencias:[]},
+      {codigo:'U.2',nombre:'Cartera de proyectos con seguimiento',max:10,auto:4,texto:'',evidencias:[]},
+      {codigo:'U.3',nombre:'Órgano de gobierno y actas',max:10,auto:1,texto:'',evidencias:[]},
+      {codigo:'U.4',nombre:'Protección y explotación de resultados',max:10,auto:2,texto:'',evidencias:[]}
+    ]});
+
+
+  add('convocatorias',{codigo:'CV-04',nombre:'Ticket Innova — IG408K',organismo:'IGAPE · Xunta de Galicia',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Contratación de servicios externos de innovación',estado:'En preparación',
+    cierre:'2026-09-30',presupMin:5000,presupMax:37500,intensidad:'80 % de subvención, entre 4.000 y 30.000 €',
+    url:'https://www.xunta.gal/dog/Publicados/2026/20260116/AnuncioO92-111225-0003_es.html',
+    objeto:'Financia la contratación de servicios externos de innovación por parte de pymes. Entre las modalidades subvencionables figuran expresamente la certificación de deducciones fiscales por I+D+i, la estrategia y gestión de la innovación, la preparación de propuestas de financiación europea, la protección del conocimiento y el diagnóstico de madurez del dato.',
+    requisitos:'Pyme con centro de trabajo en Galicia. Concurrencia NO competitiva: se resuelve por orden de llegada hasta agotar el crédito de 1.000.000 €.',
+    notas:'ES LA ACCIÓN MÁS URGENTE DEL DEPARTAMENTO. No compite con nadie, cubre el 80 % y financia exactamente lo que al Lab le falta: la certificación que abre la deducción fiscal por I+D+i. Cierra el 30/09/2026 y el crédito puede agotarse antes. Confirmar por teléfono (900 81 51 51) si queda crédito y si se ha ampliado el plazo, como se hizo con IG402A el 4/08/2026.',
+    criterios:[
+      {codigo:'T.1',nombre:'Servicio contratado dentro de las modalidades elegibles',max:10,auto:9,texto:'Certificación de deducciones fiscales I+D+i y estrategia de gestión de la innovación están expresamente incluidas.',evidencias:[]},
+      {codigo:'T.2',nombre:'Presupuesto dentro de horquilla (5.000 a 37.500 €)',max:10,auto:8,texto:'',evidencias:[]},
+      {codigo:'T.3',nombre:'Presentación temprana: se resuelve por orden de llegada',max:10,auto:0,texto:'Sin presentar. Cada semana de retraso es riesgo de agotamiento del crédito.',evidencias:[]}
+    ]});
+  add('convocatorias',{codigo:'CV-05',nombre:'Re-acciona — IG402A',organismo:'IGAPE · Xunta de Galicia',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Servicios modulares de asesoramiento especializado',estado:'En vigilancia',
+    cierre:'2026-11-16',intensidad:'80 % en especie: el IGAPE paga al consultor y la empresa aporta el 20 %',
+    url:'https://www.xunta.gal/dog/Publicados/2026/20260116/AnuncioO92-171225-0004_es.html',
+    objeto:'Asesoramiento por entidades colaboradoras preseleccionadas. Módulos de interés: protección de la innovación, financiación de la innovación, cumplimiento y riesgo legal, gestión del talento, diseño innovador de producto y servicio.',
+    requisitos:'Pyme con centro de trabajo en Galicia y al menos 3 empleados. Plazo abierto desde el 26/01/2026 tras la ampliación de 4 de agosto de 2026.',
+    notas:'Complementaria del Ticket Innova, con distinto procedimiento y distintos servicios. El módulo de protección de la innovación encaja con lo que hay que hacer con las marcas.'});
+  add('convocatorias',{codigo:'CV-06',nombre:'Ciencia-Empresa — IN852F',organismo:'GAIN · Xunta de Galicia',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Proyectos individuales de I+D de pyme',estado:'En vigilancia',
+    presupMin:100000,presupMax:500000,intensidad:'Hasta el 60 % en investigación industrial y el 50 % en desarrollo experimental para pequeña empresa',
+    url:'https://www.xunta.gal/dog/Publicados/2026/20260325/AnuncioG0198-050326-0001_gl.html',
+    objeto:'Proyectos de I+D individuales de pymes alineados con la RIS3 Galicia, cofinanciados con FEDER. No exige consorcio.',
+    requisitos:'Pyme con centro de trabajo en Galicia. Presupuesto entre 100.000 y 500.000 €. Se permite subcontratar hasta el 50 %, y subcontratar al menos un 15 % a universidades u organismos de investigación PUNTÚA.',
+    notas:'Es el instrumento autonómico de I+D más alcanzable para nuestro perfil, y el sustituto natural del IG408L. La convocatoria 2026 cerró en abril; reapertura estimada en marzo de 2027, sin confirmar. La subcontratación a UVigo o USC compensa la ausencia de departamento científico propio y además puntúa: encaja con el convenio que hay que firmar de todos modos. Preparar la memoria durante 2026.'});
+  add('convocatorias',{codigo:'CV-07',nombre:'Nexos — IN852A (antes Conecta Peme)',organismo:'GAIN · Xunta de Galicia',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Proyectos colaborativos de I+D+i',estado:'En vigilancia',
+    url:'https://www.xunta.gal/dog/Publicados/2025/20250812/AnuncioG0198-290725-0002_es.html',
+    objeto:'Proyectos en cooperación entre pymes y agentes del sistema gallego de innovación, orientados a mercado y alineados con la RIS3.',
+    notas:'La convocatoria 2025 se publicó el 12 de agosto y abrió al día siguiente. Si se repite la cadencia, la de 2026 sería inminente: vigilar el DOG semanalmente durante agosto y septiembre. Conecta Peme ya no existe con ese nombre.'});
+  add('convocatorias',{codigo:'CV-08',nombre:'Línea Directa de Innovación',organismo:'CDTI',ambito:'Nacional',instrumento:'Préstamo',
+    modalidad:'Innovación tecnológica aplicada',estado:'En vigilancia',
+    presupMin:175000,intensidad:'Hasta el 75 % del presupuesto, con tramo no reembolsable del 7 al 10 %',
+    url:'https://www.cdti.es/ayudas/linea-directa-de-innovacion',
+    objeto:'Proyectos de innovación tecnológica cercanos a mercado con incorporación de tecnología emergente. Convocatoria abierta todo el año.',
+    notas:'Puerta de entrada razonable al CDTI: exige innovación, no investigación de frontera. El umbral de 175.000 € de presupuesto es el filtro real y se alcanza agregando el coste de personal de un desarrollo plurianual. Es esencialmente préstamo, no subvención.'});
+  add('convocatorias',{codigo:'CV-09',nombre:'Doutoramentos Industriais — IN606D',organismo:'GAIN y Consellería de Educación',ambito:'Autonómico',instrumento:'Subvención',
+    modalidad:'Contratación de doctorandos en empresa',estado:'En vigilancia',
+    url:'https://www.xunta.gal/dog/Publicados/2026/20260227/AnuncioG0761-200126-0001_gl.html',
+    objeto:'Formación de doctores de universidades gallegas dentro de la empresa, con tutela universitaria. La convocatoria 2026 fueron 15 contratos y más de 2,6 M€.',
+    notas:'La vía más eficiente para incorporar perfil investigador sin crear un departamento científico. Cerró en marzo de 2026; reapertura estimada en febrero o marzo de 2027. Requiere acordar la línea de tesis con un grupo de UVigo, USC o UDC con bastante antelación: es trabajo que hay que empezar ahora, no en febrero.'});
+
+  /* --- actas --- */
+  add('actas',{codigo:'AC-01',titulo:'Sesión constitutiva del Arestora Innovation Lab',fecha:'2026-09-01',tipo:'Comité de Innovación',
+    orden:'Constitución formal del departamento.\nDesignación de roles y dedicaciones.\nAprobación de la cartera inicial de proyectos.\nCalendario del último cuatrimestre.',
+    acuerdos:'Pendiente de celebrar. Este registro queda abierto para cumplimentarse el día de la sesión.',
+    notas:'El acta con fecha y decisiones es una de las evidencias que acreditan el sistema de gestión de la I+D+i.'});
+
+  return d;
+}
+
+/* ============================ arranque ============================ */
+function initTheme(){
+  const saved=(()=>{try{return localStorage.getItem(KEY+'-theme')}catch(e){return null}})();
+  const t=saved||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  setTheme(t);
+}
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  $('#btnTheme').textContent=t==='dark'?'Cambiar a modo claro':'Cambiar a modo oscuro';
+  try{localStorage.setItem(KEY+'-theme',t)}catch(e){}
+}
+$('#btnTheme').onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+
+bootstrap().then(()=>{
+  /* Si la app vive dentro del Hub, el catálogo manda sobre la copia local. */
+  if(typeof leerCatalogoDelHub==='function'){
+    leerCatalogoDelHub().then(r=>{
+      if(r){buildNav();render();toast('Catálogo del Hub leído: '+r.actualizadas+' herramientas sincronizadas'+(r.nuevas?' y '+r.nuevas+' nuevas':''))}
+    });
+  }
+});
+window.addEventListener('beforeunload',e=>{if(memoryOnly&&!CLOUD){e.preventDefault();e.returnValue=''}});
+</script>
+</body>
+</html>
