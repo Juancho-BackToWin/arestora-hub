@@ -1,8 +1,11 @@
 // Service worker del Arestora Hub. Estrategia: red primero, caché como respaldo.
 // Así el móvil siempre intenta traer la última versión, pero sigue funcionando sin cobertura.
-const CACHE = 'arestora-hub-7f5a0c3d6ebe';
+const CACHE = 'arestora-hub-icon-b1';
 self.addEventListener('install', e => { self.skipWaiting();
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', './index.html', './manifest.json']).catch(()=>{}))); });
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll([
+    './hub.html', './manifest.json', './favicon.svg',
+    './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png'
+  ]).catch(()=>{}))); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
     .then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))
@@ -17,5 +20,5 @@ self.addEventListener('fetch', e => {
       const copia = r.clone();
       caches.open(CACHE).then(c => c.put(req, copia)).catch(()=>{});
       return r;
-    }).catch(() => caches.match(req).then(r => r || caches.match('./index.html'))));
+    }).catch(() => caches.match(req).then(r => r || caches.match('./hub.html'))));
 });
