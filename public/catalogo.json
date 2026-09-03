@@ -1,0 +1,353 @@
+{
+ "meta": {
+  "marca": "Arestora Hub",
+  "organizacion": "Grupo Arestora",
+  "version": "3.6",
+  "actualizado": "2026-09-03",
+  "roles": {
+   "admin": "Dirección de Grupo Arestora",
+   "gestor": "Equipo interno de Arestora",
+   "cliente": "Entidad contratante",
+   "rb": "Responsable de Bienestar (deporte)",
+   "cbp": "Coordinador de Bienestar y Protección (educación)",
+   "candidato": "Persona candidata (AresJobs)",
+   "empresa": "Empresa que publica ofertas (AresJobs)"
+  },
+  "nota_permisos": "El campo 'acceso' es informativo en el Hub. La autorización real la valida cada herramienta en su propio backend: el Hub es escaparate, no puerta.",
+  "generado": "2026-09-03"
+ },
+ "estados": {
+  "activo": {
+   "etiqueta": "ACTIVO",
+   "orden": 1
+  },
+  "en_proceso": {
+   "etiqueta": "EN PROCESO",
+   "orden": 2
+  },
+  "proximamente": {
+   "etiqueta": "PRÓXIMAMENTE",
+   "orden": 3
+  },
+  "idea": {
+   "etiqueta": "IDEA",
+   "orden": 4
+  },
+  "archivado": {
+   "etiqueta": "ARCHIVADO",
+   "orden": 5
+  }
+ },
+ "espacios": [
+  {
+   "id": "arestora-segura",
+   "nombre": "Arestora Segura®",
+   "descripcion": "Bienestar y protección de menores — verticales sectoriales LOPIVI",
+   "color": "#1B4FD8",
+   "logo": "arestora-segura",
+   "herramientas": [
+    {
+     "id": "deporteseguro",
+     "nombre": "DeporteSeguro®",
+     "descripcion": "Protección de menores en entidades deportivas. Cumplimiento LOPIVI.",
+     "sector": "Clubes y entidades deportivas",
+     "estado": "activo",
+     "color": "#C4520A",
+     "logo": "deporteseguro",
+     "url": "https://backtowin-chatbot.vercel.app",
+     "stack": "Next.js + Vercel + Supabase",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente",
+      "rb"
+     ]
+    },
+    {
+     "id": "educaseguro",
+     "nombre": "EducaSeguro®",
+     "descripcion": "Protección de menores en centros educativos y colegios.",
+     "sector": "Colegios y centros educativos",
+     "estado": "activo",
+     "color": "#5DBE2E",
+     "logo": "educaseguro",
+     "url": "https://educaseguro-app.vercel.app",
+     "stack": "Next.js + Vercel + Supabase",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente",
+      "cbp"
+     ]
+    },
+    {
+     "id": "concelloseguro",
+     "nombre": "ConcelloSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a concellos y ayuntamientos: escuelas deportivas, ludotecas, campamentos municipales y servicios sociales bajo un mismo plan.",
+     "sector": "Administración local",
+     "estado": "proximamente",
+     "color": "#0F7B4F",
+     "logo": "concelloseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin"
+     ]
+    },
+    {
+     "id": "ocioseguro",
+     "nombre": "OcioSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a empresas de ocio y tiempo libre: monitores por proyecto, actividades puntuales y alta rotación de personal.",
+     "sector": "Ocio y tiempo libre",
+     "estado": "proximamente",
+     "color": "#D69A0B",
+     "logo": "ocioseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin"
+     ]
+    },
+    {
+     "id": "campamentoseguro",
+     "nombre": "CampamentoSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a campamentos y colonias: convivencia, pernocta y equipos contratados por temporada.",
+     "sector": "Campamentos y colonias",
+     "estado": "proximamente",
+     "color": "#0E7C86",
+     "logo": "campamentoseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin"
+     ]
+    },
+    {
+     "id": "extraescolarseguro",
+     "nombre": "ExtraescolarSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a actividades extraescolares: personal ajeno al centro educativo y grupos que cambian cada trimestre.",
+     "sector": "Actividades extraescolares",
+     "estado": "proximamente",
+     "color": "#8A4FBF",
+     "logo": "extraescolarseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin"
+     ]
+    },
+    {
+     "id": "socialseguro",
+     "nombre": "SocialSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a entidades sociales y ONGs: voluntariado, menores en situación de vulnerabilidad y justificación ante financiación pública.",
+     "sector": "Tercer sector y ONGs",
+     "estado": "proximamente",
+     "color": "#B8452F",
+     "logo": "socialseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin"
+     ]
+    },
+    {
+     "id": "fitnessseguro",
+     "nombre": "FitnessSeguro®",
+     "descripcion": "El sistema LOPIVI adaptado a gimnasios y centros deportivos privados: acceso libre, vestuarios y entrenadores por cuenta propia.",
+     "sector": "Gimnasios y centros fitness",
+     "estado": "proximamente",
+     "color": "#F0B400",
+     "logo": "fitnessseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente",
+      "rb"
+     ],
+     "notas": "Vertical nueva, alta el 2 de septiembre de 2026. Sin repositorio todavía."
+    }
+   ]
+  },
+  {
+   "id": "igualdad-segura",
+   "nombre": "IgualdadSegura®",
+   "descripcion": "Planes de Igualdad automatizados para empresas",
+   "color": "#7B3FBF",
+   "logo": "",
+   "herramientas": [
+    {
+     "id": "igualdadsegura",
+     "nombre": "IgualdadSegura®",
+     "descripcion": "Elaboración automatizada de Planes de Igualdad con asistencia técnica de Grupo Arestora.",
+     "sector": "Empresas obligadas a Plan de Igualdad",
+     "estado": "en_proceso",
+     "color": "#7B3FBF",
+     "logo": "",
+     "emoji": "⚖️",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente"
+     ],
+     "logo_src": ""
+    }
+   ],
+   "logo_src": ""
+  },
+  {
+   "id": "empleo",
+   "nombre": "EmpleoSeguro®",
+   "descripcion": "Sello de calidad en empleo responsable",
+   "color": "#1F7A3D",
+   "logo": "empleoseguro",
+   "herramientas": [
+    {
+     "id": "empleoseguro",
+     "nombre": "EmpleoSeguro®",
+     "descripcion": "Sello de calidad en empleo derivado de la implantación del PAMEE.",
+     "sector": "Empresas empleadoras",
+     "estado": "en_proceso",
+     "color": "#1F7A3D",
+     "logo": "empleoseguro",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aresjobs",
+   "nombre": "AresJobs",
+   "descripcion": "Plataforma de empleo y empleabilidad — conectamos talento, impulsamos futuro",
+   "color": "#1A56DB",
+   "logo": "aresjobs",
+   "herramientas": [
+    {
+     "id": "aresjobs",
+     "nombre": "AresJobs",
+     "descripcion": "Portal de empleo nacional con IA de matching, Ares Score™ y Career Coach. Base de datos de talento para los procesos de selección de Grupo Arestora.",
+     "sector": "Empleo y empleabilidad",
+     "estado": "proximamente",
+     "color": "#1A56DB",
+     "logo": "aresjobs",
+     "url": "",
+     "stack": "",
+     "acceso": [
+      "admin",
+      "gestor",
+      "candidato",
+      "empresa"
+     ],
+     "notas": "Sin código todavía: solo especificación funcional. Fase 0 a la espera de acceso a la API de Odoo CRM y al TMS."
+    }
+   ]
+  },
+  {
+   "id": "comercial-arestora",
+   "nombre": "Comercial Arestora",
+   "descripcion": "Herramientas para el área comercial de Grupo Arestora",
+   "color": "#A8175E",
+   "logo": "comercial-arestora",
+   "herramientas": [
+    {
+     "id": "radararestora",
+     "nombre": "Radar Arestora",
+     "descripcion": "Detecta procesos de selección abiertos y localiza a quién contactar en cada empresa.",
+     "sector": "Interno · área comercial",
+     "estado": "en_proceso",
+     "color": "#A8175E",
+     "logo": "radararestora",
+     "url": "",
+     "stack": "Local · 127.0.0.1:8730 · v1.0",
+     "acceso": [
+      "admin",
+      "gestor"
+     ],
+     "notas": "Corre solo en local (127.0.0.1:8730, v1.0). Sin despliegue público no puede pasar a Activo. Módulos operativos: Hoy, Leads, Embudo comercial y Agenda."
+    }
+   ]
+  },
+  {
+   "id": "innovation-lab",
+   "nombre": "Innovation Lab",
+   "descripcion": "Departamento de I+D+i. Convierte la actividad de las apps del ecosistema en preguntas, hallazgos y mejoras.",
+   "color": "#3B3FB6",
+   "logo": "innovationlab",
+   "herramientas": [
+    {
+     "id": "innovationlab",
+     "nombre": "Innovation Lab",
+     "logo": "innovationlab",
+     "descripcion": "Catálogo de apps, banco de preguntas de investigación, hallazgos y mejoras aplicadas al producto. Es la fuente de este catálogo.",
+     "sector": "Transversal · I+D+i",
+     "estado": "proximamente",
+     "color": "#3B3FB6",
+     "url": "",
+     "stack": "HTML autocontenido · Supabase opcional",
+     "acceso": [
+      "admin",
+      "gestor"
+     ],
+     "notas": "Planteado, sin construir. Vive como proyecto aparte en Claude."
+    },
+    {
+     "id": "arestoradatacore",
+     "nombre": "Arestora Data Core",
+     "emoji": "🗄",
+     "descripcion": "Capa común de datos: modelo canónico de siete entidades, entorno de investigación separado del operativo y pseudonimización.",
+     "sector": "Transversal · infraestructura",
+     "estado": "proximamente",
+     "color": "#0F5C63",
+     "url": "",
+     "stack": "Por definir · PostgreSQL",
+     "acceso": [
+      "admin",
+      "gestor"
+     ],
+     "logo_src": ""
+    },
+    {
+     "id": "herramientapuestos",
+     "nombre": "Herramienta de Puestos",
+     "emoji": "📐",
+     "descripcion": "Inventario de tareas, tiempos y clasificación automatizable, aumentable o humana. Calcula el índice IATT y sostiene los peritajes organizativos.",
+     "sector": "Empresa · organización",
+     "estado": "proximamente",
+     "color": "#A4441C",
+     "url": "",
+     "stack": "Next.js · Vercel · Supabase",
+     "acceso": [
+      "admin",
+      "gestor",
+      "cliente"
+     ],
+     "logo_src": ""
+    },
+    {
+     "id": "miprot",
+     "nombre": "MIPROT",
+     "emoji": "⚙",
+     "descripcion": "Automatización con IA de la generación y el tratamiento documental de los servicios de consultoría.",
+     "sector": "Interno",
+     "estado": "en_proceso",
+     "color": "#4A3AA7",
+     "url": "",
+     "stack": "IA · automatización documental",
+     "acceso": [
+      "admin",
+      "gestor"
+     ],
+     "logo_src": ""
+    }
+   ]
+  }
+ ]
+}
