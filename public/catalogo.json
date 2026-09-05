@@ -2,8 +2,8 @@
  "meta": {
   "marca": "Arestora Hub",
   "organizacion": "Grupo Arestora",
-  "version": "3.6",
-  "actualizado": "2026-09-03",
+  "version": "3.7",
+  "actualizado": "2026-09-05",
   "roles": {
    "admin": "Dirección de Grupo Arestora",
    "gestor": "Equipo interno de Arestora",
@@ -14,7 +14,7 @@
    "empresa": "Empresa que publica ofertas (AresJobs)"
   },
   "nota_permisos": "El campo 'acceso' es informativo en el Hub. La autorización real la valida cada herramienta en su propio backend: el Hub es escaparate, no puerta.",
-  "generado": "2026-09-03"
+  "generado": "2026-09-05"
  },
  "estados": {
   "activo": {
@@ -262,16 +262,16 @@
      "nombre": "Radar Arestora",
      "descripcion": "Detecta procesos de selección abiertos y localiza a quién contactar en cada empresa.",
      "sector": "Interno · área comercial",
-     "estado": "en_proceso",
+     "estado": "activo",
      "color": "#A8175E",
      "logo": "radararestora",
-     "url": "",
-     "stack": "Local · 127.0.0.1:8730 · v1.0",
+     "url": "https://radar-arestora.vercel.app",
+     "stack": "Next.js + Vercel + Supabase",
      "acceso": [
       "admin",
       "gestor"
      ],
-     "notas": "Corre solo en local (127.0.0.1:8730, v1.0). Sin despliegue público no puede pasar a Activo. Módulos operativos: Hoy, Leads, Embudo comercial y Agenda."
+     "notas": "Acceso con cuenta: la aplicación pide identificarse antes de entrar."
     }
    ]
   },
