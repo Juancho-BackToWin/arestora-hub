@@ -2,8 +2,8 @@
  "meta": {
   "marca": "Arestora Hub",
   "organizacion": "Grupo Arestora",
-  "version": "3.9",
-  "actualizado": "2026-09-06",
+  "version": "4.0",
+  "actualizado": "2026-11-15",
   "roles": {
    "admin": "Dirección de Grupo Arestora",
    "gestor": "Equipo interno de Arestora",
@@ -14,7 +14,7 @@
    "empresa": "Empresa que publica ofertas (AresJobs)"
   },
   "nota_permisos": "El campo 'acceso' es informativo en el Hub. La autorización real la valida cada herramienta en su propio backend: el Hub es escaparate, no puerta.",
-  "generado": "2026-09-06"
+  "generado": "2026-11-15"
  },
  "estados": {
   "activo": {
@@ -270,8 +270,8 @@
   },
   {
    "id": "comercial-arestora",
-   "nombre": "Comercial Arestora",
-   "descripcion": "Herramientas para el área comercial de Grupo Arestora",
+   "nombre": "Comercial y Marketing Arestora",
+   "descripcion": "Captación comercial y marketing de Grupo Arestora: leads, publicaciones automáticas y su control",
    "color": "#A8175E",
    "logo": "comercial-arestora",
    "herramientas": [
@@ -290,6 +290,21 @@
       "gestor"
      ],
      "notas": "Acceso con cuenta: la aplicación pide identificarse antes de entrar."
+    },
+    {
+     "id": "tareas-programadas",
+     "nombre": "Cuadro de mando de tareas programadas",
+     "descripcion": "Todas las automatizaciones de marketing en un solo sitio (blog, LinkedIn, Perfil de Google, web, Innovation Lab, prensa y Meta Ads), con para qué sirve cada una, si está funcionando y qué riesgos o cambios tiene pendientes. Avisa al móvil cuando algo se para.",
+     "sector": "Interno · comercial y marketing",
+     "estado": "en_proceso",
+     "color": "#A8175E",
+     "emoji": "📊",
+     "url": "",
+     "stack": "Página de claude.ai + vigilante programado",
+     "acceso": [
+      "admin"
+     ],
+     "notas": "PENDIENTE: enlazar la página del cuadro de mando cuando el vigilante la publique."
     }
    ]
   },
