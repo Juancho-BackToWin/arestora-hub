@@ -1,0 +1,1145 @@
+{
+ "generado": "2026-11-16T20:54:13+00:00",
+ "ultima_revision": "2026-11-16T20:10:00+01:00",
+ "nota": "No hay resumen local: la comprobación de TEC12 de hoy (19:48) duró 4 s. TEC12 está conectado desde las 18:16, pero las tareas que usan sus carpetas terminan en 3-4 s.",
+ "fichas": [
+  {
+   "id": "trig_01VNe23DWvzdhM7E8eEvuB8u",
+   "nombre": "Blog Arestora — jueves (Guía de decisión) · TEC12",
+   "corto": "Blog jueves · guía",
+   "categoria": "Blog y web",
+   "proposito": "Cada jueves escribe y deja en cola una guía que ayuda a decidir (contratar fuera o dentro, cómo elegir proveedor…)",
+   "frecuencia": "Jueves 7:43",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
+   "necesita_ok": false,
+   "evidencia": "Post nuevo en wp-json con fecha de hoy, o fila PENDIENTE_PUBLICAR en registro-publicados.csv",
+   "riesgos": [
+    "TEC12 apagado",
+    "cola de guías sin propuestas"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el jueves 19/11",
+   "proxima": "2026-11-19T06:43:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01Sb2EDNiujyAnpZKdr2S2Cr",
+   "nombre": "Blog Arestora — post de LinkedIn en la página · TEC12",
+   "corto": "Blog → LinkedIn página",
+   "categoria": "LinkedIn · página Grupo Arestora y AMS",
+   "proposito": "Programa en la página de Grupo Arestora el post de cada artículo nuevo del blog y deja el primer comentario con el enlace",
+   "frecuencia": "Lunes a viernes, 12:17 y 17:17",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
+   "necesita_ok": false,
+   "evidencia": "Filas de linkedin-blog-pendientes.csv que pasan a PROGRAMADO_ / PUBLICADO_",
+   "riesgos": [
+    "artículo sin linkedin.txt",
+    "LinkedIn pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: el post del artículo de hoy queda sin programar en la página",
+   "proxima": "2026-11-17T11:17:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:11Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_016B6f4NtWnoXB3sjXasLsiq",
+   "nombre": "Web · cifra de reseñas de Google (lunes) · TEC12",
+   "corto": "Cifra de reseñas en la web",
+   "categoria": "Blog y web",
+   "proposito": "Cada lunes copia la nota y el número de reseñas de Google a la web (barra superior, portada, selección, llms.txt)",
+   "frecuencia": "Lunes 12:47",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "La barra de la portada muestra «N,N · TOTAL opiniones» y no «+800»",
+   "riesgos": [
+    "dos lunes seguidos sin correr: la web vuelve sola a «+800»"
+   ],
+   "semaforo": "rojo",
+   "motivo": "Corrió a las 18:16 solo 3 s. La web sigue mostrando la cifra de opiniones de la semana pasada",
+   "proxima": "2026-11-23T11:47:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:22Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01TmBKmLSCiK6fsYPzc2MQEb",
+   "nombre": "Actualidad web ← LinkedIn · TEC12",
+   "corto": "Actualidad ← LinkedIn",
+   "categoria": "Blog y web",
+   "proposito": "Cada día pasa a la sección Actualidad de la web las publicaciones de LinkedIn que cuentan actividad de Arestora (charlas, alianzas, eventos)",
+   "frecuencia": "Todos los días 11:07",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Si hubo actividad nueva: fila en actividad\\pendientes-actividad.csv y noticia en /actualidad/",
+   "riesgos": [
+    "LinkedIn pide sesión",
+    "tarea de Windows parada"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
+   "proxima": "2026-11-17T10:07:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:22Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-15T16:47:41Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    },
+    {
+     "fecha": "2026-11-15T10:08:06Z",
+     "dur_s": 5,
+     "resultado": "Correcta según el sistema, pero 5 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01C5jmdUwkgy5eSFxtGhQFRH",
+   "nombre": "Web · aviso de caída de grupoarestora.com (cada hora)",
+   "corto": "Aviso de caída de la web",
+   "categoria": "Blog y web",
+   "proposito": "Cada hora comprueba que grupoarestora.com carga y avisa al móvil si está caída",
+   "frecuencia": "Cada hora (minuto 20)",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Ninguna si la web está bien (termina en silencio)",
+   "riesgos": [
+    "el cortafuegos de la web bloquea ráfagas"
+   ],
+   "semaforo": "verde",
+   "motivo": "Hoy a las 19:20 comprobó la web en 8 s: todo bien",
+   "proxima": "2026-11-17T07:20:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T18:20:52Z",
+     "dur_s": 8,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-16T06:20:40Z",
+     "dur_s": 8,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-15T18:20:27Z",
+     "dur_s": 8,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-15T15:23:29Z",
+     "dur_s": 10,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-15T13:21:07Z",
+     "dur_s": 8,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_019hL9v9m4gxose7Lvan29rb",
+   "nombre": "Comprobar logo y noticia del 20N",
+   "corto": "Logo y noticia 20N",
+   "categoria": "Blog y web",
+   "proposito": "El 20/11 comprueba que la noticia del Día Universal del Niño está publicada y que el logo sale con la flor a 4 colores",
+   "frecuencia": "Una vez: viernes 20/11 8:40",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Push con el resultado",
+   "riesgos": [
+    "si la noticia sigue programada, no puede publicarla él"
+   ],
+   "semaforo": "gris",
+   "motivo": "De un solo uso: corre el viernes 20/11",
+   "proxima": "2026-11-20T07:40:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01VZdMHZmfSXrMA4Gejd1ua8",
+   "nombre": "LinkedIn — comentarios semanales para aprobar (perfil de Juancho) · TEC12",
+   "corto": "Comentarios para aprobar",
+   "categoria": "LinkedIn · perfil de Juancho",
+   "proposito": "Cada lunes prepara 10 comentarios en publicaciones de otros para que Juancho los apruebe; publica solo los aprobados",
+   "frecuencia": "Lunes 8:46",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "10 filas PROPUESTO en linkedin-comentarios\\registro-comentarios.csv y fila en seguimiento-seguidores.csv",
+   "riesgos": [
+    "LinkedIn pide sesión",
+    "OK de Juancho sin responder"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hay comentarios para aprobar esta semana",
+   "proxima": "2026-11-23T07:46:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:21Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01KoCeuafyEChtN4vVqBuFxE",
+   "nombre": "LinkedIn · Agente de crecimiento (perfil, Grupo Arestora y AMS) · TEC12",
+   "corto": "Agente de crecimiento LinkedIn",
+   "categoria": "LinkedIn · perfil de Juancho",
+   "proposito": "Cada día laborable mide los tres perfiles de LinkedIn, revisa lo programado y programa lo pendiente para ganar alcance y seguidores",
+   "frecuencia": "Lunes a viernes 7:41",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Filas de hoy en linkedin-agente\\metricas-diarias.csv",
+   "riesgos": [
+    "LinkedIn pide sesión",
+    "programar algo por error"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "proxima": "2026-11-17T06:41:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:15Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_014S3C48EM91dpKDzj6RY6Bd",
+   "nombre": "LinkedIn · Artículo de Juancho (quincenal) · TEC12",
+   "corto": "Artículo quincenal",
+   "categoria": "LinkedIn · perfil de Juancho",
+   "proposito": "Escribe cada dos semanas un artículo de LinkedIn para que Juancho lo revise y firme, y lo programa cuando tiene su OK",
+   "frecuencia": "Lunes a viernes 9:07 (actúa según calendario: 18/11, 02/12, 16/12…)",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Según calendario: fila en linkedin-articulos\\registro.csv (PENDIENTE_OK / PROGRAMADO); muchos días no hay nada",
+   "riesgos": [
+    "OK de Juancho tarde (martes 17:00)"
+   ],
+   "reorientacion": "El artículo del 18/11 debería estar ya redactado (lo hacía el jueves 12/11 y la tarea antigua falló): comprobar el lunes",
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo. El artículo del 18/11 sigue sin redactar",
+   "proxima": "2026-11-17T08:07:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:15:59Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01Rty9Th3CFXmUPzSLgo3B5Y",
+   "nombre": "LinkedIn — revisión semanal de la página Grupo Arestora · TEC12",
+   "corto": "Página Grupo Arestora · semanal",
+   "categoria": "LinkedIn · página Grupo Arestora y AMS",
+   "proposito": "Cada lunes limpia rastros de IA de la página, prepara respuestas a comentarios y apunta las métricas",
+   "frecuencia": "Lunes 9:37",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila nueva en linkedin-auditoria\\pagina-semanal.csv",
+   "riesgos": [
+    "LinkedIn pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "proxima": "2026-11-23T08:37:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:21Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01KSPakhb9Y9Fn5TzrXx2kRU",
+   "nombre": "AMS LinkedIn — revisión semanal (lunes) · TEC12",
+   "corto": "AMS · revisión semanal",
+   "categoria": "LinkedIn · página Grupo Arestora y AMS",
+   "proposito": "Cada lunes revisa la página de Arestora Maritime Services: oferta fijada, comentarios y métricas",
+   "frecuencia": "Lunes 10:12",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila nueva en ams-linkedin\\semanal-ams.csv",
+   "riesgos": [
+    "LinkedIn pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "proxima": "2026-11-23T09:12:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:15Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01HY14iEvMZeJq3iqQWChdPp",
+   "nombre": "AMS LinkedIn — contenido para tripulantes (martes y jueves) · TEC12",
+   "corto": "AMS · contenido tripulantes",
+   "categoria": "LinkedIn · página Grupo Arestora y AMS",
+   "proposito": "Publica martes y jueves en la página de AMS un contenido útil para tripulantes, sin pedir OK",
+   "frecuencia": "Martes y jueves 10:34",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Fila PUBLICADO con fecha de hoy en ams-linkedin\\registro-publicados.csv",
+   "riesgos": [
+    "sin imágenes válidas",
+    "plan en PAUSA"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el martes 17/11",
+   "proxima": "2026-11-17T09:34:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01VDKDMeST9vFvNMBDvNNhUH",
+   "nombre": "LinkedIn — auditoría mensual 0-100 (perfil y página) · TEC12 v2",
+   "corto": "Auditoría mensual LinkedIn",
+   "categoria": "LinkedIn · perfil de Juancho",
+   "proposito": "El día 1 puntúa de 0 a 100 el perfil de Juancho y la página de Grupo Arestora y propone mejoras para su OK",
+   "frecuencia": "Día 1 de cada mes 8:52",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "informe-AAAA-MM.md y fila en linkedin-auditoria\\auditorias.csv",
+   "riesgos": [
+    "LinkedIn pide sesión"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el 01/12",
+   "proxima": "2026-12-01T07:52:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01RUNr2tVeWZLvjFYcUgARCP",
+   "nombre": "Perfil de Google · responder reseñas (L-V) · TEC12",
+   "corto": "Responder reseñas",
+   "categoria": "Perfil de Google",
+   "proposito": "Responde las reseñas de Google de la ficha de Boiro, sin pedir OK, y avisa de las negativas con queja",
+   "frecuencia": "Lunes a viernes 17:37",
+   "equipo": "TEC12 · solo Chrome (carpetas conectadas pero no las usa)",
+   "necesita_ok": false,
+   "evidencia": "Solo el resumen de la sesión («Hoy: N respuestas…»); desde la nube no se ve",
+   "riesgos": [
+    "Google pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
+   "proxima": "2026-11-17T16:37:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:15Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01H9duB1ptyXHEyHEJTMw413",
+   "nombre": "Perfil de Google ← blog y Actualidad (L-V) · TEC12",
+   "corto": "Google ← blog",
+   "categoria": "Perfil de Google",
+   "proposito": "Publica en el Perfil de Google, como Novedad, cada artículo nuevo del blog o de Actualidad",
+   "frecuencia": "Lunes a viernes 13:23",
+   "equipo": "TEC12 · solo Chrome (carpetas conectadas pero no las usa)",
+   "necesita_ok": false,
+   "evidencia": "Si hubo post nuevo en wp-json los últimos 7 días: novedad publicada en Google",
+   "riesgos": [
+    "Google pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
+   "proxima": "2026-11-17T12:23:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:11Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01CjbFVapzFethQzgWp2LmmD",
+   "nombre": "Innovation Lab — radar científico y propuestas (semanal) · TEC12 v2",
+   "corto": "Radar científico",
+   "categoria": "Innovation Lab",
+   "proposito": "Cada miércoles busca lo nuevo de la ciencia en las cuatro líneas del Lab y propone qué publicar y dónde",
+   "frecuencia": "Miércoles 12:41",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos + Innovation Lab)",
+   "necesita_ok": true,
+   "evidencia": "«Radar Lab AAAA-MM-DD.docx» en …\\06. PLATAFORMA DE CONOCIMIENTO\\radar\\",
+   "riesgos": [
+    "carpeta del Innovation Lab no conectada"
+   ],
+   "reorientacion": "La newsletter de LinkedIn está en fase de estructura (sin nombre, periodicidad ni tarea): el radar solo propone bloques «para la próxima edición»",
+   "semaforo": "ambar",
+   "motivo": "Aún no ha corrido (primera vez el 18/11). Pendiente de decidir la newsletter",
+   "proxima": "2026-11-18T11:41:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01HAqoK7T6HRc8Nf7dEC8dpb",
+   "nombre": "Innovation Lab · Pregunta del mes · resultados (día 2) · TEC12 v2",
+   "corto": "Pregunta del mes · resultados",
+   "categoria": "Innovation Lab",
+   "proposito": "El día 2 saca los votos de la pregunta del mes anterior y prepara las piezas de resultados para el OK de Juancho",
+   "frecuencia": "Día 2 de cada mes 9:19",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Carpeta pregunta-del-mes\\ediciones\\AAAA-MM\\ con respuestas.json, o aviso de menos de 30 respuestas",
+   "riesgos": [
+    "Supabase pide sesión"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el 02/12",
+   "proxima": "2026-12-02T08:19:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_018ajwGpojxUDV7ev5ND9pHq",
+   "nombre": "Innovation Lab · Pregunta del mes · lanzamiento (día 1) · TEC12 v2",
+   "corto": "Pregunta del mes · lanzamiento",
+   "categoria": "Innovation Lab",
+   "proposito": "El día 1 cierra la pregunta anterior, abre la nueva en la web, prepara las diapositivas y programa LinkedIn",
+   "frecuencia": "Día 1 de cada mes 9:13",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Tarjeta «La pregunta del mes» abierta en /innovation-lab/#participa y carpeta de la edición con PDF",
+   "riesgos": [
+    "Supabase o LinkedIn piden sesión"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el 01/12",
+   "proxima": "2026-12-01T08:13:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01LvEZUdkWXzSLkGe8ZLQwvc",
+   "nombre": "Innovation Lab · Pregunta del mes · control día 15 · TEC12",
+   "corto": "Pregunta del mes · control día 15",
+   "categoria": "Innovation Lab",
+   "proposito": "El día 15 cuenta los votos de la pregunta del mes y, si van flojos, programa un recordatorio en LinkedIn",
+   "frecuencia": "Día 15 de cada mes 10:23",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Fila de hoy en la tabla «Control del día 15» del manual (sección 11)",
+   "riesgos": [
+    "Supabase pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "El 15/11 corrió 3 s: el control de noviembre no se hizo, y su recuperación de hoy duró 21 s",
+   "proxima": "2026-12-15T09:23:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-15T09:23:48Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_013faSPt7HTMrBLTL23We7E8",
+   "nombre": "Innovation Lab — El puesto del mes (día 26) · TEC12 v2",
+   "corto": "El puesto del mes",
+   "categoria": "Innovation Lab",
+   "proposito": "El día 26 prepara con datos de Radar la pieza «El puesto del mes» para el OK de Juancho",
+   "frecuencia": "Día 26 de cada mes 9:23",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila PREPARADA en ediciones\\registro.csv (puesto-mes\\AAAA-MM)",
+   "riesgos": [
+    "Radar parado",
+    "muestra pequeña"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el 26/11",
+   "proxima": "2026-11-26T08:23:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_014GQDet96Z1VM43uGQNzoa4",
+   "nombre": "Innovation Lab — Barómetro de mandos (trimestral) · TEC12 v2",
+   "corto": "Barómetro de mandos",
+   "categoria": "Innovation Lab",
+   "proposito": "Cada trimestre prepara el Barómetro de mandos con datos de Radar para el OK de Juancho",
+   "frecuencia": "Día 5 de feb., may., ago. y nov. 9:19",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila PREPARADA en ediciones\\registro.csv (barometro\\AAAA-tN)",
+   "riesgos": [
+    "muestra pequeña"
+   ],
+   "semaforo": "gris",
+   "motivo": "Próxima vez el 05/02/2027",
+   "proxima": "2027-02-05T08:19:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01YCS1yanGcm4LfFA9Ww9LLD",
+   "nombre": "Innovation Lab — Puestos que cuesta cubrir (trimestral) · TEC12 v2",
+   "corto": "Puestos que cuesta cubrir",
+   "categoria": "Innovation Lab",
+   "proposito": "Cada trimestre prepara «Puestos que cuesta cubrir» con datos de Radar para el OK de Juancho",
+   "frecuencia": "Día 12 de feb., may., ago. y nov. 9:29",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila PREPARADA en ediciones\\registro.csv (cuesta-cubrir\\AAAA-tN)",
+   "riesgos": [
+    "muestra pequeña"
+   ],
+   "semaforo": "gris",
+   "motivo": "Próxima vez el 12/02/2027. La recuperación de la edición de noviembre (hoy) duró 4 s y no se hizo",
+   "proxima": "2027-02-12T08:29:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01FFY7q7yy49qnuXuu3j7fYJ",
+   "nombre": "Innovation Lab — Estudio DiarioBTW (semestral) · TEC12 v2",
+   "corto": "Estudio DiarioBTW",
+   "categoria": "Innovation Lab",
+   "proposito": "Cada semestre revisa la foto de datos de DiarioBTW y prepara el estudio de percepción del rendimiento para el OK de Juancho",
+   "frecuencia": "3 de mayo y 3 de noviembre 9:37",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Fila en estudio_resultados y piezas en ediciones\\diariobtw\\AAAA-SN\\, o mensaje «en curso»",
+   "riesgos": [
+    "falta la base legal (estudio_config.desde)"
+   ],
+   "reorientacion": "La ejecución del 03/11/2026 probablemente falló (corría sin carpetas) y no tiene recuperación programada: POR CONFIRMAR si Juancho la quiere",
+   "semaforo": "gris",
+   "motivo": "La edición de noviembre la recupera la tarea del 17/11; próxima edición normal el 03/05/2027",
+   "proxima": "2027-05-03T07:37:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01GKZdz9jf5xJpfPwudB4dgL",
+   "nombre": "Innovation Lab · Informe anual de la pregunta del mes · TEC12 v2",
+   "corto": "Informe anual del Lab",
+   "categoria": "Innovation Lab",
+   "proposito": "El 20/11 prepara el informe anual «Un año de preguntas» si hay al menos 6 ediciones publicadas",
+   "frecuencia": "20 de noviembre 10:17 (anual)",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "PDF en informes\\AAAA\\ o push «se aplaza» (con menos de 6 ediciones)",
+   "riesgos": [
+    "casi seguro se aplaza en 2026"
+   ],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: corre el 20/11",
+   "proxima": "2026-11-20T09:17:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01UymbyxFvh7PtjBjkPjxNLc",
+   "nombre": "Innovation Lab · Cuestionario · artículo a las 30 respuestas · TEC12",
+   "corto": "Cuestionario · artículo a 30",
+   "categoria": "Innovation Lab",
+   "proposito": "Cada martes mira si el Cuestionario Arestora llegó a 30 respuestas y, si es así, prepara artículo, carrusel y textos para el OK",
+   "frecuencia": "Martes 9:41",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
+   "necesita_ok": true,
+   "evidencia": "Normalmente nada (menos de 30); con 30 o más, claude/cuestionario-articulo-temporada-1.md",
+   "riesgos": [],
+   "reorientacion": "Apenas usa carpetas: podría correr en la nube y no depender de TEC12",
+   "semaforo": "ambar",
+   "motivo": "Aún no ha corrido (primera vez el 17/11). Podría pasar a la nube y no depender de TEC12",
+   "proxima": "2026-11-17T08:41:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_014g3qQwKSh77qKbaD7tnHWo",
+   "nombre": "Innovation Lab · Cuestionario · invitaciones LinkedIn · TEC12",
+   "corto": "Invitaciones al Cuestionario",
+   "categoria": "Innovation Lab",
+   "proposito": "De lunes a viernes envía desde la cuenta de Juancho 10-20 invitaciones al Cuestionario Arestora a contactos de RR. HH. y dirección",
+   "frecuencia": "Lunes a viernes 11:23",
+   "equipo": "TEC12 · solo Chrome (carpetas conectadas pero no las usa)",
+   "necesita_ok": false,
+   "evidencia": "Solo el resumen de la sesión («Hoy: N invitaciones»)",
+   "riesgos": [
+    "límite o CAPTCHA de LinkedIn"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: hoy no se enviaron invitaciones",
+   "proxima": "2026-11-17T10:23:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:22Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  },
+  {
+   "nombre": "Newsletter de LinkedIn (PENDIENTE DE CREAR)",
+   "corto": "Newsletter LinkedIn",
+   "categoria": "Innovation Lab",
+   "proposito": "Newsletter del perfil de Juancho que recogerá lo mejor del Lab",
+   "frecuencia": "Sin decidir",
+   "equipo": "Nube o TEC12 (por decidir)",
+   "necesita_ok": true,
+   "evidencia": "—",
+   "riesgos": [],
+   "reorientacion": "PENDIENTE DE CREAR: falta nombre, periodicidad y tarea propia",
+   "semaforo": "gris",
+   "motivo": "Pendiente de crear",
+   "proxima": "",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_018GFb8QXqAaVoCSy7c7ivxj",
+   "nombre": "Visibilidad IA · Prensa ganada (miércoles) · TEC12 v2",
+   "corto": "Prensa ganada",
+   "categoria": "Prensa y visibilidad en IA",
+   "proposito": "Cada miércoles busca menciones, respuestas de medios y oportunidades, y prepara borradores de correo y tribunas para que Juancho los envíe",
+   "frecuencia": "Miércoles 9:13",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
+   "necesita_ok": true,
+   "evidencia": "Filas nuevas en visibilidad-ia\\prensa\\menciones.csv / envios.csv / oportunidades.csv (puede no haber nada)",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "Aún no le ha tocado: primera vez el miércoles 18/11",
+   "proxima": "2026-11-18T08:13:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_018KNCwUJdkHLk71k5BHTg17",
+   "nombre": "Recuperación · Guía de decisión del 12/11 · TEC12",
+   "corto": "Recuperación · Guía del 12/11",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "Recupera la guía de decisión del jueves 12/11, que no se publicó",
+   "frecuencia": "Una vez: martes 17/11 7:43",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
+   "necesita_ok": false,
+   "evidencia": "Carpeta articulos\\GUI-*-2026W46\\ y fila PENDIENTE_PUBLICAR en registro-publicados.csv",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "De un solo uso: corre el martes 17/11",
+   "proxima": "2026-11-17T06:43:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01W5o9TrG4fAQ779j7gNpHFm",
+   "nombre": "Radar Arestora — pasada de las 08:15",
+   "corto": "Radar · pasada mañana",
+   "categoria": "Comercial · Radar Arestora",
+   "proposito": "Cada día rastrea ofertas de dirección y mando de empresas que seleccionan solas y las guarda en Radar (captación)",
+   "frecuencia": "Todos los días 8:15 (hora de España)",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Ejecución cerrada en Supabase (tabla ejecuciones)",
+   "riesgos": [],
+   "semaforo": "verde",
+   "motivo": "Hoy a las 8:21 corrió 18 min: normal",
+   "proxima": "2026-11-17T07:15:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T07:21:35Z",
+     "dur_s": 1080,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-15T06:16:17Z",
+     "dur_s": 612,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_01RmKQrvrSGsrZzcWYcsYsmM",
+   "nombre": "Radar Arestora — pasada de las 13:00",
+   "corto": "Radar · pasada mediodía",
+   "categoria": "Comercial · Radar Arestora",
+   "proposito": "Segunda pasada diaria de Radar para sumar ofertas nuevas a las de la mañana",
+   "frecuencia": "Todos los días 13:00 (hora de España)",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Ejecución cerrada en Supabase",
+   "riesgos": [],
+   "semaforo": "rojo",
+   "motivo": "Empezó a las 13:04 y casi 7 h después sigue sin terminar (normalmente tarda 10-30 min)",
+   "proxima": "2026-11-17T12:02:13Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T12:04:00Z",
+     "dur_s": 0,
+     "resultado": "En curso"
+    },
+    {
+     "fecha": "2026-11-15T12:03:52Z",
+     "dur_s": 1725,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_01PZqrXdd2hsPE11qG26DAj6",
+   "nombre": "Radar Arestora — atender peticiones del botón",
+   "corto": "Radar · botón de rastreo",
+   "categoria": "Comercial · Radar Arestora",
+   "proposito": "Cada hora en días laborables atiende las peticiones de rastreo que Juancho lanza desde la app de Radar",
+   "frecuencia": "Lunes a viernes, cada hora de 7:00 a 20:00 (hora de España)",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Ninguna si no hay peticiones",
+   "riesgos": [],
+   "semaforo": "verde",
+   "motivo": "Hoy a las 19:07 corrió 25 s: normal",
+   "proxima": "2026-11-17T07:06:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T18:07:03Z",
+     "dur_s": 25,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-16T06:07:06Z",
+     "dur_s": 14,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-13T19:08:00Z",
+     "dur_s": 18,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_01NzofHtGCh1kBixMouRCP53",
+   "nombre": "Graphify · revisión mensual y actualización de la skill",
+   "corto": "Graphify mensual",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "El día 1 comprueba si hay versión nueva de la skill Graphify y, si la hay, la empaqueta para Juancho",
+   "frecuencia": "Día 1 de cada mes 8:00",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Mensaje (dos frases si no hay novedad)",
+   "riesgos": [],
+   "semaforo": "verde",
+   "motivo": "El 01/11 corrió 8 min: normal",
+   "proxima": "2026-12-01T07:05:44Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-01T07:02:20Z",
+     "dur_s": 506,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "PENDIENTE_VIGILANTE",
+   "nombre": "Vigilante · tareas programadas (diario)",
+   "corto": "Vigilante (nube)",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "Dos veces al día comprueba que cada tarea corrió y dejó su resultado, y avisa al móvil si algo se pone en rojo",
+   "frecuencia": "Todos los días 7:53 y 21:13",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Este cuadro actualizado («Última revisión»)",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "Se crea hoy",
+   "proxima": "",
+   "ejecuciones": []
+  },
+  {
+   "id": "PENDIENTE_LOCAL",
+   "nombre": "Vigilante · comprobación local · TEC12",
+   "corto": "Vigilante local (TEC12)",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "Cada día lee en TEC12 los CSV de estado (blog, LinkedIn, ediciones del Lab, radar) y comprueba que el vigilante de la nube sigue corriendo",
+   "frecuencia": "Todos los días 19:47",
+   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos + Innovation Lab)",
+   "necesita_ok": false,
+   "evidencia": "Bloque «local» del cuadro actualizado",
+   "riesgos": [
+    "TEC12 apagado: si deja de correr, sale en rojo"
+   ],
+   "semaforo": "gris",
+   "motivo": "Se crea hoy",
+   "proxima": "",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01HK9g31mmh2ZE46uDzixVMD",
+   "nombre": "Blog Arestora — lunes (Selección / PAMEE)",
+   "corto": "Blog lunes",
+   "categoria": "Blog y web",
+   "proposito": "Prepara cada lunes el artículo de Selección de personal o de PAMEE y lo deja en cola de publicación",
+   "frecuencia": "Lunes 7:37",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Artículo nuevo en el blog con fecha del lunes, o en cola de publicación",
+   "riesgos": [
+    "TEC12 apagado"
+   ],
+   "semaforo": "rojo",
+   "motivo": "Hoy a las 18:16 corrió solo 4 s. El artículo del lunes salió a las 19:20, pero no lo hizo esta tarea",
+   "proxima": "2026-11-23T06:37:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:21Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-09T06:38:07Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_012etadxWF3anDAByqkaHmn8",
+   "nombre": "Blog Arestora — miércoles (Arestora Seguro® / Consultoría e igualdad)",
+   "corto": "Blog miércoles",
+   "categoria": "Blog y web",
+   "proposito": "Prepara cada miércoles el artículo de Arestora Seguro® o de Consultoría e igualdad y lo deja en cola",
+   "frecuencia": "Miércoles 7:41",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Artículo nuevo con fecha del miércoles, o en cola de publicación",
+   "riesgos": [
+    "TEC12 apagado"
+   ],
+   "semaforo": "gris",
+   "motivo": "Renovada el 15/11 con carpetas; primera ejecución con la nueva configuración el 18/11",
+   "proxima": "2026-11-18T06:41:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-11T11:32:36Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01LdfdFvru1YQWd4tRr56xvB",
+   "nombre": "Blog Arestora — viernes (Back to Win / Formación)",
+   "corto": "Blog viernes",
+   "categoria": "Blog y web",
+   "proposito": "Prepara cada viernes el artículo de Back to Win o de Formación y liderazgo y lo deja en cola",
+   "frecuencia": "Viernes 7:39",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Artículo nuevo con fecha del viernes, o en cola de publicación",
+   "riesgos": [
+    "TEC12 apagado"
+   ],
+   "semaforo": "gris",
+   "motivo": "Renovada el 15/11 y pasada a las 7:39; primera ejecución con la nueva configuración el 20/11",
+   "proxima": "2026-11-20T06:39:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-13T03:08:26Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_0157i7Q236CvmzXL11aAq5ew",
+   "nombre": "Blog Arestora — recuperación de atrasos",
+   "corto": "Blog atrasos",
+   "categoria": "Blog y web",
+   "proposito": "Si un artículo del lunes, miércoles o viernes no salió, lo prepara en cuanto TEC12 responde; avisa si TEC12 no responde",
+   "frecuencia": "Cada 2 horas, de 10:23 a 22:23",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Ninguna si no hay atrasos; si los hay, artículo recuperado en cola",
+   "riesgos": [
+    "TEC12 apagado"
+   ],
+   "semaforo": "rojo",
+   "motivo": "A las 18:23 volvió a durar 4 s: sigue sin llegar a los archivos de TEC12",
+   "proxima": "2026-11-16T19:23:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:23:33Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-15T21:23:30Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-15T17:23:49Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-15T15:23:45Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    },
+    {
+     "fecha": "2026-11-15T13:23:50Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-15T09:23:41Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01P9P56KrcePVdJVTwnot11k",
+   "nombre": "Visibilidad IA — seguimiento semanal",
+   "corto": "Visibilidad IA semanal",
+   "categoria": "Prensa y visibilidad en IA",
+   "proposito": "Cada lunes revisa la indexación en Search Console y Bing",
+   "frecuencia": "Lunes 8:47",
+   "equipo": "Ordenador de la oficina (TEC12) + Chrome",
+   "necesita_ok": true,
+   "evidencia": "Bloque «Visibilidad IA» de PENDIENTES actualizado",
+   "riesgos": [
+    "Google pide sesión"
+   ],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
+   "proxima": "2026-11-23T07:47:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:11Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "fecha": "2026-11-09T07:49:40Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_013LNHDLQKuSZfnK1MbzX7Nq",
+   "nombre": "Visibilidad IA — medición mensual",
+   "corto": "Visibilidad IA mensual",
+   "categoria": "Prensa y visibilidad en IA",
+   "proposito": "El día 27 lanza las 16 búsquedas fijas y anota si Arestora aparece en buscadores con IA",
+   "frecuencia": "Día 27 de cada mes 8:53",
+   "equipo": "Ordenador de la oficina (TEC12) + Chrome",
+   "necesita_ok": false,
+   "evidencia": "Mediciones del mes anotadas",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "Instrucciones renovadas el 15/11 con carpeta; primera vez el 27/11",
+   "proxima": "2026-11-27T07:53:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_015wJpyhafwAbYGYgKqbrh8A",
+   "nombre": "Visibilidad IA — revisión de 90 días",
+   "corto": "Visibilidad IA 90 días",
+   "categoria": "Prensa y visibilidad en IA",
+   "proposito": "El 27/01/2027 resume los 90 días del frente y recomienda si contratar ayuda externa",
+   "frecuencia": "Una vez: 27/01/2027 9:00",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": true,
+   "evidencia": "Documento de revisión de 90 días",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "Instrucciones renovadas el 15/11 con carpeta; corre el 27/01/2027",
+   "proxima": "2027-01-27T08:00:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01LAQ4xsTGs5DEVijsiyNzXq",
+   "nombre": "Revisar el catálogo del Arestora Hub (lunes)",
+   "corto": "Revisión del Hub",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "Cada lunes comprueba que las herramientas del Hub responden y propone correcciones",
+   "frecuencia": "Lunes 8:13",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Mensaje con el resultado de la revisión",
+   "riesgos": [],
+   "semaforo": "rojo",
+   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "proxima": "2026-11-23T07:13:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T17:16:21Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    },
+    {
+     "fecha": "2026-11-09T06:13:46Z",
+     "dur_s": 3,
+     "resultado": "Correcta según el sistema, pero 3 s"
+    }
+   ]
+  },
+  {
+   "id": "trig_01KPLmHrFDvZHGB3hbZTxkqG",
+   "nombre": "Meta Ads — vigilancia diaria (L-V)",
+   "corto": "Meta vigilancia",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "Cada día laborable vigila las campañas de Meta, corrige lo menor y avisa o propone lo que necesita OK",
+   "frecuencia": "Lunes a viernes 9:13",
+   "equipo": "Nube",
+   "necesita_ok": false,
+   "evidencia": "Silencio si todo va bien; aviso si corrige algo",
+   "riesgos": [
+    "bloqueo de anunciante/pagador pendiente desde el 05/11"
+   ],
+   "semaforo": "verde",
+   "motivo": "Hoy a las 9:18 corrió 7 min: normal",
+   "proxima": "2026-11-17T08:13:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T08:18:42Z",
+     "dur_s": 431,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-13T08:14:31Z",
+     "dur_s": 77,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_01F7mkTWsvt7rnCiTgW28nzH",
+   "nombre": "Meta Ads — informe semanal (lunes)",
+   "corto": "Meta informe semanal",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "Cada lunes informa de la semana de Meta Ads frente al externo y propone cambios",
+   "frecuencia": "Lunes 9:23",
+   "equipo": "Nube",
+   "necesita_ok": true,
+   "evidencia": "Mensaje con el informe",
+   "riesgos": [
+    "los leads de empresa solo los tiene Juancho"
+   ],
+   "semaforo": "verde",
+   "motivo": "Hoy a las 9:24 corrió 3 min: informe semanal hecho",
+   "proxima": "2026-11-23T08:23:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-16T08:24:05Z",
+     "dur_s": 184,
+     "resultado": "Correcta"
+    },
+    {
+     "fecha": "2026-11-09T08:23:38Z",
+     "dur_s": 142,
+     "resultado": "Correcta"
+    }
+   ]
+  },
+  {
+   "id": "trig_01XErjprre94FzDVZhZ5hZuz",
+   "nombre": "Meta Ads — cierre mensual",
+   "corto": "Meta cierre mensual",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "El día 1 hace el cierre del mes de Meta Ads y propone el plan del mes siguiente",
+   "frecuencia": "Día 1 de cada mes 9:37",
+   "equipo": "Nube",
+   "necesita_ok": true,
+   "evidencia": "Cierre del mes en el plan y mensaje",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "Primera vez el 01/12; instrucciones revisadas el 16/11",
+   "proxima": "2026-12-01T08:37:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01NANM1fraUdYiJMnrKA76zf",
+   "nombre": "Meta Ads · Revisión CPM tras ampliar público (19 nov)",
+   "corto": "Meta revisión CPM",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "El 19/11 compara el CPM antes y después de ampliar el público y revisa los leads de Odoo",
+   "frecuencia": "Una vez: jueves 19/11 9:00",
+   "equipo": "Nube + Chrome de TEC12 para Odoo",
+   "necesita_ok": true,
+   "evidencia": "Mensaje con tabla antes/ahora",
+   "riesgos": [
+    "Odoo pide sesión: entonces pide el dato a Juancho"
+   ],
+   "semaforo": "gris",
+   "motivo": "De un solo uso (19/11); si no hay Chrome de TEC12, pedirá el dato de Odoo",
+   "proxima": "2026-11-19T08:00:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01SCAcHrpzeU5Tj6DbG2P99c",
+   "nombre": "Revisión prueba Meta Ads 14 días",
+   "corto": "Meta prueba 14 días",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "El 21/11 cierra la prueba de 14 días de Meta y propone qué hacer según los leads de empresa",
+   "frecuencia": "Una vez: sábado 21/11 9:00",
+   "equipo": "Nube",
+   "necesita_ok": true,
+   "evidencia": "Mensaje con resultado y pregunta a Juancho",
+   "riesgos": [],
+   "semaforo": "gris",
+   "motivo": "De un solo uso (21/11); cifras actualizadas el 15/11",
+   "proxima": "2026-11-21T08:00:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_013Hvm5bc3TZTNpRpziqhYxX",
+   "nombre": "Meta Ads · Comparativa 4 semanas vs externo (3 dic)",
+   "corto": "Meta comparativa 4 semanas",
+   "categoria": "Publicidad (Meta Ads)",
+   "proposito": "El 03/12 compara 4 semanas de Meta gestionado por Claude con la etapa del externo",
+   "frecuencia": "Una vez: jueves 03/12 9:00",
+   "equipo": "Nube + Chrome de TEC12 para Odoo",
+   "necesita_ok": true,
+   "evidencia": "Mensaje con resumen, tabla y recomendación",
+   "riesgos": [
+    "Odoo pide sesión: entonces pide el dato a Juancho"
+   ],
+   "semaforo": "gris",
+   "motivo": "De un solo uso (03/12); instrucciones revisadas el 15/11",
+   "proxima": "2026-12-03T08:00:00Z",
+   "ejecuciones": []
+  },
+  {
+   "id": "trig_01XA6KvjEiLP1svugXfPN9ry",
+   "nombre": "[PRUEBA vigilante] Diagnóstico TEC12",
+   "corto": "Prueba diagnóstico TEC12",
+   "categoria": "Mantenimiento y vigilancia",
+   "proposito": "Prueba puntual: comprueba qué carpetas ve una tarea en TEC12",
+   "frecuencia": "Corrió el 15/11; próxima el 01/01/2027",
+   "equipo": "Ordenador de la oficina (TEC12)",
+   "necesita_ok": false,
+   "evidencia": "Resultado de la prueba en el cuadro",
+   "riesgos": [],
+   "reorientacion": "Prueba cumplida: conviene desactivarla",
+   "semaforo": "ambar",
+   "motivo": "Prueba ya hecha (15/11, 4 s). Sigue activa: conviene desactivarla",
+   "proxima": "2027-01-01T03:13:00Z",
+   "ejecuciones": [
+    {
+     "fecha": "2026-11-15T16:47:20Z",
+     "dur_s": 4,
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
+  }
+ ]
+}

@@ -191,7 +191,7 @@
 
 <script>
 let CAT = null;
-const HUELLA = "65845ff598a9";
+const HUELLA = "24efb73dcbac";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -234,7 +234,7 @@ function tarjeta(h){
       ? `<div class="icono"><img src="${h.logo_src}" alt=""></div>`
       : `<div class="icono">${h.emoji||"🛡️"}</div>`;
   const boton = activa
-      ? `<a class="btn primario" href="${h.url}" target="_blank" rel="noopener">Acceder al panel →</a>`
+      ? `<a class="btn primario" href="${h.url}"${relativa?"":' target="_blank" rel="noopener"'}>Acceder al panel →</a>`
       : `<span class="btn mudo">${h.estado==="activo"?"Pendiente de enlazar":(h.estado==="en_proceso"?"En desarrollo":"En preparación")}</span>`;
   const carpeta = h.carpeta
       ? `<button class="btn sec" data-copy="${h.carpeta.replace(/\\/g,'&#92;')}">Copiar ruta de la carpeta</button>` : "";

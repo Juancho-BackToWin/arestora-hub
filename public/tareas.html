@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tareas programadas · Arestora Hub</title>
+<meta name="theme-color" content="#0E192F">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: sobrio, de parte de guardia; se lee de un vistazo en el móvil.
+   IDEA: un cuadro de mando de sala de control con la marca Arestora.
+   PICTURE: la cabecera azul noche con tres cifras grandes es la imagen.
+   COLOUR and TYPE: azul noche #0E192F, fondo #EAEEF5, acento #8FB8EC/#254D9D; Poppins.
+   LAYOUT: una columna de 720 px máx.; filas planas; ficha que se despliega. */
+:root{color-scheme:light dark;
+--bg:light-dark(#EAEEF5,#0B1426);--card:light-dark(#FFFFFF,#142443);--ink:light-dark(#0E192F,#EAEEF5);
+--mute:light-dark(#5B6478,#A9B4CA);--line:light-dark(#DCE2EF,#22345A);--acc:light-dark(#254D9D,#8FB8EC);
+--night:#0E192F;--rojo:#D23B3B;--ambar:#E0A21B;--verde:#2E9E6A;--gris:#9AA3B5}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Poppins,system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:760px;margin:0 auto}
+header{background:var(--night);color:#fff;padding:28px max(5vw,18px) 26px}
+header h1{font-size:clamp(22px,5.5vw,30px);line-height:1.1;margin:0 0 6px;font-weight:700;text-wrap:balance}
+header .rev{color:#8FB8EC;font-size:14px;margin:0}
+header .rev.mal{color:#FF9C9C;font-weight:600}
+.cifras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.cifra{background:#142443;border-radius:14px;padding:12px 14px}
+.cifra b{display:block;font-size:clamp(34px,10vw,52px);line-height:1;font-weight:700}
+.cifra span{font-size:13px;color:#C9D6EE}
+.cifra.r b{color:#FF8A8A}.cifra.a b{color:#F5C55B}.cifra.v b{color:#7FD9AA}
+.gris{font-size:13px;color:#C9D6EE;margin:10px 0 0}
+.filtros{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px max(5vw,18px);display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line)}
+.chip{font:500 14px Poppins,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:0 16px;min-height:40px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:light-dark(#fff,#0E192F)}
+select{font:15px Poppins,sans-serif;min-height:40px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 14px;flex:1 1 180px}
+main{padding:6px max(5vw,18px) 40px}
+h2{font-size:15px;font-weight:600;color:var(--mute);margin:26px 0 8px}
+.fila{display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;background:var(--card);border-radius:12px;padding:14px;margin-bottom:8px;cursor:pointer;border:1px solid transparent;width:100%;text-align:left;font:inherit;color:inherit}
+.fila:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.dot{width:14px;height:14px;border-radius:50%;margin-top:4px}
+.d-rojo{background:var(--rojo)}.d-ambar{background:var(--ambar)}.d-verde{background:var(--verde)}.d-gris{background:var(--gris)}
+.fila b{display:block;font-weight:600;font-size:15px;line-height:1.3}
+.fila .p{display:block;color:var(--mute);font-size:14px;margin-top:2px}
+.fila .m{display:block;font-size:13px;margin-top:6px;color:var(--ink)}
+.fila .m em{font-style:normal;color:var(--mute)}
+.ficha{background:var(--card);border-radius:12px;padding:16px;margin:-4px 0 12px;border:1px solid var(--line)}
+.ficha dl{margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.ficha dt{font-size:12px;color:var(--mute);font-weight:500}
+.ficha dd{margin:0;font-size:14px;overflow-wrap:anywhere}
+.ficha .motivo{font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--mute);font-weight:500}td.n{text-align:right;white-space:nowrap}
+.acciones{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn{font:600 14px Poppins,sans-serif;min-height:44px;padding:0 18px;border-radius:999px;border:0;cursor:pointer;background:var(--night);color:#fff}
+:root[data-theme=dark] .btn,.btn.sec{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.aviso{font-size:13px;color:var(--mute);margin-top:8px}
+textarea{width:100%;font:14px Poppins,sans-serif;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:10px;margin-top:8px}
+.vacio{background:var(--card);border-radius:12px;padding:22px;text-align:center;color:var(--mute);margin-top:20px}
+.dlg{position:fixed;inset:0;background:rgba(14,25,47,.6);display:none;align-items:flex-end;justify-content:center;z-index:20;padding:16px}
+.dlg.on{display:flex}
+.dlg div{background:var(--card);border-radius:16px;padding:20px;max-width:440px;width:100%}
+.dlg p{margin:0 0 14px}
+.volver{display:inline-block;color:#8FB8EC;font-size:14px;font-weight:500;text-decoration:none;margin:0 0 14px;min-height:32px}
+.volver:hover{text-decoration:underline}
+footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
+@media (prefers-reduced-motion:no-preference){.ficha{animation:in .18s ease-out}@keyframes in{from{opacity:0;transform:translateY(-4px)}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="volver" href="hub.html">← Volver al Hub</a>
+  <h1>Tareas programadas · Grupo Arestora</h1>
+  <p class="rev" id="rev">Cargando datos del vigilante…</p>
+  <div class="cifras">
+    <div class="cifra r"><b id="nR">–</b><span>en rojo</span></div>
+    <div class="cifra a"><b id="nA">–</b><span>en ámbar</span></div>
+    <div class="cifra v"><b id="nV">–</b><span>en verde</span></div>
+  </div>
+  <p class="gris" id="nG"></p>
+  <p class="gris" id="nota"></p>
+</header>
+<div class="filtros" role="toolbar" aria-label="Filtros">
+  <button class="chip" data-f="todas" aria-pressed="true">Todas</button>
+  <button class="chip" data-f="rojo" aria-pressed="false">Rojo</button>
+  <button class="chip" data-f="ambar" aria-pressed="false">Ámbar</button>
+  <select id="cat" aria-label="Categoría"><option value="">Todas las categorías</option></select>
+</div>
+<main id="lista"><div class="vacio">Cargando…</div></main>
+<footer>Lo actualiza la tarea «Vigilante · tareas programadas» dos veces al día (7:53 y 19:53). El vigilante solo diagnostica y avisa; para pausar, lanzar o arreglar una tarea, pulsa «Pedir a Claude» y pégalo en un chat del proyecto Marketing Arestora.</footer>
+</div>
+<script>
+{
+const CATS=["Blog y web","LinkedIn · perfil de Juancho","LinkedIn · página Grupo Arestora y AMS","Perfil de Google","Innovation Lab","Prensa y visibilidad en IA","Publicidad (Meta Ads)","Comercial · Radar Arestora","Mantenimiento y vigilancia"];
+const ORD={rojo:0,ambar:1,gris:2,verde:3};
+const NOM={rojo:"Rojo",ambar:"Ámbar",verde:"Verde",gris:"Gris"};
+let fichas=[],estado={},filtro="todas",cat="",abierta=null;
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=iso=>{if(!iso)return"—";const d=new Date(iso);return isNaN(d)?esc(iso):d.toLocaleString("es-ES",{timeZone:"Europe/Madrid",weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})};
+const hace=iso=>{const h=(Date.now()-new Date(iso))/36e5;if(isNaN(h))return null;return h<1?`hace ${Math.max(1,Math.round(h*60))} min`:h<48?`hace ${Math.round(h)} h`:`hace ${Math.round(h/24)} días`};
+const dur=s=>s==null?"—":s<90?`${Math.round(s)} s`:`${Math.round(s/60)} min`;
+function sem(f){return f.semaforo||"gris"}
+function pedir(f){const e=f;const s=sem(f);
+ if(!f.id)return `Crea la tarea «${f.nombre}» según su ficha del inventario (claude/inventario-tareas-programadas.md).`;
+ if(s==="rojo"||s==="ambar")return `Revisa y arregla la tarea «${f.nombre}» (${f.id}). El vigilante dice: ${e.motivo||f.motivo||"sin motivo"}.${f.reorientacion?" Reorientación pendiente: "+f.reorientacion:""}`;
+ return `Revisa la tarea «${f.nombre}» (${f.id}). Quiero cambiar: `}
+function render(){
+ const st=estado||{};const r=st.ultima_revision;const h=r?(Date.now()-new Date(r))/36e5:null;
+ const rev=$("#rev");
+ if(!r){rev.textContent="El vigilante aún no ha escrito ninguna revisión.";rev.className="rev mal"}
+ else{rev.textContent=`Última revisión: ${hace(r)} (${fmt(r)})`+(h>14?" · el vigilante lleva más de 14 h sin revisar":"");rev.className=h>14?"rev mal":"rev"}
+ const c={rojo:0,ambar:0,verde:0,gris:0};fichas.forEach(f=>c[sem(f)]=(c[sem(f)]||0)+1);
+ $("#nR").textContent=c.rojo;$("#nA").textContent=c.ambar;$("#nV").textContent=c.verde;
+ $("#nG").textContent=`${fichas.length} fichas · ${c.gris} en gris (aún no les ha tocado correr o pendientes de crear)`;
+ let L=fichas.filter(f=>(filtro==="todas"||sem(f)===filtro)&&(!cat||f.categoria===cat));
+ if(!L.length){$("#lista").innerHTML=`<div class="vacio">${fichas.length?"Nada con este filtro.":"Aún no hay inventario cargado."}</div>`;return}
+ const grupos=CATS.concat([...new Set(L.map(f=>f.categoria))].filter(x=>!CATS.includes(x)));
+ $("#lista").innerHTML=grupos.map(g=>{const G=L.filter(f=>f.categoria===g).sort((a,b)=>ORD[sem(a)]-ORD[sem(b)]||a.nombre.localeCompare(b.nombre));
+  if(!G.length)return"";return `<h2>${esc(g)} · ${G.length}</h2>`+G.map(f=>{const e=f;const s=sem(f);const k=f.id||f.nombre;
+   return `<button class="fila" data-k="${esc(k)}" aria-expanded="${abierta===k}"><span class="dot d-${s}" aria-label="${NOM[s]}"></span><span><b>${esc(f.corto||f.nombre)}</b><span class="p">${esc(f.proposito)}</span><span class="m"><em>Próxima:</em> ${esc(e.proxima?fmt(e.proxima):(f.frecuencia||"—"))}${(e.motivo||f.motivo)&&s!=="verde"?` · <em>${esc(e.motivo||f.motivo)}</em>`:""}</span></span></button>`+(abierta===k?ficha(f,e,s):"")}).join("")}).join("");
+}
+function ficha(f,e,s){const ej=(e.ejecuciones||[]).slice(0,10);
+ const row=(t,v)=>v?`<div><dt>${t}</dt><dd>${v}</dd></div>`:"";
+ return `<div class="ficha"><dl>${row("Estado",`<span class="motivo">${NOM[s]}</span> · ${esc(e.motivo||f.motivo||"")}`)}
+ ${row("Para qué sirve",esc(f.proposito))}${row("Cuándo corre",esc(f.frecuencia))}${row("Dónde corre",esc(f.equipo))}
+ ${row("Necesita tu OK",f.necesita_ok?"Sí":"No")}${row("Qué debe dejar hecho",esc(f.evidencia))}
+${row("Riesgos",esc((f.riesgos||[]).join(" · ")))}
+ ${row("Reorientación pendiente",esc(f.reorientacion))}
+ <div><dt>Últimas ejecuciones</dt><dd>${ej.length?`<table><thead><tr><th>Fecha</th><th class="n">Duración</th><th>Resultado</th></tr></thead><tbody>${ej.map(x=>`<tr><td>${fmt(x.fecha)}</td><td class="n">${dur(x.dur_s)}</td><td>${esc(x.resultado)}</td></tr>`).join("")}</tbody></table>`:"Sin ejecuciones registradas todavía."}</dd></div></dl>
+ <div class="acciones"><button class="btn" data-pedir="${esc(f.id||f.nombre)}">Pedir a Claude</button></div>
+ <div class="aviso" id="msg"></div></div>`}
+function confirmar(t){return new Promise(ok=>{$("#dlgT").textContent=t;$("#dlg").classList.add("on");$("#dlgOk").focus();
+ const fin=v=>{$("#dlg").classList.remove("on");$("#dlgOk").onclick=$("#dlgNo").onclick=null;ok(v)};$("#dlgOk").onclick=()=>fin(true);$("#dlgNo").onclick=()=>fin(false)})}
+document.addEventListener("click",async ev=>{
+ const ch=ev.target.closest(".chip");if(ch){filtro=ch.dataset.f;document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b===ch));render();return}
+ const pd=ev.target.closest("[data-pedir]");if(pd){const f=fichas.find(x=>(x.id||x.nombre)===pd.dataset.pedir);const t=pedir(f);const m=$("#msg");
+  try{await navigator.clipboard.writeText(t);m.textContent="Copiado. Pégalo en un chat del proyecto Marketing Arestora."}catch(e){m.innerHTML=`Cópialo desde aquí:<textarea rows="4">${esc(t)}</textarea>`}return}
+ const fi=ev.target.closest(".fila");if(fi){abierta=abierta===fi.dataset.k?null:fi.dataset.k;render()}
+});
+$("#cat").addEventListener("change",e=>{cat=e.target.value;render()});
+setInterval(render,60000);
+async function cargar(){
+ try{const r=await fetch("tareas.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();
+  estado={ultima_revision:d.ultima_revision,nota:d.nota};fichas=d.fichas||[];
+  try{localStorage.setItem("hub_tareas",JSON.stringify(d))}catch(e){}
+ }catch(e){try{const d=JSON.parse(localStorage.getItem("hub_tareas"));if(!d)throw 0;estado={ultima_revision:d.ultima_revision,nota:"Sin conexión: estás viendo la última copia guardada."};fichas=d.fichas||[]}
+  catch(e2){$("#lista").innerHTML='<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>';return}}
+ const cs=[...new Set(fichas.map(f=>f.categoria))];$("#cat").innerHTML='<option value="">Todas las categorías</option>'+CATS.filter(c=>cs.includes(c)).concat(cs.filter(c=>!CATS.includes(c))).map(c=>`<option>${esc(c)}</option>`).join("");$("#cat").value=cat;render();
+ $("#nota").textContent=estado.nota||"";
+}
+cargar();setInterval(cargar,5*60*1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)cargar()});
+}
+</script>
+</body>
+</html>
