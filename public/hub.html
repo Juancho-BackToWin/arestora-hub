@@ -128,6 +128,10 @@
   }
   .pill.activo{background:var(--c);color:#fff}
   .pill.en_proceso{background:color-mix(in srgb,var(--c) 16%,#fff);color:var(--c)}
+  /* Pastilla de propuestas esperando el OK. Azul Arestora sobre carta clara.
+     El grupo envuelve para que en el móvil no se salga de la tarjeta. */
+  .pill-grupo{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .pill.okpend{background:#254D9D;color:#fff}
   h3{margin:0;font-size:19px;font-weight:800;color:var(--c)}
   .card.off h3{color:#41527A}
   .desc{margin:0;font-size:14.5px;line-height:1.45;color:#3D4C68}
@@ -191,7 +195,8 @@
 
 <script>
 let CAT = null;
-const HUELLA = "24efb73dcbac";
+let OK_N = 0;   // propuestas que esperan el OK de Juancho, según tareas.json
+const HUELLA = "ef13ec97d88b";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -238,8 +243,12 @@ function tarjeta(h){
       : `<span class="btn mudo">${h.estado==="activo"?"Pendiente de enlazar":(h.estado==="en_proceso"?"En desarrollo":"En preparación")}</span>`;
   const carpeta = h.carpeta
       ? `<button class="btn sec" data-copy="${h.carpeta.replace(/\\/g,'&#92;')}">Copiar ruta de la carpeta</button>` : "";
+  // Solo el cuadro de tareas lleva aviso de propuestas pendientes. OK_N es un número
+  // (lo fuerza Number), así que no hay texto de terceros que interpolar aquí.
+  const okPill = (h.id === "tareas-programadas" && OK_N > 0)
+      ? `<span class="pill okpend">${OK_N} ${OK_N === 1 ? "espera" : "esperan"} tu OK</span>` : "";
   return `<article class="card ${activa?'on':'off'}" style="--c:${h.color||'#1B4FD8'}">
-      <div class="card-top">${icono}<span class="pill ${h.estado}">${(ETQ[h.estado]||{}).etiqueta||h.estado}</span></div>
+      <div class="card-top">${icono}<span class="pill-grupo">${okPill}<span class="pill ${h.estado}">${(ETQ[h.estado]||{}).etiqueta||h.estado}</span></span></div>
       <h3>${h.nombre}</h3>
       <p class="desc">${h.descripcion}</p>
       ${h.sector?`<div class="meta">${h.sector}</div>`:""}
@@ -345,6 +354,25 @@ async function cargarCatalogo(){
 }
 
 cargarCatalogo();
+
+/* ---------- propuestas que esperan el OK ----------
+   Va aparte del catálogo a propósito: si tareas.json falla, todavía no existe o no trae
+   «esperan_ok», el Hub se pinta igual y simplemente no sale la pastilla. El cuadro de
+   tareas es la fuente; aquí solo se cuenta. */
+async function cargarOK(){
+  try{
+    const r = await fetch('tareas.json?t=' + Date.now(), {cache:'no-store'});
+    if(!r.ok) return;
+    const d = await r.json();
+    const n = Array.isArray(d.esperan_ok) ? d.esperan_ok.length : 0;
+    if(n === OK_N) return;
+    OK_N = n;
+    if(CAT) pintar();
+  }catch(e){ /* sin aviso: el Hub no depende de esto */ }
+}
+cargarOK();
+setInterval(cargarOK, 5 * 60 * 1000);
+document.addEventListener('visibilitychange', () => { if(!document.hidden) cargarOK(); });
 
 /* ---------- botón Actualizar ----------
    Compara la huella incrustada en esta página con la del fichero version.json que

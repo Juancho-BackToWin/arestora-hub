@@ -2,8 +2,8 @@
   "meta": {
     "marca": "Arestora Hub",
     "organizacion": "Grupo Arestora",
-    "version": "4.3",
-    "actualizado": "2026-11-16",
+    "version": "4.4",
+    "actualizado": "2026-11-17",
     "roles": {
       "admin": "Dirección de Grupo Arestora",
       "gestor": "Equipo interno de Arestora",
