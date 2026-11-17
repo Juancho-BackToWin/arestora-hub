@@ -2,6 +2,17 @@
  "generado": "2026-11-16T20:54:13+00:00",
  "ultima_revision": "2026-11-16T20:10:00+01:00",
  "nota": "No hay resumen local: la comprobación de TEC12 de hoy (19:48) duró 4 s. TEC12 está conectado desde las 18:16, pero las tareas que usan sus carpetas terminan en 3-4 s.",
+ "esperan_ok": [
+  {
+   "tarea_id": "PRUEBA",
+   "tarea": "PRUEBA \u00b7 bloque Esperan tu OK",
+   "que": "Comprobar que el bloque \u00abEsperan tu OK\u00bb del Hub lee las propuestas y las pinta bien en m\u00f3vil y escritorio. No cuesta nada y no cambia ninguna campa\u00f1a ni ning\u00fan presupuesto.",
+   "por_que": "Para dejar el circuito probado de punta a punta antes de que lo use una tarea real.",
+   "desde": "2026-11-17T08:58:33+01:00",
+   "sesion_url": "",
+   "origen": "nube"
+  }
+ ],
  "fichas": [
   {
    "id": "trig_01VNe23DWvzdhM7E8eEvuB8u",
