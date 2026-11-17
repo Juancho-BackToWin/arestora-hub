@@ -34,6 +34,24 @@ header .rev.mal{color:#FF9C9C;font-weight:600}
 .cifra span{font-size:13px;color:#C9D6EE}
 .cifra.r b{color:#FF8A8A}.cifra.a b{color:#F5C55B}.cifra.v b{color:#7FD9AA}
 .gris{font-size:13px;color:#C9D6EE;margin:10px 0 0}
+/* Esperan tu OK · lo primero que se ve. Va dentro de la cabecera azul noche porque
+   es el bloque de impacto: si hay algo esperándote, es lo que tienes que hacer hoy. */
+.ok{margin-top:22px;background:#142443;border-radius:14px;padding:16px 16px 8px}
+.ok .cab{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ok .cab b{font-size:clamp(34px,10vw,52px);line-height:1;font-weight:700;color:#8FB8EC}
+.ok .cab span{font-size:14px;color:#C9D6EE}
+.ok ul{list-style:none;margin:12px 0 0;padding:0}
+.ok li{border-top:1px solid #22345A;padding:12px 0 14px}
+.ok li b{display:block;font-size:15px;font-weight:600;color:#fff;line-height:1.3}
+.ok li .q{display:block;font-size:14px;color:#C9D6EE;margin-top:4px}
+.ok li .w{display:block;font-size:13px;color:#8FB8EC;margin-top:4px}
+.ok li .d{display:block;font-size:13px;color:#A9B4CA;margin-top:7px}
+.ok .resp{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;margin-top:10px;border-radius:999px;background:#8FB8EC;color:#0E192F;font:600 14px Poppins,sans-serif;text-decoration:none;border:0;cursor:pointer}
+.ok .resp:hover{background:#B4D0F3}
+.ok .resp:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.ok .alt{display:block;font-size:13px;color:#C9D6EE;margin-top:10px;overflow-wrap:anywhere}
+.ok.nada{background:transparent;padding:14px 0 0;margin-top:18px}
+.ok.nada p{margin:0;font-size:13px;color:#8FB8EC}
 .filtros{position:sticky;top:0;z-index:5;background:var(--bg);padding:12px max(5vw,18px);display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line)}
 .chip{font:500 14px Poppins,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:0 16px;min-height:40px;cursor:pointer}
 .chip[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:light-dark(#fff,#0E192F)}
@@ -79,6 +97,7 @@ footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
   <a class="volver" href="hub.html">← Volver al Hub</a>
   <h1>Tareas programadas · Grupo Arestora</h1>
   <p class="rev" id="rev">Cargando datos del vigilante…</p>
+  <div class="ok nada" id="ok" aria-live="polite"></div>
   <div class="cifras">
     <div class="cifra r"><b id="nR">–</b><span>en rojo</span></div>
     <div class="cifra a"><b id="nA">–</b><span>en ámbar</span></div>
@@ -101,7 +120,7 @@ footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
 const CATS=["Blog y web","LinkedIn · perfil de Juancho","LinkedIn · página Grupo Arestora y AMS","Perfil de Google","Innovation Lab","Prensa y visibilidad en IA","Publicidad (Meta Ads)","Comercial · Radar Arestora","Mantenimiento y vigilancia"];
 const ORD={rojo:0,ambar:1,gris:2,verde:3};
 const NOM={rojo:"Rojo",ambar:"Ámbar",verde:"Verde",gris:"Gris"};
-let fichas=[],estado={},filtro="todas",cat="",abierta=null;
+let fichas=[],estado={},filtro="todas",cat="",abierta=null,esperan=[];
 const $=s=>document.querySelector(s);
 const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt=iso=>{if(!iso)return"—";const d=new Date(iso);return isNaN(d)?esc(iso):d.toLocaleString("es-ES",{timeZone:"Europe/Madrid",weekday:"short",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})};
@@ -112,7 +131,34 @@ function pedir(f){const e=f;const s=sem(f);
  if(!f.id)return `Crea la tarea «${f.nombre}» según su ficha del inventario (claude/inventario-tareas-programadas.md).`;
  if(s==="rojo"||s==="ambar")return `Revisa y arregla la tarea «${f.nombre}» (${f.id}). El vigilante dice: ${e.motivo||f.motivo||"sin motivo"}.${f.reorientacion?" Reorientación pendiente: "+f.reorientacion:""}`;
  return `Revisa la tarea «${f.nombre}» (${f.id}). Quiero cambiar: `}
+/* Esperan tu OK. Las propuestas las escriben tareas automáticas, así que TODO el texto
+   pasa por esc(). El enlace, además, solo se acepta si es https: una propuesta con un
+   «javascript:» dentro no debe convertirse en un botón que se pueda pulsar. */
+function renderOK(){
+ const el=$("#ok");const L=(esperan||[]).filter(p=>p&&(p.tarea||p.que));
+ if(!L.length){el.className="ok nada";el.innerHTML="<p>Nada espera tu OK.</p>";return}
+ el.className="ok";
+ const plural=L.length===1?"propuesta espera tu OK":"propuestas esperan tu OK";
+ el.innerHTML=`<div class="cab"><b>${L.length}</b><span>${plural}</span></div><ul>`+L.map(p=>{
+  const u=/^https:\/\//i.test(p.sesion_url||"")?p.sesion_url:"";
+  /* Lo que viene de «archivos» lo dejó preparado una tarea de TEC12 en las carpetas de
+     Arestora: no hay ninguna conversación que abrir, así que mandar ahí a Juancho sería
+     mandarlo a un sitio que no existe. */
+  const resp=u
+   ?`<a class="resp" href="${esc(u)}" target="_blank" rel="noopener">Responder</a>`
+   :p.origen==="archivos"
+   ?`<span class="alt">Está preparado en los archivos de Arestora, no en una conversación. Dale el visto bueno a la tarea que lo dejó listo.</span>`
+   :`<span class="alt">Abre la conversación de la tarea «${esc(p.tarea||"sin nombre")}»${p.desde?" del "+esc(fmt(p.desde)):""} en tu lista de chats de Claude y responde ahí.</span>`;
+  const d=hace(p.desde);
+  return `<li><b>${esc(p.tarea||"Sin nombre")}</b>`
+   +(p.que?`<span class="q">${esc(p.que)}</span>`:"")
+   +(p.por_que?`<span class="w">${esc(p.por_que)}</span>`:"")
+   +`<span class="d">Espera ${d?esc(d):"desde fecha desconocida"}${p.origen?" · "+esc(p.origen):""}</span>`
+   +resp+`</li>`;
+ }).join("")+"</ul>";
+}
 function render(){
+ renderOK();
  const st=estado||{};const r=st.ultima_revision;const h=r?(Date.now()-new Date(r))/36e5:null;
  const rev=$("#rev");
  if(!r){rev.textContent="El vigilante aún no ha escrito ninguna revisión.";rev.className="rev mal"}
@@ -149,9 +195,9 @@ $("#cat").addEventListener("change",e=>{cat=e.target.value;render()});
 setInterval(render,60000);
 async function cargar(){
  try{const r=await fetch("tareas.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();
-  estado={ultima_revision:d.ultima_revision,nota:d.nota};fichas=d.fichas||[];
+  estado={ultima_revision:d.ultima_revision,nota:d.nota};fichas=d.fichas||[];esperan=d.esperan_ok||[];
   try{localStorage.setItem("hub_tareas",JSON.stringify(d))}catch(e){}
- }catch(e){try{const d=JSON.parse(localStorage.getItem("hub_tareas"));if(!d)throw 0;estado={ultima_revision:d.ultima_revision,nota:"Sin conexión: estás viendo la última copia guardada."};fichas=d.fichas||[]}
+ }catch(e){try{const d=JSON.parse(localStorage.getItem("hub_tareas"));if(!d)throw 0;estado={ultima_revision:d.ultima_revision,nota:"Sin conexión: estás viendo la última copia guardada."};fichas=d.fichas||[];esperan=d.esperan_ok||[]}
   catch(e2){$("#lista").innerHTML='<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>';return}}
  const cs=[...new Set(fichas.map(f=>f.categoria))];$("#cat").innerHTML='<option value="">Todas las categorías</option>'+CATS.filter(c=>cs.includes(c)).concat(cs.filter(c=>!CATS.includes(c))).map(c=>`<option>${esc(c)}</option>`).join("");$("#cat").value=cat;render();
  $("#nota").textContent=estado.nota||"";
