@@ -1,8 +1,18 @@
 {
- "generado": "2026-11-16T20:54:13+00:00",
- "ultima_revision": "2026-11-16T20:10:00+01:00",
- "nota": "No hay resumen local: la comprobación de TEC12 de hoy (19:48) duró 4 s. TEC12 está conectado desde las 18:16, pero las tareas que usan sus carpetas terminan en 3-4 s.",
- "esperan_ok": [],
+ "generado": "2026-11-18T18:22:42+00:00",
+ "ultima_revision": "2026-11-18T08:05:59+01:00",
+ "nota": "No hay resumen local: «estado/local» sigue sin existir. La comprobación de TEC12 de ayer (19:48) duró 3 s y no lo escribió. Lo que solo está en X:\\ no se ha podido comprobar.",
+ "esperan_ok": [
+  {
+   "tarea_id": "",
+   "tarea": "Meta Ads · plan de relanzamiento",
+   "que": "Bajar la campaña C1 de 13 a 10 €/día, como se decidió el 14/11, o confirmar que 13 €/día es el presupuesto vigente.",
+   "por_que": "La cuenta va a 21 €/día entre las dos campañas, frente a los 18 €/día decididos.",
+   "desde": "2026-11-16T09:00:00+01:00",
+   "sesion_url": "",
+   "origen": "plan Meta"
+  }
+ ],
  "fichas": [
   {
    "id": "trig_01VNe23DWvzdhM7E8eEvuB8u",
@@ -19,7 +29,7 @@
     "cola de guías sin propuestas"
    ],
    "semaforo": "gris",
-   "motivo": "Aún no le ha tocado: primera vez el jueves 19/11",
+   "motivo": "Aún no le ha tocado: primera vez mañana, jueves 19/11",
    "proxima": "2026-11-19T06:43:00Z",
    "ejecuciones": []
   },
@@ -38,12 +48,17 @@
     "LinkedIn pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: el post del artículo de hoy queda sin programar en la página",
-   "proxima": "2026-11-17T11:17:00Z",
+   "motivo": "Ayer a las 12:17 y 17:17 duró 4 s: los posts del blog quedan sin programar en la página",
+   "proxima": "2026-11-18T11:17:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:11Z",
+     "dur_s": 4,
+     "fecha": "2026-11-17T16:17:57Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
      "dur_s": 3,
+     "fecha": "2026-11-16T17:16:11Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -62,12 +77,12 @@
     "dos lunes seguidos sin correr: la web vuelve sola a «+800»"
    ],
    "semaforo": "rojo",
-   "motivo": "Corrió a las 18:16 solo 3 s. La web sigue mostrando la cifra de opiniones de la semana pasada",
+   "motivo": "El lunes corrió solo 3 s: la cifra de reseñas de la web no se actualizó esta semana",
    "proxima": "2026-11-23T11:47:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:22Z",
      "dur_s": 3,
+     "fecha": "2026-11-16T17:16:22Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -87,22 +102,27 @@
     "tarea de Windows parada"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
-   "proxima": "2026-11-17T10:07:00Z",
+   "motivo": "Ayer a las 11:08 volvió a durar 4 s: no revisó LinkedIn para Actualidad",
+   "proxima": "2026-11-18T10:07:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:22Z",
-     "dur_s": 4,
-     "resultado": "Correcta según el sistema, pero 4 s"
-    },
-    {
-     "fecha": "2026-11-15T16:47:41Z",
      "dur_s": 3,
+     "fecha": "2026-11-17T10:08:44Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     },
     {
-     "fecha": "2026-11-15T10:08:06Z",
+     "dur_s": 4,
+     "fecha": "2026-11-16T17:16:22Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 3,
+     "fecha": "2026-11-15T16:47:41Z",
+     "resultado": "Correcta según el sistema, pero 3 s"
+    },
+    {
      "dur_s": 5,
+     "fecha": "2026-11-15T10:08:06Z",
      "resultado": "Correcta según el sistema, pero 5 s"
     }
    ]
@@ -121,32 +141,47 @@
     "el cortafuegos de la web bloquea ráfagas"
    ],
    "semaforo": "verde",
-   "motivo": "Hoy a las 19:20 comprobó la web en 8 s: todo bien",
-   "proxima": "2026-11-17T07:20:00Z",
+   "motivo": "Hoy a las 7:21 comprobó la web en 8 s: todo bien",
+   "proxima": "2026-11-18T07:20:00Z",
    "ejecuciones": [
     {
+     "dur_s": 8,
+     "fecha": "2026-11-18T06:21:01.382829Z",
+     "resultado": "Correcta"
+    },
+    {
+     "dur_s": 11,
+     "fecha": "2026-11-17T18:20:30Z",
+     "resultado": "Correcta"
+    },
+    {
+     "dur_s": 8,
+     "fecha": "2026-11-17T06:21:18Z",
+     "resultado": "Correcta"
+    },
+    {
+     "dur_s": 8,
      "fecha": "2026-11-16T18:20:52Z",
-     "dur_s": 8,
      "resultado": "Correcta"
     },
     {
+     "dur_s": 8,
      "fecha": "2026-11-16T06:20:40Z",
-     "dur_s": 8,
      "resultado": "Correcta"
     },
     {
+     "dur_s": 8,
      "fecha": "2026-11-15T18:20:27Z",
-     "dur_s": 8,
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-15T15:23:29Z",
      "dur_s": 10,
+     "fecha": "2026-11-15T15:23:29Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-15T13:21:07Z",
      "dur_s": 8,
+     "fecha": "2026-11-15T13:21:07Z",
      "resultado": "Correcta"
     }
    ]
@@ -184,12 +219,12 @@
     "OK de Juancho sin responder"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hay comentarios para aprobar esta semana",
+   "motivo": "El lunes corrió solo 4 s: no hay comentarios para aprobar esta semana",
    "proxima": "2026-11-23T07:46:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:21Z",
      "dur_s": 4,
+     "fecha": "2026-11-16T17:16:21Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
@@ -209,12 +244,22 @@
     "programar algo por error"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
-   "proxima": "2026-11-17T06:41:00Z",
+   "motivo": "Hoy a las 7:41 volvió a durar 4 s: no mide ni programa LinkedIn",
+   "proxima": "2026-11-19T06:41:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:15Z",
+     "dur_s": 4,
+     "fecha": "2026-11-18T06:41:50.835845Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
      "dur_s": 3,
+     "fecha": "2026-11-17T06:41:51Z",
+     "resultado": "Correcta según el sistema, pero 3 s"
+    },
+    {
+     "dur_s": 3,
+     "fecha": "2026-11-16T17:16:15Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -234,12 +279,17 @@
    ],
    "reorientacion": "El artículo del 18/11 debería estar ya redactado (lo hacía el jueves 12/11 y la tarea antigua falló): comprobar el lunes",
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo. El artículo del 18/11 sigue sin redactar",
-   "proxima": "2026-11-17T08:07:00Z",
+   "motivo": "Ayer a las 9:07 duró 3 s: el artículo de hoy 18/11 sigue sin redactar y sin tu OK",
+   "proxima": "2026-11-18T08:07:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:15:59Z",
+     "dur_s": 4,
+     "fecha": "2026-11-17T08:07:49Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
      "dur_s": 3,
+     "fecha": "2026-11-16T17:15:59Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -258,12 +308,12 @@
     "LinkedIn pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "motivo": "El lunes corrió solo 3 s: no hay revisión de la página esta semana",
    "proxima": "2026-11-23T08:37:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:21Z",
      "dur_s": 3,
+     "fecha": "2026-11-16T17:16:21Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -282,12 +332,12 @@
     "LinkedIn pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "motivo": "El lunes corrió solo 3 s: no hay revisión de AMS esta semana",
    "proxima": "2026-11-23T09:12:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:15Z",
      "dur_s": 3,
+     "fecha": "2026-11-16T17:16:15Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -306,10 +356,16 @@
     "sin imágenes válidas",
     "plan en PAUSA"
    ],
-   "semaforo": "gris",
-   "motivo": "Aún no le ha tocado: primera vez el martes 17/11",
-   "proxima": "2026-11-17T09:34:00Z",
-   "ejecuciones": []
+   "semaforo": "rojo",
+   "motivo": "Ayer a las 10:34 corrió solo 4 s: el contenido de AMS del martes no salió",
+   "proxima": "2026-11-19T09:34:00Z",
+   "ejecuciones": [
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-17T09:34:29Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
   },
   {
    "id": "trig_01VDKDMeST9vFvNMBDvNNhUH",
@@ -343,12 +399,17 @@
     "Google pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
-   "proxima": "2026-11-17T16:37:00Z",
+   "motivo": "Ayer a las 17:38 volvió a durar 4 s: no respondió reseñas",
+   "proxima": "2026-11-18T16:37:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:15Z",
      "dur_s": 4,
+     "fecha": "2026-11-17T16:38:03Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-16T17:16:15Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
@@ -367,12 +428,17 @@
     "Google pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
-   "proxima": "2026-11-17T12:23:00Z",
+   "motivo": "Ayer a las 13:23 volvió a durar 4 s: no llevó a Google el artículo nuevo",
+   "proxima": "2026-11-18T12:23:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:11Z",
      "dur_s": 4,
+     "fecha": "2026-11-17T12:23:34Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-16T17:16:11Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
@@ -392,7 +458,7 @@
    ],
    "reorientacion": "La newsletter de LinkedIn está en fase de estructura (sin nombre, periodicidad ni tarea): el radar solo propone bloques «para la próxima edición»",
    "semaforo": "ambar",
-   "motivo": "Aún no ha corrido (primera vez el 18/11). Pendiente de decidir la newsletter",
+   "motivo": "Aún no ha corrido (primera vez hoy a las 12:41). Pendiente de decidir la newsletter",
    "proxima": "2026-11-18T11:41:00Z",
    "ejecuciones": []
   },
@@ -446,12 +512,12 @@
     "Supabase pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "El 15/11 corrió 3 s: el control de noviembre no se hizo, y su recuperación de hoy duró 21 s",
+   "motivo": "El control de noviembre no se hizo (el 15/11 duró 3 s y su recuperación del 16/11, 21 s)",
    "proxima": "2026-12-15T09:23:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-15T09:23:48Z",
      "dur_s": 3,
+     "fecha": "2026-11-15T09:23:48Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -507,7 +573,7 @@
     "muestra pequeña"
    ],
    "semaforo": "gris",
-   "motivo": "Próxima vez el 12/02/2027. La recuperación de la edición de noviembre (hoy) duró 4 s y no se hizo",
+   "motivo": "Próxima vez el 12/02/2027. Ojo: la recuperación de la edición de noviembre (16/11) duró 4 s y no se hizo",
    "proxima": "2027-02-12T08:29:00Z",
    "ejecuciones": []
   },
@@ -560,10 +626,16 @@
    "evidencia": "Normalmente nada (menos de 30); con 30 o más, claude/cuestionario-articulo-temporada-1.md",
    "riesgos": [],
    "reorientacion": "Apenas usa carpetas: podría correr en la nube y no depender de TEC12",
-   "semaforo": "ambar",
-   "motivo": "Aún no ha corrido (primera vez el 17/11). Podría pasar a la nube y no depender de TEC12",
-   "proxima": "2026-11-17T08:41:00Z",
-   "ejecuciones": []
+   "semaforo": "rojo",
+   "motivo": "Ayer a las 9:42 corrió solo 3 s: no llegó a contar las respuestas del Cuestionario",
+   "proxima": "2026-11-24T08:41:00Z",
+   "ejecuciones": [
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-17T08:42:31Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    }
+   ]
   },
   {
    "id": "trig_014g3qQwKSh77qKbaD7tnHWo",
@@ -579,12 +651,17 @@
     "límite o CAPTCHA de LinkedIn"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: hoy no se enviaron invitaciones",
-   "proxima": "2026-11-17T10:23:00Z",
+   "motivo": "Ayer a las 11:23 duró 3 s: no se enviaron invitaciones",
+   "proxima": "2026-11-18T10:23:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:22Z",
      "dur_s": 4,
+     "fecha": "2026-11-17T10:23:38Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-16T17:16:22Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
@@ -617,24 +694,8 @@
    "evidencia": "Filas nuevas en visibilidad-ia\\prensa\\menciones.csv / envios.csv / oportunidades.csv (puede no haber nada)",
    "riesgos": [],
    "semaforo": "gris",
-   "motivo": "Aún no le ha tocado: primera vez el miércoles 18/11",
+   "motivo": "Aún no le ha tocado: primera vez hoy a las 9:13",
    "proxima": "2026-11-18T08:13:00Z",
-   "ejecuciones": []
-  },
-  {
-   "id": "trig_018KNCwUJdkHLk71k5BHTg17",
-   "nombre": "Recuperación · Guía de decisión del 12/11 · TEC12",
-   "corto": "Recuperación · Guía del 12/11",
-   "categoria": "Mantenimiento y vigilancia",
-   "proposito": "Recupera la guía de decisión del jueves 12/11, que no se publicó",
-   "frecuencia": "Una vez: martes 17/11 7:43",
-   "equipo": "TEC12 · carpetas sí (Web Arestora + proyectos)",
-   "necesita_ok": false,
-   "evidencia": "Carpeta articulos\\GUI-*-2026W46\\ y fila PENDIENTE_PUBLICAR en registro-publicados.csv",
-   "riesgos": [],
-   "semaforo": "gris",
-   "motivo": "De un solo uso: corre el martes 17/11",
-   "proxima": "2026-11-17T06:43:00Z",
    "ejecuciones": []
   },
   {
@@ -648,18 +709,23 @@
    "necesita_ok": false,
    "evidencia": "Ejecución cerrada en Supabase (tabla ejecuciones)",
    "riesgos": [],
-   "semaforo": "verde",
-   "motivo": "Hoy a las 8:21 corrió 18 min: normal",
-   "proxima": "2026-11-17T07:15:00Z",
+   "semaforo": "rojo",
+   "motivo": "La pasada de ayer (8:17) quedó abandonada sin terminar; la de hoy toca a las 8:15",
+   "proxima": "2026-11-18T07:15:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T07:21:35Z",
+     "dur_s": null,
+     "fecha": "2026-11-17T07:17:39Z",
+     "resultado": "Fallida"
+    },
+    {
      "dur_s": 1080,
+     "fecha": "2026-11-16T07:21:35Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-15T06:16:17Z",
      "dur_s": 612,
+     "fecha": "2026-11-15T06:16:17Z",
      "resultado": "Correcta"
     }
    ]
@@ -676,17 +742,22 @@
    "evidencia": "Ejecución cerrada en Supabase",
    "riesgos": [],
    "semaforo": "rojo",
-   "motivo": "Empezó a las 13:04 y casi 7 h después sigue sin terminar (normalmente tarda 10-30 min)",
-   "proxima": "2026-11-17T12:02:13Z",
+   "motivo": "La pasada de ayer (13:03) quedó abandonada sin terminar: el sistema no la da por buena",
+   "proxima": "2026-11-18T12:02:13.528994Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T12:04:00Z",
-     "dur_s": 0,
-     "resultado": "En curso"
+     "dur_s": null,
+     "fecha": "2026-11-17T12:03:31Z",
+     "resultado": "Fallida"
     },
     {
-     "fecha": "2026-11-15T12:03:52Z",
+     "dur_s": null,
+     "fecha": "2026-11-16T12:04:00Z",
+     "resultado": "Fallida"
+    },
+    {
      "dur_s": 1725,
+     "fecha": "2026-11-15T12:03:52Z",
      "resultado": "Correcta"
     }
    ]
@@ -703,22 +774,37 @@
    "evidencia": "Ninguna si no hay peticiones",
    "riesgos": [],
    "semaforo": "verde",
-   "motivo": "Hoy a las 19:07 corrió 25 s: normal",
-   "proxima": "2026-11-17T07:06:00Z",
+   "motivo": "Hoy a las 7:07 corrió 15 s sin peticiones: normal",
+   "proxima": "2026-11-18T07:06:26.728284Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T18:07:03Z",
+     "dur_s": 15,
+     "fecha": "2026-11-18T06:07:54.526723Z",
+     "resultado": "Correcta"
+    },
+    {
+     "dur_s": 15,
+     "fecha": "2026-11-17T18:07:07Z",
+     "resultado": "Correcta"
+    },
+    {
+     "dur_s": 15,
+     "fecha": "2026-11-17T06:07:32Z",
+     "resultado": "Correcta"
+    },
+    {
      "dur_s": 25,
+     "fecha": "2026-11-16T18:07:03Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-16T06:07:06Z",
      "dur_s": 14,
+     "fecha": "2026-11-16T06:07:06Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-13T19:08:00Z",
      "dur_s": 18,
+     "fecha": "2026-11-13T19:08:00Z",
      "resultado": "Correcta"
     }
    ]
@@ -736,11 +822,11 @@
    "riesgos": [],
    "semaforo": "verde",
    "motivo": "El 01/11 corrió 8 min: normal",
-   "proxima": "2026-12-01T07:05:44Z",
+   "proxima": "2026-12-01T07:05:44.540713Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-01T07:02:20Z",
      "dur_s": 506,
+     "fecha": "2026-11-01T07:02:20Z",
      "resultado": "Correcta"
     }
    ]
@@ -793,17 +879,17 @@
     "TEC12 apagado"
    ],
    "semaforo": "rojo",
-   "motivo": "Hoy a las 18:16 corrió solo 4 s. El artículo del lunes salió a las 19:20, pero no lo hizo esta tarea",
+   "motivo": "El lunes corrió solo 4 s. El artículo del lunes salió a las 19:20, pero no lo hizo esta tarea",
    "proxima": "2026-11-23T06:37:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:21Z",
      "dur_s": 4,
+     "fecha": "2026-11-16T17:16:21Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
-     "fecha": "2026-11-09T06:38:07Z",
      "dur_s": 3,
+     "fecha": "2026-11-09T06:38:07Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -821,13 +907,18 @@
    "riesgos": [
     "TEC12 apagado"
    ],
-   "semaforo": "gris",
-   "motivo": "Renovada el 15/11 con carpetas; primera ejecución con la nueva configuración el 18/11",
-   "proxima": "2026-11-18T06:41:00Z",
+   "semaforo": "rojo",
+   "motivo": "Hoy a las 7:41 corrió solo 4 s: el artículo del miércoles no se está publicando",
+   "proxima": "2026-11-25T06:41:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-11T11:32:36Z",
      "dur_s": 4,
+     "fecha": "2026-11-18T06:41:46.711024Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-11T11:32:36Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
@@ -846,12 +937,12 @@
     "TEC12 apagado"
    ],
    "semaforo": "gris",
-   "motivo": "Renovada el 15/11 y pasada a las 7:39; primera ejecución con la nueva configuración el 20/11",
+   "motivo": "Renovada el 15/11; primera ejecución con la nueva configuración el viernes 20/11",
    "proxima": "2026-11-20T06:39:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-13T03:08:26Z",
      "dur_s": 3,
+     "fecha": "2026-11-13T03:08:26Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -870,37 +961,52 @@
     "TEC12 apagado"
    ],
    "semaforo": "rojo",
-   "motivo": "A las 18:23 volvió a durar 4 s: sigue sin llegar a los archivos de TEC12",
-   "proxima": "2026-11-16T19:23:00Z",
+   "motivo": "Anoche a las 22:23 volvió a durar 4 s: sigue sin llegar a los archivos de TEC12",
+   "proxima": "2026-11-18T09:23:00Z",
    "ejecuciones": [
     {
+     "dur_s": 4,
+     "fecha": "2026-11-17T21:23:24.238937Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-17T17:23:41Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
+     "fecha": "2026-11-16T21:23:15Z",
+     "resultado": "Correcta según el sistema, pero 4 s"
+    },
+    {
+     "dur_s": 4,
      "fecha": "2026-11-16T17:23:33Z",
-     "dur_s": 4,
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
+     "dur_s": 4,
      "fecha": "2026-11-15T21:23:30Z",
-     "dur_s": 4,
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
+     "dur_s": 4,
      "fecha": "2026-11-15T17:23:49Z",
-     "dur_s": 4,
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
-     "fecha": "2026-11-15T15:23:45Z",
      "dur_s": 3,
+     "fecha": "2026-11-15T15:23:45Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     },
     {
-     "fecha": "2026-11-15T13:23:50Z",
      "dur_s": 4,
+     "fecha": "2026-11-15T13:23:50Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
-     "fecha": "2026-11-15T09:23:41Z",
      "dur_s": 3,
+     "fecha": "2026-11-15T09:23:41Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -919,17 +1025,17 @@
     "Google pide sesión"
    ],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 4 s: no hizo su trabajo",
+   "motivo": "El lunes corrió solo 4 s: no revisó la indexación esta semana",
    "proxima": "2026-11-23T07:47:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:11Z",
      "dur_s": 4,
+     "fecha": "2026-11-16T17:16:11Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     },
     {
-     "fecha": "2026-11-09T07:49:40Z",
      "dur_s": 3,
+     "fecha": "2026-11-09T07:49:40Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -978,17 +1084,17 @@
    "evidencia": "Mensaje con el resultado de la revisión",
    "riesgos": [],
    "semaforo": "rojo",
-   "motivo": "TEC12 volvió a conectarse hacia las 18:16 y la tarea se lanzó, pero duró 3 s: no hizo su trabajo",
+   "motivo": "El lunes corrió solo 3 s: el catálogo del Hub no se revisó esta semana",
    "proxima": "2026-11-23T07:13:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T17:16:21Z",
      "dur_s": 3,
+     "fecha": "2026-11-16T17:16:21Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     },
     {
-     "fecha": "2026-11-09T06:13:46Z",
      "dur_s": 3,
+     "fecha": "2026-11-09T06:13:46Z",
      "resultado": "Correcta según el sistema, pero 3 s"
     }
    ]
@@ -1007,17 +1113,22 @@
     "bloqueo de anunciante/pagador pendiente desde el 05/11"
    ],
    "semaforo": "verde",
-   "motivo": "Hoy a las 9:18 corrió 7 min: normal",
-   "proxima": "2026-11-17T08:13:00Z",
+   "motivo": "Hoy a las 9:13 corrió 7 min: normal",
+   "proxima": "2026-11-18T08:13:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T08:18:42Z",
-     "dur_s": 431,
+     "dur_s": 394,
+     "fecha": "2026-11-17T08:13:33Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-13T08:14:31Z",
+     "dur_s": 431,
+     "fecha": "2026-11-16T08:18:42Z",
+     "resultado": "Correcta"
+    },
+    {
      "dur_s": 77,
+     "fecha": "2026-11-13T08:14:31Z",
      "resultado": "Correcta"
     }
    ]
@@ -1036,17 +1147,17 @@
     "los leads de empresa solo los tiene Juancho"
    ],
    "semaforo": "verde",
-   "motivo": "Hoy a las 9:24 corrió 3 min: informe semanal hecho",
+   "motivo": "El lunes a las 9:24 corrió 3 min: informe semanal hecho",
    "proxima": "2026-11-23T08:23:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-16T08:24:05Z",
      "dur_s": 184,
+     "fecha": "2026-11-16T08:24:05Z",
      "resultado": "Correcta"
     },
     {
-     "fecha": "2026-11-09T08:23:38Z",
      "dur_s": 142,
+     "fecha": "2026-11-09T08:23:38Z",
      "resultado": "Correcta"
     }
    ]
@@ -1063,7 +1174,7 @@
    "evidencia": "Cierre del mes en el plan y mensaje",
    "riesgos": [],
    "semaforo": "gris",
-   "motivo": "Primera vez el 01/12; instrucciones revisadas el 16/11",
+   "motivo": "Primera vez el 01/12",
    "proxima": "2026-12-01T08:37:00Z",
    "ejecuciones": []
   },
@@ -1081,7 +1192,7 @@
     "Odoo pide sesión: entonces pide el dato a Juancho"
    ],
    "semaforo": "gris",
-   "motivo": "De un solo uso (19/11); si no hay Chrome de TEC12, pedirá el dato de Odoo",
+   "motivo": "De un solo uso (19/11); instrucciones revisadas el 15/11: si no hay Chrome de TEC12, pedirá el dato de Odoo",
    "proxima": "2026-11-19T08:00:00Z",
    "ejecuciones": []
   },
@@ -1136,8 +1247,8 @@
    "proxima": "2027-01-01T03:13:00Z",
    "ejecuciones": [
     {
-     "fecha": "2026-11-15T16:47:20Z",
      "dur_s": 4,
+     "fecha": "2026-11-15T16:47:20Z",
      "resultado": "Correcta según el sistema, pero 4 s"
     }
    ]
