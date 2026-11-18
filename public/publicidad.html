@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publicidad · Arestora Hub</title>
+<meta name="theme-color" content="#0E192F">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Mismo sistema que tareas.html: azul noche para lo que hay que ver de un vistazo,
+   fondo #EAEEF5 para lo que se lee con calma. Tarjetas planas, sin bordes de color. */
+:root{color-scheme:light;
+--bg:#EAEEF5;--card:#FFFFFF;--ink:#0E192F;--mute:#5B6478;--line:#DCE2EF;--acc:#254D9D;
+--night:#0E192F;--night2:#142443;--nline:#22345A;--nacc:#8FB8EC;--nmute:#C9D6EE;
+--rojo:#D23B3B;--ambar:#E0A21B;--verde:#2E9E6A;--gris:#9AA3B5}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Poppins,system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:860px;margin:0 auto}
+header{background:var(--night);color:#fff;padding:24px max(5vw,16px) 26px}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.volver,.salir{color:var(--nacc);font-size:14px;font-weight:500;text-decoration:none;background:none;border:0;font-family:inherit;cursor:pointer;padding:6px 0;min-height:32px}
+.volver:hover,.salir:hover{text-decoration:underline}
+h1{font-size:clamp(22px,5.5vw,30px);line-height:1.1;margin:0 0 6px;font-weight:700;text-wrap:balance}
+.act{color:var(--nacc);font-size:14px;margin:0}
+.act.viejo{color:#FF9C9C;font-weight:600}
+.cifras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:20px}
+.cifra{background:var(--night2);border-radius:14px;padding:12px 12px 12px 14px;position:relative}
+.cifra b{display:block;font-size:clamp(24px,7.4vw,44px);line-height:1.05;font-weight:700;letter-spacing:-.01em}
+.cifra b.pend{font-size:clamp(15px,4vw,20px);line-height:1.25;color:var(--nacc)}
+.cifra span{display:block;font-size:12.5px;color:var(--nmute);margin-top:4px;line-height:1.3}
+.cifra>.q{position:absolute;top:9px;right:9px}
+.cifra b{padding-right:16px}
+.cifra small{display:block;font-size:11.5px;color:#93A3C2;margin-top:4px}
+.resumen{margin:18px 0 0;font-size:15px;color:#E4ECF9;max-width:68ch}
+.ok{margin-top:20px;background:var(--night2);border-radius:14px;padding:16px 16px 6px}
+.ok h2{margin:0;color:#fff;font-size:16px;display:flex;align-items:baseline;gap:10px}
+.ok h2 b{font-size:clamp(30px,9vw,44px);color:var(--nacc);line-height:1}
+.ok ul{list-style:none;margin:10px 0 0;padding:0}
+.ok li{border-top:1px solid var(--nline);padding:11px 0 12px}
+.ok li strong{display:block;color:#fff;font-size:15px;font-weight:600}
+.ok li span{display:block;font-size:14px;color:var(--nmute);margin-top:3px}
+.ok li em{display:block;font-style:normal;font-size:13px;color:var(--nacc);margin-top:3px}
+.ok li i{display:block;font-style:normal;font-size:12.5px;color:#93A3C2;margin-top:6px}
+.avisos{margin:16px 0 0;padding:0;list-style:none}
+.avisos li{font-size:14px;color:#FFD9A0;padding:6px 0 6px 22px;position:relative}
+.avisos li::before{content:"";position:absolute;left:4px;top:13px;width:9px;height:9px;border-radius:50%;background:var(--ambar)}
+main{padding:4px max(5vw,16px) 30px}
+section{margin-top:26px}
+section>h2{font-size:19px;margin:0 0 10px;font-weight:700}
+.tarjeta{background:var(--card);border-radius:14px;padding:16px;margin-bottom:10px}
+.tarjeta p{margin:0 0 8px}.tarjeta p:last-child{margin-bottom:0}
+.camps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:10px}
+.camp{background:var(--card);border-radius:14px;padding:14px 16px}
+.camp h3{margin:0 0 4px;font-size:16px;font-weight:600;line-height:1.3}
+.camp .est{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:2px 10px;background:#E3ECFA;color:var(--acc);margin-bottom:8px}
+.camp .est.pausa{background:#EEF0F4;color:var(--mute)}
+.camp dl{margin:0;display:grid;gap:6px}
+.camp dt{font-size:12px;color:var(--mute)}.camp dd{margin:0;font-size:14px}
+.tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.tab{font:500 14px Poppins,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:0 16px;min-height:40px;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.tab:focus-visible,.q:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.periodo{font-size:13px;color:var(--mute);margin:0 0 8px}
+/* Resultados: en móvil, una tarjeta por campaña; en pantalla ancha, tabla. */
+.res{display:grid;gap:10px}
+.rc{background:var(--card);border-radius:14px;padding:14px 16px}
+.rc h3{margin:0 0 8px;font-size:15.5px;font-weight:600}
+.rc .g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;margin:0}
+.rc .m dt{font-size:12px;color:var(--mute);display:flex;align-items:center;gap:4px}
+.rc .m dd{margin:0;font-size:15.5px;font-weight:600;display:flex;align-items:center;gap:7px;font-variant-numeric:tabular-nums}
+.sem{width:11px;height:11px;border-radius:50%;flex:none;border:0;padding:0;cursor:pointer}
+.s-verde{background:var(--verde)}.s-ambar{background:var(--ambar)}.s-rojo{background:var(--rojo)}.s-gris{background:var(--gris)}
+@media (min-width:760px){.rc .g{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.q{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:1px solid #B8C3D8;background:transparent;color:var(--mute);font:600 11px Poppins,sans-serif;cursor:pointer;padding:0;flex:none;position:relative}
+.q::after{content:"";position:absolute;inset:-12px}
+header .q{border-color:#4A5F88;color:var(--nmute)}
+.burbuja{position:absolute;z-index:30;max-width:300px;background:var(--night);color:#fff;font-size:13.5px;line-height:1.45;border-radius:12px;padding:12px 14px;box-shadow:0 8px 24px rgba(14,25,47,.28)}
+.burbuja b{display:block;color:var(--nacc);font-size:13px;margin-bottom:3px}
+.burbuja .ej{display:block;color:var(--nmute);margin-top:6px;font-size:12.5px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12.5px;color:var(--mute);font-weight:500}
+.cmp{background:var(--card);border-radius:14px;padding:6px 8px;overflow-x:auto}
+.cmp td:first-child{font-weight:500}
+.cmp .nota{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
+.linea{list-style:none;margin:0;padding:0}
+.linea li{background:var(--card);border-radius:14px;padding:13px 16px;margin-bottom:8px;display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px}
+.linea .f{font-size:13px;color:var(--acc);font-weight:600;line-height:1.35}
+.linea .t{font-size:15px;font-weight:500}
+.linea .w{font-size:13.5px;color:var(--mute);margin-top:3px}
+.linea .who{font-size:12.5px;color:var(--mute);margin-top:5px}
+.etq{display:inline-block;font-size:12px;font-weight:600;border-radius:999px;padding:1px 9px;margin-top:6px;background:#E3ECFA;color:var(--acc)}
+.etq.atn{background:#FCEFD6;color:#8A5A00}
+details.leer{background:var(--card);border-radius:14px;padding:4px 16px}
+details.leer summary{cursor:pointer;font-weight:600;font-size:16px;min-height:48px;display:flex;align-items:center;list-style:none}
+details.leer summary::-webkit-details-marker{display:none}
+details.leer summary::after{content:"+";margin-left:auto;font-size:22px;color:var(--acc)}
+details.leer[open] summary::after{content:"–"}
+.leer h3{font-size:15px;margin:18px 0 8px;color:var(--acc)}
+.glos{margin:0;display:grid;gap:10px}
+.glos dt{font-weight:600;font-size:14.5px}
+.glos dd{margin:2px 0 0;font-size:14px;color:#2C3550}
+.glos dd .ej{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+.obj{margin:0;padding-left:18px}.obj li{margin-bottom:10px;font-size:14px}
+.obj b{font-weight:600}
+.vacio{background:var(--card);border-radius:14px;padding:24px;text-align:center;color:var(--mute);margin-top:22px}
+footer{font-size:12.5px;color:var(--mute);padding:6px max(5vw,16px) 34px}
+@media (max-width:420px){.cifras{gap:7px}.cifra{padding:10px 9px}.linea li{grid-template-columns:62px minmax(0,1fr);gap:10px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="barra"><a class="volver" href="hub.html">← Volver al Hub</a><button class="salir" id="salir" type="button">Cerrar sesión</button></div>
+  <h1>Cuadro de mando de publicidad</h1>
+  <p class="act" id="act">Comprobando tu sesión…</p>
+  <div class="cifras" id="cifras" hidden></div>
+  <p class="resumen" id="resumen"></p>
+  <div id="ok"></div>
+  <ul class="avisos" id="avisos"></ul>
+</header>
+<main id="main"><div class="vacio">Cargando…</div></main>
+<footer id="pie"></footer>
+</div>
+<div class="burbuja" id="burbuja" role="tooltip" hidden></div>
+<script src="sesion.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num = v => (v === null || v === undefined || v === "" || isNaN(Number(v))) ? null : Number(v);
+const eur = v => { const n = num(v); return n === null ? null : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €"; };
+const eur0 = v => { const n = num(v); return n === null ? null : n.toLocaleString("es-ES",{maximumFractionDigits:0}) + " €"; };
+const pct = v => { const n = num(v); return n === null ? null : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " %"; };
+const dec = v => { const n = num(v); return n === null ? null : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+const ent = v => { const n = num(v); return n === null ? null : n.toLocaleString("es-ES"); };
+const fecha = s => { if(!s) return ""; const m = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(String(s)); if(!m) return esc(s);
+  return m[3] ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : `${m[2]}/${m[1]}`; };
+const fechaHora = s => { const d = new Date(s); return isNaN(d) ? esc(s) : d.toLocaleString("es-ES",{timeZone:"Europe/Madrid",day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); };
+const hace = s => { const h = (Date.now() - new Date(s)) / 36e5; if(isNaN(h)) return "";
+  return h < 1 ? `hace ${Math.max(1,Math.round(h*60))} min` : h < 48 ? `hace ${Math.round(h)} h` : `hace ${Math.round(h/24)} días`; };
+let D = null;
+
+/* ---------------- Glosario (texto fijo; los ejemplos usan las cifras del momento) ---------------- */
+const c1 = () => ((D && D.resultados && D.resultados.periodo_7d && D.resultados.periodo_7d.campanas) || []).find(c => /C1/.test(c.nombre||"")) || {};
+const G = {
+  gasto:{t:"Gasto",d:"Lo que Meta nos ha cobrado por enseñar los anuncios en ese periodo.",ej:()=>eur(c1().gasto)&&`C1 gastó ${eur(c1().gasto)} en los últimos 7 días.`},
+  impresiones:{t:"Impresiones",d:"Veces que un anuncio apareció en una pantalla. Si la misma persona lo ve dos veces, cuenta dos."},
+  alcance:{t:"Alcance",d:"Personas distintas que vieron el anuncio al menos una vez."},
+  frecuencia:{t:"Frecuencia",d:"Veces que la misma persona ve el anuncio, de media. Por encima de 3,5 el anuncio cansa y hay que renovarlo.",ej:()=>dec(c1().frecuencia)&&`En C1, cada persona lo ha visto ${dec(c1().frecuencia)} veces de media en 7 días.`},
+  cpm:{t:"CPM",d:"Lo que cuesta que el anuncio se muestre 1.000 veces. Cuanto más bajo, más gente vemos con el mismo dinero.",ej:()=>eur(c1().cpm)&&`En C1, 1.000 apariciones cuestan ${eur(c1().cpm)}.`},
+  clic:{t:"Clic",d:"Cuando alguien pulsa en el anuncio (para abrir el formulario, ver la imagen o ir a la página)."},
+  ctr:{t:"CTR",d:"Porcentaje de personas que hacen clic después de ver el anuncio. Con el gestor externo era del 1,01 %.",ej:()=>pct(c1().ctr)&&`En C1, ${pct(c1().ctr)}: unas ${Math.round(num(c1().ctr)*10)} de cada 1.000 personas que lo ven pulsan.`},
+  lead:{t:"Lead",d:"Persona que deja sus datos en el formulario del anuncio. Puede ser una empresa interesada o alguien que busca empleo."},
+  lead_empresa:{t:"Lead de empresa",d:"Lead que es una empresa interesada, no un candidato buscando empleo. Lo confirma Juancho o María Varela en Odoo. Es el único que cuenta como éxito."},
+  cpl:{t:"CPL · coste por lead",d:"Gasto dividido entre leads. Mide volumen, no calidad: un lead barato que busca empleo no vale nada.",ej:()=>eur(c1().cpl)&&`C1: ${eur(c1().gasto)} ÷ ${c1().leads} leads = ${eur(c1().cpl)} por lead.`},
+  cple:{t:"Coste por lead de empresa",d:"Gasto dividido solo entre los leads que son empresas. Es la cifra que decide si se escala el presupuesto."},
+  aprendizaje:{t:"Fase de aprendizaje",d:"Días en que Meta prueba a quién enseñar el anuncio. Se reinicia al cambiar el público, el presupuesto o los anuncios: por eso no se tocan durante esos días."},
+  advantage:{t:"Advantage+ audiencia",d:"Meta amplía el público por su cuenta, buscando a quien más probablemente rellene el formulario, siempre dentro de las zonas que fijamos. Se activó el 14/11."},
+  retargeting:{t:"Retargeting",d:"Volver a enseñar anuncios a quien ya nos conoce (por ejemplo, quien interactuó con la página de Facebook)."},
+  conjunto:{t:"Conjunto de anuncios",d:"El nivel intermedio de una campaña: ahí se fija a quién se enseñan los anuncios y dónde. Cada campaña nuestra tiene uno."},
+  formulario:{t:"Formulario de leads",d:"Formulario que se abre dentro de Facebook o Instagram, sin salir a la web. Es nuestro embudo porque la web aún no tiene el píxel de Meta."},
+  pixel:{t:"Píxel de Meta",d:"Código que se pone en la web para que Meta sepa quién la visita. Sin él no se puede hacer retargeting de visitas a la web."},
+  campana:{t:"Campaña",d:"Agrupa los anuncios de un mismo objetivo y presupuesto. Tenemos C1 (PAMEE), C2 (FUNDAE) y C3 (retargeting)."},
+  presupuesto:{t:"Presupuesto diario",d:"Lo máximo que Meta puede gastar al día en esa campaña. Algún día puede pasarse un poco; Meta lo compensa en la semana."},
+  pamee:{t:"PAMEE",d:"El programa de Arestora para reducir el absentismo en la empresa. Lo vende C1. Un cliente PAMEE factura unos 15.000 €."},
+  fundae:{t:"FUNDAE",d:"Fundación Estatal para la Formación en el Empleo: gestiona el crédito que cada empresa tiene para formar a su plantilla con bonificación. C2 vende formación bonificable; un cliente FUNDAE factura entre 2.000 y 7.000 €."},
+  odoo:{t:"Odoo",d:"El programa comercial de Arestora. Allí entra cada lead de Meta (medio «Grupo Arestora Online: Meta») y allí se ve si es una empresa."},
+  semaforo:{t:"Semáforo",d:"Verde: dentro del objetivo. Ámbar: zona de mantener y vigilar. Rojo: fuera del objetivo. Gris: falta el dato. Pulsa cada punto para ver su regla."}
+};
+const q = k => G[k] ? `<button class="q" type="button" data-g="${k}" aria-label="Qué es ${esc(G[k].t)}">?</button>` : "";
+
+/* ---------------- Reglas del semáforo (las decisiones de Juancho, fijas aquí) ---------------- */
+const R = {
+  frecuencia: v => v === null ? ["gris","Falta el dato."] : v > 3.5 ? ["rojo","Más de 3,5: el anuncio cansa y hay que renovarlo."] : v > 3 ? ["ambar","Entre 3 y 3,5: preparar una variante del anuncio."] : ["verde","Hasta 3: el público aún no está cansado. Por encima de 3,5 se renueva."],
+  cpm: (v, nombre) => !/C2/.test(nombre||"") ? null
+     : v === null ? ["gris","Falta el dato."] : v <= 15 ? ["verde","Objetivo tras ampliar el público el 14/11: bajar hacia unos 15 €."] : v <= 25 ? ["ambar","Entre 15 y 25 €: bajando, pero aún lejos de los 15 €."] : ["rojo","Por encima de 25 €: hay que diagnosticar por qué (público, anuncios o aprendizaje)."],
+  cpl: v => v === null ? ["gris","Sin leads todavía: no hay coste por lead."] : v <= 25 ? ["verde","Hasta 25 € por lead: objetivo del plan del 04/11 (hipótesis)."] : v <= 40 ? ["ambar","Entre 25 y 40 €: por encima del objetivo del plan, sin llegar a la alarma de 40 €."] : ["rojo","Más de 40 € por lead: alarma del plan del 04/11. Recuerda que mide volumen, no calidad."],
+  leads: (v, gasto) => gasto === null ? null : (gasto >= 40 && (v||0) === 0) ? ["rojo","Más de 40 € gastados sin ningún lead. Regla: un anuncio así se pausa si quedan otros dos."] : null,
+  cple: (v, nombre) => {
+    if(v === null) return ["gris","Falta el dato de Odoo: cuántos leads son de empresa. Lo da Juancho."];
+    if(/C1|PAMEE/i.test(nombre||"")) return v <= 150 ? ["verde","PAMEE: hasta unos 150 € por lead de empresa se puede escalar."] : v <= 300 ? ["ambar","PAMEE: entre 150 y 300 € se mantiene y se optimiza."] : ["rojo","PAMEE: más de 300 € no se escala."];
+    if(/C2|FUNDAE/i.test(nombre||"")) return v <= 50 ? ["verde","FUNDAE: hasta unos 50 € por lead de empresa se puede escalar."] : v <= 100 ? ["ambar","FUNDAE: entre 50 y 100 € se mantiene y se optimiza."] : ["rojo","FUNDAE: más de 100 € no se escala."];
+    return ["gris","Sin regla para esta campaña."];
+  }
+};
+const sem = (r, k) => r ? `<button class="sem s-${r[0]}" type="button" data-regla="${esc(r[1])}" data-g2="${k}" aria-label="Semáforo ${r[0]}: ${esc(r[1])}"></button>` : "";
+
+/* ---------------- Pintado ---------------- */
+function cifra(valor, etiqueta, clave, pie, pendiente){
+  return `<div class="cifra">${q(clave)}<b class="${pendiente?"pend":""}">${valor}</b><span>${etiqueta}</span>${pie?`<small>${pie}</small>`:""}</div>`;
+}
+function pintar(p){
+  D = p.datos || {};
+  const r = D.resultados || {}, m = r.mes_actual || {};
+  const act = D.actualizado || p.actualizado, h = (Date.now() - new Date(act)) / 36e5;
+  $("#act").textContent = `Actualizado ${hace(act)} (${fechaHora(act)}) · por ${D.por || p.origen || "—"}`;
+  $("#act").className = "act" + (h > 96 ? " viejo" : "");
+  const cple = num(m.coste_lead_empresa), le = num(m.leads_empresa);
+  $("#cifras").innerHTML =
+    cifra(esc(eur0(m.gasto) ?? "—"), "Gasto del mes", "gasto", esc(m.etiqueta ? "Noviembre hasta hoy" : "")) +
+    cifra(esc(ent(m.leads) ?? "—"), "Leads del mes", "lead", le === null ? "De empresa: pendiente" : `${esc(ent(le))} de empresa`) +
+    (cple === null ? cifra("Pendiente de tu dato", "Coste por lead de empresa", "cple", "Odoo · lo das tú", true)
+                   : cifra(esc(eur0(cple)), "Coste por lead de empresa", "cple", esc(m.fuente_leads_empresa || "")));
+  $("#cifras").hidden = false;
+  $("#resumen").textContent = D.resumen || "";
+  const ok = Array.isArray(D.esperan_ok) ? D.esperan_ok.filter(x => x && (x.que || x.tarea)) : [];
+  $("#ok").innerHTML = ok.length ? `<div class="ok"><h2><b>${ok.length}</b>${ok.length === 1 ? "propuesta espera tu OK" : "propuestas esperan tu OK"}</h2><ul>${ok.map(x =>
+     `<li><strong>${esc(x.que)}</strong>${x.por_que?`<em>${esc(x.por_que)}</em>`:""}<i>${esc(x.tarea||"")}${x.desde?` · desde ${fecha(x.desde)}`:""} · responde en la conversación de esa tarea</i></li>`).join("")}</ul></div>` : "";
+  const av = Array.isArray(D.avisos) ? D.avisos.filter(Boolean) : [];
+  $("#avisos").innerHTML = av.map(a => `<li>${esc(a)}</li>`).join("");
+
+  const e = D.estrategia || {};
+  const camps = Array.isArray(e.campanas) ? e.campanas : [];
+  let html = `<section><h2>Qué estamos haciendo</h2><div class="tarjeta"><p>${esc(e.texto || "Pendiente: la próxima tarea de publicidad lo resumirá.")}</p></div>
+    <div class="camps">${camps.map(c => `<article class="camp"><h3>${esc(c.nombre)}</h3><span class="est ${/pausa/i.test(c.estado||"")?"pausa":""}">${esc(c.estado||"—")}</span><dl>
+      ${c.objetivo?`<div><dt>A qué va</dt><dd>${esc(c.objetivo)}</dd></div>`:""}
+      ${c.publico?`<div><dt>A quién ${q("advantage")}</dt><dd>${esc(c.publico)}</dd></div>`:""}
+      ${num(c.presupuesto_dia)!==null?`<div><dt>Presupuesto ${q("presupuesto")}</dt><dd>${esc(eur0(c.presupuesto_dia))}/día</dd></div>`:""}
+      ${c.nota?`<div><dt>Nota</dt><dd>${esc(c.nota)}</dd></div>`:""}</dl></article>`).join("")}</div></section>`;
+
+  html += `<section><h2>Resultados reales</h2><div class="tabs" role="group" aria-label="Periodo">
+      <button class="tab" type="button" data-p="periodo_7d" aria-pressed="true">Últimos 7 días</button>
+      <button class="tab" type="button" data-p="desde_inicio" aria-pressed="false">Desde el inicio</button></div>
+      <div id="res"></div>
+      <h2 style="font-size:16px;margin:22px 0 8px">Antes (gestor externo) y ahora</h2>
+      ${tablaCmp(r.comparativa_externo)}</section>`;
+
+  const hecho = Array.isArray(D.hecho) ? D.hecho.slice().sort((a,b) => String(b.fecha||"").localeCompare(String(a.fecha||""))).slice(0,30) : [];
+  html += `<section><h2>Qué se ha hecho</h2>${hecho.length ? `<ol class="linea">${hecho.map(x =>
+      `<li><span class="f">${fecha(x.fecha)}</span><div><div class="t">${esc(x.que)}</div>${x.por_que?`<div class="w">Por qué: ${esc(x.por_que)}</div>`:""}${x.quien?`<div class="who">${esc(x.quien)}</div>`:""}</div></li>`).join("")}</ol>` : `<div class="tarjeta">Aún no hay cambios anotados.</div>`}</section>`;
+
+  const plan = Array.isArray(D.plan) ? D.plan.slice().sort((a,b) => String(a.fecha||"").localeCompare(String(b.fecha||""))) : [];
+  html += `<section><h2>El plan</h2>${plan.length ? `<ol class="linea">${plan.map(x =>
+      `<li><span class="f">${fecha(x.fecha)}</span><div><div class="t">${esc(x.que)}</div>${x.estado?`<span class="etq ${/tu |necesita|pendiente/i.test(x.estado)?"atn":""}">${esc(x.estado)}</span>`:""}</div></li>`).join("")}</ol>` : `<div class="tarjeta">Sin próximos pasos anotados.</div>`}</section>`;
+
+  html += comoLeer();
+  $("#main").innerHTML = html;
+  pintarRes("periodo_7d");
+  $("#pie").innerHTML = `${r.fuente?`Datos de ${esc(r.fuente)}`:"Datos de Meta Ads, cuenta Grupo Arestora"}; leads de empresa según Odoo, ${m.leads_empresa!=null?`dato de Juancho${m.fuente_leads_empresa?`: ${esc(m.fuente_leads_empresa)}`:""}`:"pendiente del dato de Juancho"}. Lo actualizan las tareas programadas de Meta Ads cada vez que corren.`;
+}
+function tablaCmp(L){
+  if(!Array.isArray(L) || !L.length) return `<div class="tarjeta">Pendiente: la comparativa la rellenan las tareas de publicidad.</div>`;
+  return `<div class="cmp"><table><thead><tr><th>Qué</th><th>Antes (externo)</th><th>Ahora</th></tr></thead><tbody>${L.map(x =>
+    `<tr><td>${esc(x.metrica)}${x.nota?`<span class="nota">${esc(x.nota)}</span>`:""}</td><td>${esc(x.antes ?? "—")}</td><td>${esc(x.ahora ?? "pendiente")}</td></tr>`).join("")}</tbody></table></div>`;
+}
+function pintarRes(clave){
+  const blq = (D.resultados || {})[clave] || {};
+  const L = Array.isArray(blq.campanas) ? blq.campanas : [];
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === clave));
+  const M = (k, etq, val, r) => `<div class="m"><dt>${etq} ${q(k)}</dt><dd>${val === null ? `<span style="color:var(--mute);font-weight:500">—</span>` : esc(val)} ${sem(r, k)}</dd></div>`;
+  $("#res").innerHTML = (blq.etiqueta ? `<p class="periodo">${esc(blq.etiqueta)}</p>` : "") + (L.length ? `<div class="res">${L.map(c => {
+    const g = num(c.gasto), l = num(c.leads), cpl = num(c.cpl), f = num(c.frecuencia), cpm = num(c.cpm), le = num(c.leads_empresa), cle = num(c.coste_lead_empresa);
+    return `<article class="rc"><h3>${esc(c.nombre)}${c.estado?` · <span style="font-weight:500;color:var(--mute)">${esc(c.estado)}</span>`:""}</h3><dl class="g">
+      ${num(c.presupuesto_dia)!==null?M("presupuesto","Presupuesto",eur0(c.presupuesto_dia)+"/día",null):""}
+      ${M("gasto","Gasto",eur(g),null)}
+      ${M("lead","Leads",ent(l),R.leads(l,g))}
+      ${M("cpl","Coste por lead",eur(cpl),cpl===null&&!g?null:R.cpl(cpl))}
+      ${M("ctr","CTR",pct(c.ctr),null)}
+      ${M("cpm","CPM",eur(cpm),R.cpm(cpm,c.nombre))}
+      ${M("frecuencia","Frecuencia",dec(f),f===0?null:R.frecuencia(f))}
+      ${le!==null||cle!==null||/C1|C2/.test(c.nombre||"") ? M("cple","Coste por lead de empresa",cle===null?(le===0?"0 leads de empresa":null):eur(cle),/C3/.test(c.nombre||"")?null:R.cple(cle,c.nombre)) : ""}
+    </dl></article>`; }).join("")}</div>` : `<div class="tarjeta">Pendiente: sin datos de este periodo.</div>`);
+}
+function comoLeer(){
+  const orden = ["gasto","impresiones","alcance","frecuencia","cpm","clic","ctr","lead","lead_empresa","cpl","cple","aprendizaje","advantage","retargeting","campana","conjunto","presupuesto","formulario","pixel","pamee","fundae","odoo","semaforo"];
+  return `<section><details class="leer"><summary>Cómo leer este panel</summary>
+  <h3>Objetivos y por qué</h3>
+  <ol class="obj">
+   <li><b>Objetivo principal: más leads de EMPRESA por euro, con C1 (PAMEE) como prioridad.</b> Los leads totales no cuentan como éxito: con el gestor externo la mayoría eran candidatos buscando empleo.</li>
+   <li><b>Por qué PAMEE primero.</b> Un cliente PAMEE factura unos 15.000 €; uno de FUNDAE, entre 2.000 y 7.000 €. El margen de Arestora es del 35-50 %. Arestora cierra aproximadamente el 50 % de los leads cualificados; por prudencia se calcula también con un 10 % hasta tener datos propios de Meta.</li>
+   <li><b>Umbrales por servicio (los usa el cierre mensual).</b> PAMEE: hasta unos 150 € por lead de empresa se puede escalar; entre 150 y 300 € se mantiene y se optimiza; más de 300 € o 0 leads de empresa, no se escala. FUNDAE: hasta unos 50 €, entre 50 y 100 €, y más de 100 €. Están pensados para ganar dinero aunque solo se cierre un 10 % de los leads de Meta.</li>
+   <li><b>Referencia de la prueba de 14 días (07/11-21/11).</b> Un lead de empresa por debajo de unos 60 € se considera aceptable. Con 0-1 leads de empresa en total se para Meta como canal; con 2 o más se juntan las temáticas en C1. Es otra vara de medir que los umbrales por servicio: aquella sirve para decidir si Meta sigue, estos para decidir cuánto se escala cada campaña. El panel enseña las dos y no elige.</li>
+   <li><b>Presupuesto.</b> Hoy 18 €/día (C1 10 + C2 8). No se sube hasta medir la calidad de los leads en Odoo. El techo es 36 €/día, los 450 €/mes que antes se pagaban al externo, subiendo un 20-30 % cada 3-4 días y solo mientras el lead de empresa siga en zona rentable. En palabras de Juancho: «No los quiero quemar, sino convertirlos en el cuádruple de leads e ingresos».</li>
+   <li><b>Señales que vigilamos.</b> Frecuencia por encima de 3,5: el anuncio cansa y se renueva. Un anuncio con 40 € gastados y 0 leads: se pausa si quedan otros dos. Una campaña con unos 120 € y 0 leads de empresa: se propone pausarla. CPM de C2 bajando hacia unos 15 € tras ampliar el público el 14/11.</li>
+  </ol>
+  <h3>Glosario</h3>
+  <dl class="glos">${orden.map(k => { const g = G[k]; const ej = g.ej && g.ej();
+     return `<div><dt>${esc(g.t)}</dt><dd>${esc(g.d)}${ej?`<span class="ej">Ejemplo: ${esc(ej)}</span>`:""}</dd></div>`; }).join("")}</dl>
+  </details></section>`;
+}
+
+/* ---------------- Burbuja de ayuda (también en móvil: se abre al tocar) ---------------- */
+const bur = $("#burbuja"); let abierta = null;
+function cerrar(){ bur.hidden = true; if(abierta) abierta.setAttribute("aria-expanded","false"); abierta = null; }
+function abrir(btn, titulo, texto, ej){
+  if(abierta === btn){ cerrar(); return; }
+  cerrar();
+  bur.innerHTML = `<b>${esc(titulo)}</b>${esc(texto)}${ej?`<span class="ej">Ejemplo: ${esc(ej)}</span>`:""}`;
+  bur.hidden = false; abierta = btn; btn.setAttribute("aria-expanded","true");
+  const r = btn.getBoundingClientRect(), w = Math.min(300, innerWidth - 32);
+  bur.style.maxWidth = w + "px";
+  const left = Math.max(16, Math.min(r.left + scrollX - 20, scrollX + innerWidth - w - 16));
+  bur.style.left = left + "px"; bur.style.top = (r.bottom + scrollY + 8) + "px";
+}
+document.addEventListener("click", ev => {
+  const b = ev.target.closest(".q");
+  if(b){ const g = G[b.dataset.g]; abrir(b, g.t, g.d, g.ej && g.ej()); return; }
+  const s = ev.target.closest(".sem");
+  if(s){ abrir(s, "Regla del semáforo", s.dataset.regla); return; }
+  const t = ev.target.closest(".tab");
+  if(t){ cerrar(); pintarRes(t.dataset.p); return; }
+  if(!ev.target.closest("#burbuja")) cerrar();
+});
+document.addEventListener("keydown", e => { if(e.key === "Escape") cerrar(); });
+addEventListener("resize", cerrar);
+$("#salir").onclick = () => HubSesion.salir();
+
+/* ---------------- Carga ---------------- */
+async function cargar(){
+  try{
+    const c = await HubSesion.exigir(); if(!c) return;
+    const p = await HubSesion.leerPanel("publicidad");
+    if(!p){
+      $("#act").textContent = "Aún no hay datos.";
+      $("#main").innerHTML = `<div class="vacio">Aún no hay datos. Si esperabas verlos, puede que tu cuenta no tenga acceso a este panel: solo lo ven las cuentas de administración.</div>`;
+      return;
+    }
+    pintar(p);
+  }catch(e){
+    $("#act").textContent = "No se han podido cargar los datos.";
+    $("#main").innerHTML = `<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>`;
+  }
+}
+cargar();
+document.addEventListener("visibilitychange", () => { if(!document.hidden && D) cargar(); });
+})();
+</script>
+</body>
+</html>

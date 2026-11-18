@@ -2,8 +2,8 @@
   "meta": {
     "marca": "Arestora Hub",
     "organizacion": "Grupo Arestora",
-    "version": "4.4",
-    "actualizado": "2026-11-17",
+    "version": "4.5",
+    "actualizado": "2026-11-18",
     "roles": {
       "admin": "Dirección de Grupo Arestora",
       "gestor": "Equipo interno de Arestora",
@@ -303,7 +303,25 @@
           "stack": "Página del Hub + vigilante programado",
           "acceso": [
             "admin"
-          ]
+          ],
+          "privado": true,
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración)."
+        },
+        {
+          "id": "publicidad",
+          "nombre": "Cuadro de mando de publicidad",
+          "descripcion": "Qué estamos haciendo en Meta Ads, qué se ha hecho, el plan y los resultados reales, comparados con la etapa del gestor externo. Se actualiza cada vez que corre una tarea de publicidad.",
+          "sector": "Interno · comercial y marketing",
+          "estado": "activo",
+          "color": "#A8175E",
+          "logo": "publicidad",
+          "url": "publicidad.html",
+          "stack": "Página del Hub + Supabase + tareas de Meta Ads",
+          "acceso": [
+            "admin"
+          ],
+          "privado": true,
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración)."
         }
       ]
     },
