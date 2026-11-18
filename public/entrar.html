@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrar · Arestora Hub</title>
+<meta name="theme-color" content="#0E192F">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--night:#0E192F;--acc:#8FB8EC;--ink:#0E192F;--mute:#5B6478;--bg:#EAEEF5}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;min-height:100vh;background:var(--night);color:#fff;font:16px/1.5 Poppins,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.caja{width:100%;max-width:400px}
+.volver{color:var(--acc);font-size:14px;text-decoration:none;display:inline-block;margin-bottom:22px}
+.volver:hover{text-decoration:underline}
+h1{font-size:28px;line-height:1.15;margin:0 0 6px;font-weight:700}
+.sub{color:#C9D6EE;font-size:15px;margin:0 0 26px}
+form{background:#142443;border-radius:16px;padding:20px}
+label{display:block;margin-bottom:16px}
+label span{display:block;font-size:13px;color:#C9D6EE;margin-bottom:6px;font-weight:500}
+input{width:100%;font:16px Poppins,sans-serif;min-height:48px;border-radius:12px;border:1px solid #2B3F66;background:#0E192F;color:#fff;padding:0 14px}
+input:focus-visible{outline:2px solid var(--acc);outline-offset:1px;border-color:var(--acc)}
+button{width:100%;min-height:48px;border:0;border-radius:999px;background:var(--acc);color:var(--night);font:600 16px Poppins,sans-serif;cursor:pointer;margin-top:4px}
+button:hover{background:#B4D0F3}button:disabled{opacity:.6;cursor:wait}
+button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.error{background:#3A1A24;color:#FFB3B3;border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:14px}
+.nota{font-size:13px;color:#A9B4CA;margin:16px 0 0;text-align:center}
+.sello{font-size:12px;color:#7A8AA3;text-align:center;margin-top:26px}
+</style>
+</head>
+<body>
+<main class="caja">
+  <a class="volver" href="hub.html">← Volver al Hub</a>
+  <h1>Arestora Hub</h1>
+  <p class="sub">Paneles privados de Grupo Arestora. Entra con tu cuenta de Radar Arestora.</p>
+  <form id="f" method="post" action="#" novalidate>
+    <div class="error" id="err" role="alert" hidden></div>
+    <label><span>Usuario</span>
+      <input type="text" name="username" id="username" required autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="tu usuario"></label>
+    <label><span>Contraseña</span>
+      <input type="password" name="password" id="password" required autocomplete="current-password"></label>
+    <button type="submit" id="b">Entrar</button>
+  </form>
+  <p class="nota">La sesión se queda abierta en este dispositivo. Si pierdes la contraseña, pídesela a Juancho.</p>
+  <p class="sello">Una herramienta de Grupo Arestora</p>
+</main>
+<script src="sesion.js"></script>
+<script>
+(function(){
+  const f = document.getElementById("f"), b = document.getElementById("b"), err = document.getElementById("err");
+  // Solo se vuelve a páginas de este mismo sitio (nada de «//otro-dominio» ni «https:»).
+  const pedido = new URLSearchParams(location.search).get("volver") || "hub.html";
+  const volver = /^[a-z0-9][a-z0-9._-]*\.html(\?[^\s<>"]*)?$/i.test(pedido) ? pedido : "hub.html";
+  function mal(t){ err.textContent = t; err.hidden = false; }
+  // Si ya hay sesión, no hace falta volver a entrar.
+  HubSesion.quizaConSesion() && HubSesion.sesion().then(s => { if(s) location.replace(volver); }).catch(()=>{});
+  document.getElementById("username").focus();
+  f.addEventListener("submit", async e => {
+    e.preventDefault(); err.hidden = true;
+    const u = f.username.value, p = f.password.value;
+    if(!u.trim() || !p){ mal("Escribe tu usuario y tu contraseña."); return; }
+    b.disabled = true; b.textContent = "Entrando…";
+    try{
+      await HubSesion.entrar(u, p);
+      // Navegación completa: así el navegador ofrece guardar la contraseña (igual que Radar).
+      location.assign(volver);
+    }catch(x){
+      b.disabled = false; b.textContent = "Entrar";
+      const m = String(x && x.message || "");
+      // El mismo mensaje si el usuario no existe o la clave está mal.
+      mal(/rate limit/i.test(m) ? "Demasiados intentos seguidos. Espera un minuto."
+        : /cargar|fetch|network/i.test(m) ? "No hay conexión con el servidor. Inténtalo en un momento."
+        : "Usuario o contraseña incorrectos.");
+    }
+  });
+})();
+</script>
+</body>
+</html>
