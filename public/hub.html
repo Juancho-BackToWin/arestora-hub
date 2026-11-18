@@ -193,10 +193,11 @@
   <span id="pie-der"></span>
 </footer>
 
+<script src="sesion.js"></script>
 <script>
 let CAT = null;
 let OK_N = 0;   // propuestas que esperan el OK de Juancho, según tareas.json
-const HUELLA = "ef13ec97d88b";
+const HUELLA = "196569b95948";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -238,8 +239,12 @@ function tarjeta(h){
   const icono = h.logo_src
       ? `<div class="icono"><img src="${h.logo_src}" alt=""></div>`
       : `<div class="icono">${h.emoji||"🛡️"}</div>`;
+  // Paneles privados del propio Hub (datos en Supabase): sin sesión, primero a entrar.html.
+  const conCuenta = !!h.privado && relativa;
+  const sinSesion = conCuenta && !(window.HubSesion && HubSesion.quizaConSesion());
+  const destino = sinSesion ? "entrar.html?volver=" + encodeURIComponent(h.url) : h.url;
   const boton = activa
-      ? `<a class="btn primario" href="${h.url}"${relativa?"":' target="_blank" rel="noopener"'}>Acceder al panel →</a>`
+      ? `<a class="btn primario" href="${destino}"${relativa?"":' target="_blank" rel="noopener"'}>${sinSesion?"Entrar con tu cuenta →":"Acceder al panel →"}</a>`
       : `<span class="btn mudo">${h.estado==="activo"?"Pendiente de enlazar":(h.estado==="en_proceso"?"En desarrollo":"En preparación")}</span>`;
   const carpeta = h.carpeta
       ? `<button class="btn sec" data-copy="${h.carpeta.replace(/\\/g,'&#92;')}">Copiar ruta de la carpeta</button>` : "";
@@ -252,7 +257,7 @@ function tarjeta(h){
       <h3>${h.nombre}</h3>
       <p class="desc">${h.descripcion}</p>
       ${h.sector?`<div class="meta">${h.sector}</div>`:""}
-      ${h.acceso&&h.acceso.length?`<div class="meta acceso">&#128274; Acceso: ${h.acceso.join(", ")}</div>`:""}
+      ${conCuenta?`<div class="meta acceso">&#128274; Acceso con cuenta</div>`:(h.acceso&&h.acceso.length?`<div class="meta acceso">&#128274; Acceso: ${h.acceso.join(", ")}</div>`:"")}
       <div class="acciones">${boton}${carpeta}</div>
     </article>`;
 }
@@ -356,14 +361,16 @@ async function cargarCatalogo(){
 cargarCatalogo();
 
 /* ---------- propuestas que esperan el OK ----------
-   Va aparte del catálogo a propósito: si tareas.json falla, todavía no existe o no trae
-   «esperan_ok», el Hub se pinta igual y simplemente no sale la pastilla. El cuadro de
-   tareas es la fuente; aquí solo se cuenta. */
+   Desde el 18/11 el cuadro de tareas es privado (Supabase, hub_paneles «tareas»): la
+   pastilla solo sale si hay sesión abierta en este navegador. Va aparte del catálogo a
+   propósito: si Supabase falla, no hay sesión o la cuenta no tiene acceso, el Hub se
+   pinta igual y simplemente no sale la pastilla. Aquí solo se cuenta. */
 async function cargarOK(){
   try{
-    const r = await fetch('tareas.json?t=' + Date.now(), {cache:'no-store'});
-    if(!r.ok) return;
-    const d = await r.json();
+    if(!window.HubSesion || !HubSesion.quizaConSesion()) { if(OK_N){ OK_N = 0; if(CAT) pintar(); } return; }
+    const s = await HubSesion.sesion(); if(!s) return;
+    const p = await HubSesion.leerPanel('tareas');
+    const d = (p && p.datos) || {};
     const n = Array.isArray(d.esperan_ok) ? d.esperan_ok.length : 0;
     if(n === OK_N) return;
     OK_N = n;

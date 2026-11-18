@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tareas programadas · Arestora Hub</title>
+<meta name="robots" content="noindex">
 <meta name="theme-color" content="#0E192F">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -86,7 +87,9 @@ textarea{width:100%;font:14px Poppins,sans-serif;border-radius:10px;border:1px s
 .dlg div{background:var(--card);border-radius:16px;padding:20px;max-width:440px;width:100%}
 .dlg p{margin:0 0 14px}
 .volver{display:inline-block;color:#8FB8EC;font-size:14px;font-weight:500;text-decoration:none;margin:0 0 14px;min-height:32px}
-.volver:hover{text-decoration:underline}
+.volver:hover,.salir:hover{text-decoration:underline}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.salir{color:#8FB8EC;font:500 14px Poppins,sans-serif;background:none;border:0;cursor:pointer;margin:0 0 14px;min-height:32px;padding:0}
 footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
 @media (prefers-reduced-motion:no-preference){.ficha{animation:in .18s ease-out}@keyframes in{from{opacity:0;transform:translateY(-4px)}}}
 </style>
@@ -94,9 +97,9 @@ footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
 <body>
 <div class="wrap">
 <header>
-  <a class="volver" href="hub.html">← Volver al Hub</a>
+  <div class="barra"><a class="volver" href="hub.html">← Volver al Hub</a><button class="salir" type="button" onclick="HubSesion.salir()">Cerrar sesión</button></div>
   <h1>Tareas programadas · Grupo Arestora</h1>
-  <p class="rev" id="rev">Cargando datos del vigilante…</p>
+  <p class="rev" id="rev">Comprobando tu sesión…</p>
   <div class="ok nada" id="ok" aria-live="polite"></div>
   <div class="cifras">
     <div class="cifra r"><b id="nR">–</b><span>en rojo</span></div>
@@ -115,6 +118,7 @@ footer{font-size:12px;color:var(--mute);padding:0 max(5vw,18px) 30px}
 <main id="lista"><div class="vacio">Cargando…</div></main>
 <footer>Lo actualiza la tarea «Vigilante · tareas programadas» dos veces al día (7:53 y 19:53). El vigilante solo diagnostica y avisa; para pausar, lanzar o arreglar una tarea, pulsa «Pedir a Claude» y pégalo en un chat del proyecto Marketing Arestora.</footer>
 </div>
+<script src="sesion.js"></script>
 <script>
 {
 const CATS=["Blog y web","LinkedIn · perfil de Juancho","LinkedIn · página Grupo Arestora y AMS","Perfil de Google","Innovation Lab","Prensa y visibilidad en IA","Publicidad (Meta Ads)","Comercial · Radar Arestora","Mantenimiento y vigilancia"];
@@ -194,11 +198,15 @@ document.addEventListener("click",async ev=>{
 $("#cat").addEventListener("change",e=>{cat=e.target.value;render()});
 setInterval(render,60000);
 async function cargar(){
- try{const r=await fetch("tareas.json?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();
-  estado={ultima_revision:d.ultima_revision,nota:d.nota};fichas=d.fichas||[];esperan=d.esperan_ok||[];
-  try{localStorage.setItem("hub_tareas",JSON.stringify(d))}catch(e){}
- }catch(e){try{const d=JSON.parse(localStorage.getItem("hub_tareas"));if(!d)throw 0;estado={ultima_revision:d.ultima_revision,nota:"Sin conexión: estás viendo la última copia guardada."};fichas=d.fichas||[];esperan=d.esperan_ok||[]}
-  catch(e2){$("#lista").innerHTML='<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>';return}}
+ /* Desde el 18/11 los datos viven en Supabase (hub_paneles, clave «tareas») y solo los
+    ven las cuentas de administración. Ya no se guarda copia en el navegador: son privados. */
+ let d=null;
+ try{const c=await HubSesion.exigir();if(!c)return;const p=await HubSesion.leerPanel("tareas");
+  if(!p){$("#rev").textContent="Aún no hay datos para tu cuenta.";$("#lista").innerHTML='<div class="vacio">Aún no hay datos. Si esperabas verlos, puede que tu cuenta no tenga acceso: solo lo ven las cuentas de administración.</div>';return}
+  d=p.datos||{};
+ }catch(e){$("#lista").innerHTML='<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>';return}
+ estado={ultima_revision:d.ultima_revision,nota:d.nota};fichas=d.fichas||[];esperan=d.esperan_ok||[];
+ try{localStorage.removeItem("hub_tareas")}catch(e){}
  const cs=[...new Set(fichas.map(f=>f.categoria))];$("#cat").innerHTML='<option value="">Todas las categorías</option>'+CATS.filter(c=>cs.includes(c)).concat(cs.filter(c=>!CATS.includes(c))).map(c=>`<option>${esc(c)}</option>`).join("");$("#cat").value=cat;render();
  $("#nota").textContent=estado.nota||"";
 }
