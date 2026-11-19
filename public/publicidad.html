@@ -322,8 +322,12 @@ function rango(p){
   }
 }
 const PERIODOS = [["15d","15 días"],["semana","Esta semana"],["semana_ant","Semana pasada"],["mes","Este mes"],["mes_ant","Mes pasado"],["anio","Este año"],["anio_ant","Año pasado"]];
+const posibles = () => L.filter(x => (x.tipo || "lead") === "lead");
+const descartados = () => L.filter(x => x.tipo === "candidate" || x.tipo === "spam");
+const linea = x => `${x.nombre || "Sin nombre"}${x.empresa ? ` · ${x.empresa}` : " · sin empresa"} · ${fecha(x.fecha)}`;
 function textoLeads(){
-  return `Leads de Meta · ${rango(periodo)[2].toLowerCase()}: ${L.length}\n¿Sabéis si son empresas y en qué punto están?\n\n` + L.map(x => `• ${x.nombre || "Sin nombre"} · ${fecha(x.fecha)}`).join("\n");
+  const P = posibles();
+  return `Leads de Meta · ${rango(periodo)[2].toLowerCase()}: ${P.length}\n¿Sabéis si son empresas y en qué punto están?\n\n` + P.map(x => `• ${linea(x)}`).join("\n");
 }
 async function copiar(){
   const t = textoLeads(), msg = $("#copiado");
@@ -336,10 +340,13 @@ function pintarLeads(){
   const cont = $("#leads"); if(!cont) return;
   const chips = `<div class="tabs" role="group" aria-label="Periodo de los leads">${PERIODOS.map(([k,t]) => `<button class="tab lp" type="button" data-lp="${k}" aria-pressed="${k===periodo}">${t}</button>`).join("")}</div>`;
   const nombre = rango(periodo)[2];
+  const P = posibles(), Dsc = descartados();
+  const fila = x => `<li><div class="n">${esc(x.nombre || "Sin nombre")}</div><div class="e">${x.empresa ? esc(x.empresa) : `<span style="color:var(--mute)">Sin empresa</span>`}</div><div class="x">${fecha(x.fecha)}${x.tipo === "candidate" ? " · busca empleo" : x.tipo === "spam" ? " · datos basura o sin contacto" : ""}</div></li>`;
   cont.innerHTML = chips + (!L.length ? `<div class="tarjeta">${esc(nombre)}: ningún lead de Meta.</div>` :
-    `<p class="periodo">${esc(nombre)}: ${L.length} ${L.length === 1 ? "lead" : "leads"}. Solo nombre y fecha; el resto está en presupuestos@ y en Odoo.</p>
-    <div class="acc"><button class="btn" type="button" id="b-copiar">Copiar nombres para el equipo</button>${navigator.share ? `<button class="btn sec" type="button" id="b-compartir">Compartir…</button>` : ""}<span class="copiado" id="copiado" role="status"></span></div>
-    <ol class="leads">${L.map(x => `<li><div class="n">${esc(x.nombre || "Sin nombre")}</div><div class="x">${fecha(x.fecha)}</div></li>`).join("")}</ol>`)
+    `<p class="periodo">${esc(nombre)}: ${P.length} ${P.length === 1 ? "posible empresa" : "posibles empresas"}${Dsc.length ? ` y ${Dsc.length} ${Dsc.length === 1 ? "descartado" : "descartados"}` : ""}. Es la misma clasificación que en Odoo, automática: el equipo confirma si de verdad son empresas.</p>
+    ${P.length ? `<div class="acc"><button class="btn" type="button" id="b-copiar">Copiar nombres para el equipo</button>${navigator.share ? `<button class="btn sec" type="button" id="b-compartir">Compartir…</button>` : ""}<span class="copiado" id="copiado" role="status"></span></div>
+    <ol class="leads">${P.map(fila).join("")}</ol>` : ""}
+    ${Dsc.length ? `<details class="leer" style="margin-top:6px"><summary>Descartados: candidatos y basura (${Dsc.length})</summary><p class="periodo">En Odoo quedan cerrados como «Era candidato/a» o «Spam». No se copian para el equipo.</p><ol class="leads">${Dsc.map(fila).join("")}</ol></details>` : ""}`)
     + (periodo.startsWith("anio") ? `<p class="periodo" style="margin-top:8px">Meta solo guarda 90 días. Lo anterior sale del archivo de la app, que empezó el 19/11/2026: antes de esa fecha solo aparecen los leads de los 90 días previos.</p>` : "");
   const bc0 = $("#b-copiar"); if(bc0) bc0.onclick = copiar;
   const bc = $("#b-compartir"); if(bc) bc.onclick = compartir;
