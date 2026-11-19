@@ -237,7 +237,7 @@ function pintar(p){
       ${num(c.presupuesto_dia)!==null?`<div><dt>Presupuesto ${q("presupuesto")}</dt><dd>${esc(eur0(c.presupuesto_dia))}/día</dd></div>`:""}
       ${c.nota?`<div><dt>Nota</dt><dd>${esc(c.nota)}</dd></div>`:""}</dl></article>`).join("")}</div></section>`;
 
-  html += `<section id="sec-leads"><h2>Los leads, uno a uno</h2><div id="leads"><div class="tarjeta">Cargando los leads de Meta…</div></div></section>`;
+  html += `<section id="sec-leads"><h2>Leads de Meta</h2><div id="leads"><div class="tarjeta">Cargando los leads de Meta…</div></div></section>`;
 
   html += `<section><h2>Resultados reales</h2><div class="tabs" role="group" aria-label="Periodo">
       <button class="tab" type="button" data-p="periodo_7d" aria-pressed="true">Últimos 7 días</button>
@@ -268,7 +268,7 @@ function tablaCmp(L){
 function pintarRes(clave){
   const blq = (D.resultados || {})[clave] || {};
   const L = Array.isArray(blq.campanas) ? blq.campanas : [];
-  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === clave));
+  document.querySelectorAll(".tab:not(.lp)").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === clave));
   const M = (k, etq, val, r) => `<div class="m"><dt>${etq} ${q(k)}</dt><dd>${val === null ? `<span style="color:var(--mute);font-weight:500">—</span>` : esc(val)} ${sem(r, k)}</dd></div>`;
   $("#res").innerHTML = (blq.etiqueta ? `<p class="periodo">${esc(blq.etiqueta)}</p>` : "") + (L.length ? `<div class="res">${L.map(c => {
     const g = num(c.gasto), l = num(c.leads), cpl = num(c.cpl), f = num(c.frecuencia), cpm = num(c.cpm), le = num(c.leads_empresa), cle = num(c.coste_lead_empresa);
@@ -302,18 +302,28 @@ function comoLeer(){
 }
 
 
-/* ---------------- Leads de Meta, uno a uno (los sirve la app Arestora Leads; nada se guarda aquí) ---------------- */
+/* ---------------- Leads de Meta: solo nombre y fecha (decisión del 19/11). Por defecto, 15 días;
+   se pueden recuperar por semana, mes o año. Los sirve la app Arestora Leads; aquí no se guarda nada. ---------------- */
 const API_LEADS = "https://arestora-meta-leads.vercel.app/api/hub-leads";
-let L = [], dias = 30;
-const etqLead = x => x.calidad === "prueba" ? `<span class="etq">Prueba de Meta</span>`
-  : x.calidad === "basura" ? `<span class="etq mal">Posible basura</span>`
-  : x.calidad === "dudoso" ? `<span class="etq atn">Revisar datos</span>` : "";
-const etqCual = x => x.cualificado === true ? `<span class="etq">Decide y 50+ personas</span>` : x.cualificado === false ? `<span class="etq atn">No cumple decide/50+</span>` : "";
-const campCorta = c => { const m = /\bC\d\b/.exec(c || ""); return m ? m[0] : (c || ""); };
+let L = [], periodo = "15d";
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+function rango(p){
+  const h = new Date(); h.setHours(0,0,0,0);
+  const lunes = new Date(h); lunes.setDate(h.getDate() - ((h.getDay() + 6) % 7));
+  const dia = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  switch(p){
+    case "semana": return [lunes, h, "Esta semana"];
+    case "semana_ant": return [dia(lunes,-7), dia(lunes,-1), "La semana pasada"];
+    case "mes": return [new Date(h.getFullYear(), h.getMonth(), 1), h, "Este mes"];
+    case "mes_ant": return [new Date(h.getFullYear(), h.getMonth()-1, 1), new Date(h.getFullYear(), h.getMonth(), 0), "El mes pasado"];
+    case "anio": return [new Date(h.getFullYear(), 0, 1), h, `Este año (${h.getFullYear()})`];
+    case "anio_ant": return [new Date(h.getFullYear()-1, 0, 1), new Date(h.getFullYear()-1, 11, 31), `El año pasado (${h.getFullYear()-1})`];
+    default: return [dia(h,-14), h, "Últimos 15 días"];
+  }
+}
+const PERIODOS = [["15d","15 días"],["semana","Esta semana"],["semana_ant","Semana pasada"],["mes","Este mes"],["mes_ant","Mes pasado"],["anio","Este año"],["anio_ant","Año pasado"]];
 function textoLeads(){
-  const reales = L.filter(x => x.calidad !== "prueba");
-  return `Leads de Meta (últimos ${dias} días): ${reales.length}\n¿Sabéis si son empresas y en qué punto están?\n\n` + reales.map(x =>
-    `• ${x.nombre || "Sin nombre"}${x.empresa ? ` · ${x.empresa}` : ""}${x.cargo ? ` (${x.cargo})` : ""} · ${campCorta(x.campana) || x.formulario || "Meta"} · ${fecha(x.fecha)}`).join("\n");
+  return `Leads de Meta · ${rango(periodo)[2].toLowerCase()}: ${L.length}\n¿Sabéis si son empresas y en qué punto están?\n\n` + L.map(x => `• ${x.nombre || "Sin nombre"} · ${fecha(x.fecha)}`).join("\n");
 }
 async function copiar(){
   const t = textoLeads(), msg = $("#copiado");
@@ -323,26 +333,28 @@ async function copiar(){
 }
 async function compartir(){ try{ await navigator.share({title: "Leads de Meta", text: textoLeads()}); }catch(e){} }
 function pintarLeads(){
-  const reales = L.filter(x => x.calidad !== "prueba");
   const cont = $("#leads"); if(!cont) return;
-  if(!L.length){ cont.innerHTML = `<div class="tarjeta">No ha entrado ningún lead de Meta en los últimos ${dias} días.</div>`; return; }
-  cont.innerHTML = `<p class="periodo">${reales.length} ${reales.length === 1 ? "lead" : "leads"} en los últimos ${dias} días${L.length > reales.length ? ` (más ${L.length - reales.length} de prueba de Meta, que no se copian)` : ""}. Sin correo ni teléfono: esos están en presupuestos@ y en Odoo.</p>
+  const chips = `<div class="tabs" role="group" aria-label="Periodo de los leads">${PERIODOS.map(([k,t]) => `<button class="tab lp" type="button" data-lp="${k}" aria-pressed="${k===periodo}">${t}</button>`).join("")}</div>`;
+  const nombre = rango(periodo)[2];
+  cont.innerHTML = chips + (!L.length ? `<div class="tarjeta">${esc(nombre)}: ningún lead de Meta.</div>` :
+    `<p class="periodo">${esc(nombre)}: ${L.length} ${L.length === 1 ? "lead" : "leads"}. Solo nombre y fecha; el resto está en presupuestos@ y en Odoo.</p>
     <div class="acc"><button class="btn" type="button" id="b-copiar">Copiar nombres para el equipo</button>${navigator.share ? `<button class="btn sec" type="button" id="b-compartir">Compartir…</button>` : ""}<span class="copiado" id="copiado" role="status"></span></div>
-    <ol class="leads">${L.map(x => `<li><div class="n">${esc(x.nombre || "Sin nombre")}</div>${x.empresa ? `<div class="e">${esc(x.empresa)}${x.cargo ? ` · ${esc(x.cargo)}` : ""}</div>` : (x.cargo ? `<div class="e">${esc(x.cargo)}</div>` : "")}
-      <div class="x">${fecha(x.fecha)} · ${esc(campCorta(x.campana) || x.formulario || "Meta")}${x.plantilla ? ` · ${esc(x.plantilla)}` : ""}${x.ciudad ? ` · ${esc(x.ciudad)}` : ""}</div>
-      <div>${etqLead(x)}${x.calidad === "prueba" ? "" : etqCual(x)}</div></li>`).join("")}</ol>`;
-  $("#b-copiar").onclick = copiar;
+    <ol class="leads">${L.map(x => `<li><div class="n">${esc(x.nombre || "Sin nombre")}</div><div class="x">${fecha(x.fecha)}</div></li>`).join("")}</ol>`)
+    + (periodo.startsWith("anio") ? `<p class="periodo" style="margin-top:8px">Meta solo guarda 90 días. Lo anterior sale del archivo de la app, que empezó el 19/11/2026: antes de esa fecha solo aparecen los leads de los 90 días previos.</p>` : "");
+  const bc0 = $("#b-copiar"); if(bc0) bc0.onclick = copiar;
   const bc = $("#b-compartir"); if(bc) bc.onclick = compartir;
+  cont.querySelectorAll(".lp").forEach(b => b.onclick = () => { periodo = b.dataset.lp; cargarLeads(); });
 }
 async function cargarLeads(){
   const cont = $("#leads"); if(!cont) return;
   try{
     const s = await HubSesion.sesion();
     if(!s){ cont.innerHTML = `<div class="tarjeta">Inicia sesión para ver los leads.</div>`; return; }
-    const r = await fetch(`${API_LEADS}?dias=${dias}`, {headers: {Authorization: "Bearer " + s.access_token}, cache: "no-store"});
+    const [d, h] = rango(periodo);
+    const r = await fetch(`${API_LEADS}?desde=${iso(d)}&hasta=${iso(h)}`, {headers: {Authorization: "Bearer " + s.access_token}, cache: "no-store"});
     if(r.status === 401){ cont.innerHTML = `<div class="tarjeta">Tu cuenta no tiene acceso a los leads: solo las cuentas de administración.</div>`; return; }
     if(!r.ok) throw new Error(String(r.status));
-    const d = await r.json(); L = Array.isArray(d.leads) ? d.leads : []; dias = d.dias || dias;
+    const j = await r.json(); L = Array.isArray(j.leads) ? j.leads : [];
     pintarLeads();
   }catch(e){
     cont.innerHTML = `<div class="tarjeta">No se han podido traer los leads de Meta ahora mismo. Vuelve a abrir el panel en un momento.</div>`;
@@ -367,7 +379,7 @@ document.addEventListener("click", ev => {
   if(b){ const g = G[b.dataset.g]; abrir(b, g.t, g.d, g.ej && g.ej()); return; }
   const s = ev.target.closest(".sem");
   if(s){ abrir(s, "Regla del semáforo", s.dataset.regla); return; }
-  const t = ev.target.closest(".tab");
+  const t = ev.target.closest(".tab:not(.lp)");
   if(t){ cerrar(); pintarRes(t.dataset.p); return; }
   if(!ev.target.closest("#burbuja")) cerrar();
 });
