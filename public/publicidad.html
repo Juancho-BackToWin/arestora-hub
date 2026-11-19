@@ -109,6 +109,18 @@ details.leer[open] summary::after{content:"–"}
 .obj{margin:0;padding-left:18px}.obj li{margin-bottom:10px;font-size:14px}
 .obj b{font-weight:600}
 .vacio{background:var(--card);border-radius:14px;padding:24px;text-align:center;color:var(--mute);margin-top:22px}
+.leads{list-style:none;margin:0;padding:0}
+.leads li{background:var(--card);border-radius:14px;padding:12px 16px;margin-bottom:8px}
+.leads .n{font-size:15.5px;font-weight:600}
+.leads .e{font-size:14px;color:#2C3550}
+.leads .x{font-size:12.5px;color:var(--mute);margin-top:3px}
+.leads .etq{margin-right:4px}
+.leads .etq.mal{background:#FBE1E1;color:#9B2323}
+.acc{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.btn{font:600 14px Poppins,sans-serif;border:0;border-radius:999px;padding:0 18px;min-height:44px;cursor:pointer;background:var(--acc);color:#fff}
+.btn.sec{background:var(--card);color:var(--acc);border:1px solid var(--line)}
+.btn:focus-visible{outline:2px solid var(--night);outline-offset:2px}
+.copiado{font-size:13.5px;color:var(--verde);align-self:center;font-weight:500}
 footer{font-size:12.5px;color:var(--mute);padding:6px max(5vw,16px) 34px}
 @media (max-width:420px){.cifras{gap:7px}.cifra{padding:10px 9px}.linea li{grid-template-columns:62px minmax(0,1fr);gap:10px}}
 </style>
@@ -225,6 +237,8 @@ function pintar(p){
       ${num(c.presupuesto_dia)!==null?`<div><dt>Presupuesto ${q("presupuesto")}</dt><dd>${esc(eur0(c.presupuesto_dia))}/día</dd></div>`:""}
       ${c.nota?`<div><dt>Nota</dt><dd>${esc(c.nota)}</dd></div>`:""}</dl></article>`).join("")}</div></section>`;
 
+  html += `<section id="sec-leads"><h2>Los leads, uno a uno</h2><div id="leads"><div class="tarjeta">Cargando los leads de Meta…</div></div></section>`;
+
   html += `<section><h2>Resultados reales</h2><div class="tabs" role="group" aria-label="Periodo">
       <button class="tab" type="button" data-p="periodo_7d" aria-pressed="true">Últimos 7 días</button>
       <button class="tab" type="button" data-p="desde_inicio" aria-pressed="false">Desde el inicio</button></div>
@@ -243,6 +257,7 @@ function pintar(p){
   html += comoLeer();
   $("#main").innerHTML = html;
   pintarRes("periodo_7d");
+  cargarLeads();
   $("#pie").innerHTML = `${r.fuente?`Datos de ${esc(r.fuente)}`:"Datos de Meta Ads, cuenta Grupo Arestora"}; leads de empresa según Odoo, ${m.leads_empresa!=null?`dato de Juancho${m.fuente_leads_empresa?`: ${esc(m.fuente_leads_empresa)}`:""}`:"pendiente del dato de Juancho"}. Lo actualizan las tareas programadas de Meta Ads cada vez que corren.`;
 }
 function tablaCmp(L){
@@ -284,6 +299,54 @@ function comoLeer(){
   <dl class="glos">${orden.map(k => { const g = G[k]; const ej = g.ej && g.ej();
      return `<div><dt>${esc(g.t)}</dt><dd>${esc(g.d)}${ej?`<span class="ej">Ejemplo: ${esc(ej)}</span>`:""}</dd></div>`; }).join("")}</dl>
   </details></section>`;
+}
+
+
+/* ---------------- Leads de Meta, uno a uno (los sirve la app Arestora Leads; nada se guarda aquí) ---------------- */
+const API_LEADS = "https://arestora-meta-leads.vercel.app/api/hub-leads";
+let L = [], dias = 30;
+const etqLead = x => x.calidad === "prueba" ? `<span class="etq">Prueba de Meta</span>`
+  : x.calidad === "basura" ? `<span class="etq mal">Posible basura</span>`
+  : x.calidad === "dudoso" ? `<span class="etq atn">Revisar datos</span>` : "";
+const etqCual = x => x.cualificado === true ? `<span class="etq">Decide y 50+ personas</span>` : x.cualificado === false ? `<span class="etq atn">No cumple decide/50+</span>` : "";
+const campCorta = c => { const m = /\bC\d\b/.exec(c || ""); return m ? m[0] : (c || ""); };
+function textoLeads(){
+  const reales = L.filter(x => x.calidad !== "prueba");
+  return `Leads de Meta (últimos ${dias} días): ${reales.length}\n¿Sabéis si son empresas y en qué punto están?\n\n` + reales.map(x =>
+    `• ${x.nombre || "Sin nombre"}${x.empresa ? ` · ${x.empresa}` : ""}${x.cargo ? ` (${x.cargo})` : ""} · ${campCorta(x.campana) || x.formulario || "Meta"} · ${fecha(x.fecha)}`).join("\n");
+}
+async function copiar(){
+  const t = textoLeads(), msg = $("#copiado");
+  try{ await navigator.clipboard.writeText(t); }
+  catch(e){ const a = document.createElement("textarea"); a.value = t; a.setAttribute("readonly",""); a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); try{ document.execCommand("copy"); }catch(_){} a.remove(); }
+  msg.textContent = "Copiado. Pégalo en el WhatsApp o el correo del equipo."; setTimeout(() => { msg.textContent = ""; }, 4000);
+}
+async function compartir(){ try{ await navigator.share({title: "Leads de Meta", text: textoLeads()}); }catch(e){} }
+function pintarLeads(){
+  const reales = L.filter(x => x.calidad !== "prueba");
+  const cont = $("#leads"); if(!cont) return;
+  if(!L.length){ cont.innerHTML = `<div class="tarjeta">No ha entrado ningún lead de Meta en los últimos ${dias} días.</div>`; return; }
+  cont.innerHTML = `<p class="periodo">${reales.length} ${reales.length === 1 ? "lead" : "leads"} en los últimos ${dias} días${L.length > reales.length ? ` (más ${L.length - reales.length} de prueba de Meta, que no se copian)` : ""}. Sin correo ni teléfono: esos están en presupuestos@ y en Odoo.</p>
+    <div class="acc"><button class="btn" type="button" id="b-copiar">Copiar nombres para el equipo</button>${navigator.share ? `<button class="btn sec" type="button" id="b-compartir">Compartir…</button>` : ""}<span class="copiado" id="copiado" role="status"></span></div>
+    <ol class="leads">${L.map(x => `<li><div class="n">${esc(x.nombre || "Sin nombre")}</div>${x.empresa ? `<div class="e">${esc(x.empresa)}${x.cargo ? ` · ${esc(x.cargo)}` : ""}</div>` : (x.cargo ? `<div class="e">${esc(x.cargo)}</div>` : "")}
+      <div class="x">${fecha(x.fecha)} · ${esc(campCorta(x.campana) || x.formulario || "Meta")}${x.plantilla ? ` · ${esc(x.plantilla)}` : ""}${x.ciudad ? ` · ${esc(x.ciudad)}` : ""}</div>
+      <div>${etqLead(x)}${x.calidad === "prueba" ? "" : etqCual(x)}</div></li>`).join("")}</ol>`;
+  $("#b-copiar").onclick = copiar;
+  const bc = $("#b-compartir"); if(bc) bc.onclick = compartir;
+}
+async function cargarLeads(){
+  const cont = $("#leads"); if(!cont) return;
+  try{
+    const s = await HubSesion.sesion();
+    if(!s){ cont.innerHTML = `<div class="tarjeta">Inicia sesión para ver los leads.</div>`; return; }
+    const r = await fetch(`${API_LEADS}?dias=${dias}`, {headers: {Authorization: "Bearer " + s.access_token}, cache: "no-store"});
+    if(r.status === 401){ cont.innerHTML = `<div class="tarjeta">Tu cuenta no tiene acceso a los leads: solo las cuentas de administración.</div>`; return; }
+    if(!r.ok) throw new Error(String(r.status));
+    const d = await r.json(); L = Array.isArray(d.leads) ? d.leads : []; dias = d.dias || dias;
+    pintarLeads();
+  }catch(e){
+    cont.innerHTML = `<div class="tarjeta">No se han podido traer los leads de Meta ahora mismo. Vuelve a abrir el panel en un momento.</div>`;
+  }
 }
 
 /* ---------------- Burbuja de ayuda (también en móvil: se abre al tocar) ---------------- */
