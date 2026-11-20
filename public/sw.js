@@ -8,7 +8,7 @@ const DATOS = ['version.json', 'catalogo.json', 'logos.json'];
 
 self.addEventListener('install', e => { self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
-    './hub.html', './tareas.html', './publicidad.html', './entrar.html', './sesion.js', './manifest.json', './favicon.svg', './catalogo.json', './logos.json',
+    './hub.html', './tareas.html', './publicidad.html', './entrar.html', './sesion.js', './banda.js', './manifest.json', './favicon.svg', './catalogo.json', './logos.json',
     './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png'
   ]).catch(()=>{}))); });
 
