@@ -141,6 +141,7 @@ footer{font-size:12.5px;color:var(--mute);padding:6px max(5vw,16px) 34px}
 </div>
 <div class="burbuja" id="burbuja" role="tooltip" hidden></div>
 <script src="sesion.js"></script>
+<script src="banda.js"></script>
 <script>
 (function(){
 "use strict";
@@ -211,9 +212,9 @@ function cifra(valor, etiqueta, clave, pie, pendiente){
 function pintar(p){
   D = p.datos || {};
   const r = D.resultados || {}, m = r.mes_actual || {};
-  const act = D.actualizado || p.actualizado, h = (Date.now() - new Date(act)) / 36e5;
-  $("#act").textContent = `Actualizado ${hace(act)} (${fechaHora(act)}) · por ${D.por || p.origen || "—"}`;
-  $("#act").className = "act" + (h > 96 ? " viejo" : "");
+  // La hora y el autor van en la banda de arriba (columna «actualizado» de la fila).
+  banda.fijar(p.actualizado || D.ultima_revision || D.actualizado, p.origen || D.por);
+  $("#act").hidden = true;
   const cple = num(m.coste_lead_empresa), le = num(m.leads_empresa);
   $("#cifras").innerHTML =
     cifra(esc(eur0(m.gasto) ?? "—"), "Gasto del mes", "gasto", esc(m.etiqueta ? "Noviembre hasta hoy" : "")) +
@@ -395,18 +396,20 @@ addEventListener("resize", cerrar);
 $("#salir").onclick = () => HubSesion.salir();
 
 /* ---------------- Carga ---------------- */
+const banda = HubBanda.montar(), freno = {};
 async function cargar(){
+  if(!HubBanda.puedeConsultar(freno)) return;   // como mucho una consulta a Supabase cada 5 min
   try{
     const c = await HubSesion.exigir(); if(!c) return;
     const p = await HubSesion.leerPanel("publicidad");
     if(!p){
-      $("#act").textContent = "Aún no hay datos.";
+      banda.fallo(); $("#act").textContent = "Aún no hay datos.";
       $("#main").innerHTML = `<div class="vacio">Aún no hay datos. Si esperabas verlos, puede que tu cuenta no tenga acceso a este panel: solo lo ven las cuentas de administración.</div>`;
       return;
     }
     pintar(p);
   }catch(e){
-    $("#act").textContent = "No se han podido cargar los datos.";
+    banda.fallo(); $("#act").textContent = "No se han podido cargar los datos.";
     $("#main").innerHTML = `<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>`;
   }
 }
