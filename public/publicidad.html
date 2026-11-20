@@ -396,7 +396,7 @@ addEventListener("resize", cerrar);
 $("#salir").onclick = () => HubSesion.salir();
 
 /* ---------------- Carga ---------------- */
-const banda = HubBanda.montar(), freno = {};
+const banda = HubBanda.montar({limite: 26, quien: "La vigilancia diaria de Meta Ads"}), freno = {};
 async function cargar(){
   if(!HubBanda.puedeConsultar(freno)) return;   // como mucho una consulta a Supabase cada 5 min
   try{

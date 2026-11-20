@@ -5,7 +5,9 @@
    decide cada página (como mucho una vez cada 5 minutos).
    Uso:  const banda = HubBanda.montar();   banda.fijar(actualizado, origen);   banda.fallo(); */
 (function(){
-  const LIMITE_H = 14;   // más de 14 h sin actualizar: algo no ha corrido (el vigilante pasa cada 12 h)
+  /* Límite por panel (20/11/2026, decidido por Juancho): tareas 14 h (el vigilante pasa cada 12 h);
+     publicidad 26 h (la vigilancia de Meta pasa una vez al día). Se pasa en montar({limite, quien}). */
+  const LIMITE_H = 14;
   const css = `
 .banda{margin:0;padding:8px max(5vw,16px);font:500 13.5px/1.45 Poppins,system-ui,sans-serif;background:#EAEEF5;color:#5B6478;border-bottom:1px solid #DCE2EF;overflow-wrap:anywhere}
 .banda.mal{background:#B8452F;color:#fff;border-bottom-color:#B8452F;font-weight:600}
@@ -21,7 +23,9 @@
     return `${Math.round(h / 24)} días`;
   }
 
-  function montar(){
+  function montar(opc){
+    opc = opc || {};
+    const limite = opc.limite || LIMITE_H, tarea = opc.quien || "El vigilante";
     let el = document.getElementById("banda");
     if(!el){
       el = document.createElement("p");
@@ -40,8 +44,8 @@
       if(!cuando) return;
       const ms = Date.now() - cuando.getTime();
       let t = `Datos de hace ${hace(ms)} · actualizados el ${dia(cuando)} a las ${hora(cuando)}${origen ? " por " + origen : ""}`;
-      const viejo = ms > LIMITE_H * 36e5;
-      if(viejo) t += " · El vigilante no ha actualizado este panel: revisa la tarea en el cuadro";
+      const viejo = ms > limite * 36e5;
+      if(viejo) t += ` · ${tarea} no ha actualizado este panel en más de ${limite} h: revisa la tarea en el cuadro`;
       el.className = "banda" + (viejo ? " mal" : ""); el.hidden = false;
       el.textContent = t;   // textContent: el origen lo escribe una tarea automática, nunca va como HTML
     }
