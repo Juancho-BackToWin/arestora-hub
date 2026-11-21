@@ -147,13 +147,14 @@
           "estado": "activo",
           "color": "#C55A11",
           "logo": "red-btw",
-          "url": "https://red.grupoarestora.com/admin.html",
+          "url": "red-btw.html",
+          "privado": true,
           "stack": "Web estática + Supabase (Red Back to Win)",
           "acceso": [
             "admin"
           ],
           "avisos": "red",
-          "notas": "Se entra con juancho@grupoarestora.com (enlace o código por correo). El globo cuenta lo que espera tu intervención; se actualiza cada 15 min."
+          "notas": "Entra directo con tu cuenta del Hub, sin correo ni código. El globo cuenta lo que espera tu intervención; se actualiza cada 15 min."
         }
       ]
     },
