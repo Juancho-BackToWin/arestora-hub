@@ -132,6 +132,19 @@
      El grupo envuelve para que en el móvil no se salga de la tarjeta. */
   .pill-grupo{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
   .pill.okpend{background:#254D9D;color:#fff}
+  /* Globos de avisos (21/11/2026): número de cosas que esperan la intervención de Juancho.
+     Van por fuera de la esquina de la tarjeta, del título del espacio y de la marca. */
+  .globo{
+    position:absolute;top:-9px;right:-9px;z-index:2;min-width:26px;height:26px;padding:0 7px;
+    border-radius:999px;background:#D93025;color:#fff;font:800 13px/26px "Segoe UI",system-ui,sans-serif;
+    text-align:center;box-shadow:0 0 0 3px var(--papel),0 2px 8px rgba(0,0,0,.25);font-variant-numeric:tabular-nums;
+  }
+  .marca,.banda h2{position:relative}
+  .marca .globo{top:-8px;right:-8px;box-shadow:0 0 0 3px var(--tinta)}
+  .banda h2 .globo{position:relative;top:-2px;right:auto;margin-left:10px;display:inline-block;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+  .avisos{margin:-4px 0 0;padding:10px 12px;border-radius:10px;background:#FDEDEB;list-style:none;font-size:13px;line-height:1.45;color:#7A1F17}
+  .avisos li+li{margin-top:4px}
+  .avisos a{text-decoration:underline;font-weight:600}
   h3{margin:0;font-size:19px;font-weight:800;color:var(--c)}
   .card.off h3{color:#41527A}
   .desc{margin:0;font-size:14.5px;line-height:1.45;color:#3D4C68}
@@ -169,7 +182,7 @@
 
 <header class="top">
   <div class="top-row">
-    <div class="marca">ARESTORA HUB</div>
+    <div class="marca" id="marca">ARESTORA HUB</div>
     <button id="btnAct" class="actu" data-estado="comprobando" disabled
             title="Comprobando si hay una versión más reciente">
       <span class="punto"></span><span id="actTxt">Comprobando</span>
@@ -196,8 +209,10 @@
 <script src="sesion.js"></script>
 <script>
 let CAT = null;
-let OK_N = 0;   // propuestas que esperan el OK de Juancho, según tareas.json
-const HUELLA = "196569b95948";
+/* Avisos por panel (21/11/2026): {n, lineas:[{t, href}]}. Claves: «tareas», «publicidad»
+   y «red» (Red BTW). Solo se leen con sesión abierta: sin sesión no hay globos. */
+let AV = {};
+const HUELLA = "32237041bf01";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -248,30 +263,47 @@ function tarjeta(h){
       : `<span class="btn mudo">${h.estado==="activo"?"Pendiente de enlazar":(h.estado==="en_proceso"?"En desarrollo":"En preparación")}</span>`;
   const carpeta = h.carpeta
       ? `<button class="btn sec" data-copy="${h.carpeta.replace(/\\/g,'&#92;')}">Copiar ruta de la carpeta</button>` : "";
-  // Solo el cuadro de tareas lleva aviso de propuestas pendientes. OK_N es un número
-  // (lo fuerza Number), así que no hay texto de terceros que interpolar aquí.
-  const okPill = (h.id === "tareas-programadas" && OK_N > 0)
-      ? `<span class="pill okpend">${OK_N} ${OK_N === 1 ? "espera" : "esperan"} tu OK</span>` : "";
+  // Globo y lista de avisos. n es un número (Number) y los textos se escapan: los escriben
+  // tareas automáticas y la base de datos de la Red, nunca van como HTML.
+  const av = h.avisos ? AV[h.avisos] : null, n = av ? av.n : 0;
+  const globo = n > 0 ? `<span class="globo" title="${n} ${n === 1 ? "cosa espera" : "cosas esperan"} tu intervención">${n > 99 ? "99+" : n}</span>` : "";
+  const lista = n > 0 && av.lineas.length
+      ? `<ul class="avisos">${av.lineas.slice(0, 5).map(l => `<li>${l.href ? `<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.t)}</a>` : esc(l.t)}</li>`).join("")}</ul>` : "";
   return `<article class="card ${activa?'on':'off'}" style="--c:${h.color||'#1B4FD8'}">
-      <div class="card-top">${icono}<span class="pill-grupo">${okPill}<span class="pill ${h.estado}">${(ETQ[h.estado]||{}).etiqueta||h.estado}</span></span></div>
+      ${globo}
+      <div class="card-top">${icono}<span class="pill-grupo"><span class="pill ${h.estado}">${(ETQ[h.estado]||{}).etiqueta||h.estado}</span></span></div>
       <h3>${h.nombre}</h3>
       <p class="desc">${h.descripcion}</p>
+      ${lista}
       ${h.sector?`<div class="meta">${h.sector}</div>`:""}
       ${conCuenta?`<div class="meta acceso">&#128274; Acceso con cuenta</div>`:(h.acceso&&h.acceso.length?`<div class="meta acceso">&#128274; Acceso: ${h.acceso.join(", ")}</div>`:"")}
       <div class="acciones">${boton}${carpeta}</div>
     </article>`;
 }
 
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function pintarGlobos(){
+  const total = Object.values(AV).reduce((a, v) => a + (v ? v.n : 0), 0);
+  const m = document.getElementById('marca');
+  m.innerHTML = 'ARESTORA HUB' + (total > 0 ? `<span class="globo" title="${total} ${total === 1 ? "cosa espera" : "cosas esperan"} tu intervención">${total > 99 ? "99+" : total}</span>` : "");
+  // Número sobre el icono de la app en el móvil o el escritorio (si el sistema lo admite).
+  try{ if(total > 0 && navigator.setAppBadge) navigator.setAppBadge(total); else if(navigator.clearAppBadge) navigator.clearAppBadge(); }catch(e){}
+  document.title = (total > 0 ? `(${total}) ` : "") + "Arestora Hub — Grupo Arestora";
+}
+
 function pintar(){
   if(!CAT) return;
+  pintarGlobos();
   const html = CAT.espacios.map(esp=>{
     const hs = esp.herramientas.filter(h=>coincide(h,esp));
     if(!hs.length) return "";
     const logo = esp.logo_src?`<img src="${esp.logo_src}" alt="">`:"";
+    const ne = esp.herramientas.reduce((a, h) => a + (h.avisos && AV[h.avisos] ? AV[h.avisos].n : 0), 0);
     return `<section class="espacio">
       <div class="banda" style="background:${esp.color}">
         ${logo}
-        <div><h2>${esp.nombre}</h2><p>${esp.descripcion}</p></div>
+        <div><h2>${esp.nombre}${ne > 0 ? `<span class="globo">${ne > 99 ? "99+" : ne}</span>` : ""}</h2><p>${esp.descripcion}</p></div>
       </div>
       <div class="rejilla">${hs.map(tarjeta).join('')}</div>
     </section>`;
@@ -360,20 +392,30 @@ async function cargarCatalogo(){
 
 cargarCatalogo();
 
-/* ---------- propuestas que esperan el OK ----------
-   Desde el 18/11 el cuadro de tareas es privado (Supabase, hub_paneles «tareas»): la
-   pastilla solo sale si hay sesión abierta en este navegador. Va aparte del catálogo a
-   propósito: si Supabase falla, no hay sesión o la cuenta no tiene acceso, el Hub se
-   pinta igual y simplemente no sale la pastilla. Aquí solo se cuenta. */
+/* ---------- avisos (globos) ----------
+   Los paneles privados viven en Supabase (hub_paneles): «tareas» y «publicidad» los escriben
+   las tareas programadas; «red» lo envía la base de datos de la Red BTW cada 15 minutos
+   (recuentos, sin nombres ni importes). Va aparte del catálogo a propósito: si Supabase falla
+   o no hay sesión, el Hub se pinta igual, sin globos. */
+function leerAvisos(clave, d){
+  d = d || {};
+  if(clave === "red"){
+    const ps = Array.isArray(d.pendientes) ? d.pendientes : [];
+    return { n: Number(d.total) || 0, lineas: ps.map(p => ({ t: String(p.texto || ""), href: /^https:\/\/red\.grupoarestora\.com\//.test(p.enlace || "") ? p.enlace : "" })) };
+  }
+  const ok = Array.isArray(d.esperan_ok) ? d.esperan_ok.filter(x => x && (x.que || x.tarea)) : [];
+  return { n: ok.length, lineas: ok.map(x => ({ t: String(x.que || x.tarea) })) };
+}
 async function cargarOK(){
   try{
-    if(!window.HubSesion || !HubSesion.quizaConSesion()) { if(OK_N){ OK_N = 0; if(CAT) pintar(); } return; }
+    if(!window.HubSesion || !HubSesion.quizaConSesion()) { if(Object.keys(AV).length){ AV = {}; if(CAT) pintar(); } return; }
     const s = await HubSesion.sesion(); if(!s) return;
-    const p = await HubSesion.leerPanel('tareas');
-    const d = (p && p.datos) || {};
-    const n = Array.isArray(d.esperan_ok) ? d.esperan_ok.length : 0;
-    if(n === OK_N) return;
-    OK_N = n;
+    const claves = ["tareas", "publicidad", "red"], nuevo = {};
+    await Promise.all(claves.map(async k => {
+      try{ const p = await HubSesion.leerPanel(k); if(p) nuevo[k] = leerAvisos(k, p.datos); }catch(e){}
+    }));
+    if(JSON.stringify(nuevo) === JSON.stringify(AV)) return;
+    AV = nuevo;
     if(CAT) pintar();
   }catch(e){ /* sin aviso: el Hub no depende de esto */ }
 }

@@ -1,6 +1,6 @@
 // Service worker del Arestora Hub (v6, 18/11/2026: no toca otros dominios ni datos privados). Estrategia: red primero, caché como respaldo.
 // Así el móvil siempre intenta traer la última versión, pero sigue funcionando sin cobertura.
-const CACHE = 'arestora-hub-catalogo-externo-10';
+const CACHE = 'arestora-hub-catalogo-externo-11';
 
 // Ficheros de datos: siempre a la red, con la caché solo como red de seguridad.
 // Nunca deben servirse de caché estando en línea, o el Hub mostraría un catálogo viejo.
