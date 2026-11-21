@@ -113,62 +113,6 @@
           ]
         },
         {
-          "id": "ocioseguro",
-          "nombre": "OcioSeguro®",
-          "descripcion": "El sistema LOPIVI adaptado a empresas de ocio y tiempo libre: monitores por proyecto, actividades puntuales y alta rotación de personal.",
-          "sector": "Ocio y tiempo libre",
-          "estado": "proximamente",
-          "color": "#D69A0B",
-          "logo": "ocioseguro",
-          "url": "",
-          "stack": "",
-          "acceso": [
-            "admin"
-          ]
-        },
-        {
-          "id": "campamentoseguro",
-          "nombre": "CampamentoSeguro®",
-          "descripcion": "El sistema LOPIVI adaptado a campamentos y colonias: convivencia, pernocta y equipos contratados por temporada.",
-          "sector": "Campamentos y colonias",
-          "estado": "proximamente",
-          "color": "#0E7C86",
-          "logo": "campamentoseguro",
-          "url": "",
-          "stack": "",
-          "acceso": [
-            "admin"
-          ]
-        },
-        {
-          "id": "extraescolarseguro",
-          "nombre": "ExtraescolarSeguro®",
-          "descripcion": "El sistema LOPIVI adaptado a actividades extraescolares: personal ajeno al centro educativo y grupos que cambian cada trimestre.",
-          "sector": "Actividades extraescolares",
-          "estado": "proximamente",
-          "color": "#8A4FBF",
-          "logo": "extraescolarseguro",
-          "url": "",
-          "stack": "",
-          "acceso": [
-            "admin"
-          ]
-        },
-        {
-          "id": "socialseguro",
-          "nombre": "SocialSeguro®",
-          "descripcion": "El sistema LOPIVI adaptado a entidades sociales y ONGs: voluntariado, menores en situación de vulnerabilidad y justificación ante financiación pública.",
-          "sector": "Tercer sector y ONGs",
-          "estado": "proximamente",
-          "color": "#B8452F",
-          "logo": "socialseguro",
-          "url": "",
-          "stack": "",
-          "acceso": [
-            "admin"
-          ]
-        },
-        {
           "id": "fitnessseguro",
           "nombre": "FitnessSeguro®",
           "descripcion": "El sistema LOPIVI adaptado a gimnasios y centros deportivos privados: acceso libre, vestuarios y entrenadores por cuenta propia.",
