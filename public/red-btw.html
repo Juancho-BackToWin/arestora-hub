@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrando en la Red BTW · Arestora Hub</title>
+<meta name="theme-color" content="#1A1A1A">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:#1A1A1A;color:#fff;font:16px/1.5 Poppins,system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.caja{width:100%;max-width:420px}
+.k{color:#EA621E;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 8px}
+h1{font-size:26px;line-height:1.2;margin:0 0 10px;font-weight:700}
+p{color:#E8DED6;margin:0 0 18px}
+a.btn{display:inline-block;background:#EA621E;color:#1A1A1A;font-weight:600;text-decoration:none;border-radius:999px;padding:12px 20px;margin:4px 8px 4px 0}
+a.sec{background:transparent;color:#fff;border:1px solid #6A5F57}
+</style>
+</head>
+<body>
+<main class="caja" id="app">
+  <p class="k">Red Back to Win</p>
+  <h1>Entrando en el panel…</h1>
+  <p>Un momento: estamos comprobando tu cuenta del Hub.</p>
+</main>
+<script src="sesion.js"></script>
+<script>
+/* Entrada directa al panel de dirección de la Red (red.grupoarestora.com/admin.html) con la cuenta del Hub.
+   La función hub-acceso de la Red comprueba esta sesión y devuelve un enlace de acceso de un solo uso. */
+(async () => {
+  const FN = "https://shjcziqvkkhvmyfzixes.supabase.co/functions/v1/hub-acceso";
+  const ADMIN = "https://red.grupoarestora.com/admin.html";
+  const app = document.getElementById("app");
+  const p = new URLSearchParams(location.search).get("p") || "";
+  const fallo = (txt) => {
+    app.innerHTML = `<p class="k">Red Back to Win</p><h1>No se ha podido entrar directo</h1><p>${txt}</p>
+      <a class="btn" href="${location.pathname + location.search}">Reintentar</a><a class="btn sec" href="${ADMIN}?manual=1">Entrar con correo</a>`;
+  };
+  try {
+    const c = await HubSesion.exigir(); if (!c) return; // sin sesión del Hub: a entrar.html y vuelve aquí
+    const s = await HubSesion.sesion();
+    const r = await fetch(FN, { method: "POST", headers: { "Authorization": "Bearer " + s.access_token, "Content-Type": "application/json" }, body: JSON.stringify({ p }) });
+    const j = await r.json().catch(() => ({}));
+    if (j.ok && /^https:\/\/shjcziqvkkhvmyfzixes\.supabase\.co\//.test(j.url)) { location.replace(j.url); return; }
+    fallo(j.motivo === "no_administra_la_red" ? "Esta cuenta del Hub no administra la Red." : "La comprobación ha fallado (" + (j.motivo || r.status) + ").");
+  } catch (e) { fallo("Sin conexión o error inesperado."); }
+})();
+</script>
+</body>
+</html>
