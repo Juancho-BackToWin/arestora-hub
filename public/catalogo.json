@@ -41,14 +41,14 @@
   "espacios": [
     {
       "id": "arestora-segura",
-      "nombre": "Arestora Segura®",
+      "nombre": "Arestora Seguro®",
       "descripcion": "Bienestar y protección de menores — verticales sectoriales LOPIVI",
       "color": "#1B4FD8",
       "logo": "arestora-segura",
       "herramientas": [
         {
           "id": "portal-arestora-segura",
-          "nombre": "Portal Arestora Segura®",
+          "nombre": "Portal Arestora Seguro®",
           "descripcion": "Puerta pública del ecosistema y acceso único: las mismas credenciales sirven en todos los verticales. El vertical es una propiedad de la entidad, así que el núcleo LOPIVI es el mismo para los ocho.",
           "sector": "Todos los verticales",
           "estado": "activo",
