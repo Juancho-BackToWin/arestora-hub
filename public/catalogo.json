@@ -2,8 +2,8 @@
   "meta": {
     "marca": "Arestora Hub",
     "organizacion": "Grupo Arestora",
-    "version": "4.5",
-    "actualizado": "2026-11-18",
+    "version": "4.6",
+    "actualizado": "2026-11-21",
     "roles": {
       "admin": "Dirección de Grupo Arestora",
       "gestor": "Equipo interno de Arestora",
@@ -14,7 +14,7 @@
       "empresa": "Empresa que publica ofertas (AresJobs)"
     },
     "nota_permisos": "El campo 'acceso' es informativo en el Hub. La autorización real la valida cada herramienta en su propio backend: el Hub es escaparate, no puerta.",
-    "generado": "2026-11-15"
+    "generado": "2026-11-21"
   },
   "estados": {
     "activo": {
@@ -189,6 +189,31 @@
       ]
     },
     {
+      "id": "back-to-win",
+      "nombre": "Back to Win",
+      "descripcion": "Psicología del deporte y alto rendimiento de Grupo Arestora",
+      "color": "#1A1A1A",
+      "logo": "back-to-win",
+      "herramientas": [
+        {
+          "id": "red-btw",
+          "nombre": "Red BTW",
+          "descripcion": "Panel de dirección de la Red Back to Win: verificar solicitudes y acreditaciones, moderar reseñas, sesiones, pagos, liquidaciones a psicólogos, resultados y configuración.",
+          "sector": "Psicólogos del deporte · red.grupoarestora.com",
+          "estado": "activo",
+          "color": "#C55A11",
+          "logo": "red-btw",
+          "url": "https://red.grupoarestora.com/admin.html",
+          "stack": "Web estática + Supabase (Red Back to Win)",
+          "acceso": [
+            "admin"
+          ],
+          "avisos": "red",
+          "notas": "Se entra con juancho@grupoarestora.com (enlace o código por correo). El globo cuenta lo que espera tu intervención; se actualiza cada 15 min."
+        }
+      ]
+    },
+    {
       "id": "igualdad-segura",
       "nombre": "IgualdadSegura®",
       "descripcion": "Planes de Igualdad automatizados para empresas",
@@ -305,7 +330,8 @@
             "admin"
           ],
           "privado": true,
-          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración)."
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración).",
+          "avisos": "tareas"
         },
         {
           "id": "publicidad",
@@ -321,7 +347,8 @@
             "admin"
           ],
           "privado": true,
-          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración)."
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración).",
+          "avisos": "publicidad"
         }
       ]
     },
