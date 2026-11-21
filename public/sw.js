@@ -1,6 +1,6 @@
 // Service worker del Arestora Hub (v6, 18/11/2026: no toca otros dominios ni datos privados). Estrategia: red primero, caché como respaldo.
 // Así el móvil siempre intenta traer la última versión, pero sigue funcionando sin cobertura.
-const CACHE = 'arestora-hub-catalogo-externo-11';
+const CACHE = 'arestora-hub-catalogo-externo-12';
 
 // Ficheros de datos: siempre a la red, con la caché solo como red de seguridad.
 // Nunca deben servirse de caché estando en línea, o el Hub mostraría un catálogo viejo.
@@ -8,7 +8,7 @@ const DATOS = ['version.json', 'catalogo.json', 'logos.json'];
 
 self.addEventListener('install', e => { self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
-    './hub.html', './tareas.html', './publicidad.html', './entrar.html', './sesion.js', './banda.js', './manifest.json', './favicon.svg', './catalogo.json', './logos.json',
+    './hub.html', './tareas.html', './publicidad.html', './innovation.html', './entrar.html', './sesion.js', './banda.js', './manifest.json', './favicon.svg', './catalogo.json', './logos.json',
     './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png'
   ]).catch(()=>{}))); });
 

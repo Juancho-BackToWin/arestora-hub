@@ -2,7 +2,7 @@
   "meta": {
     "marca": "Arestora Hub",
     "organizacion": "Grupo Arestora",
-    "version": "4.6",
+    "version": "4.7",
     "actualizado": "2026-11-21",
     "roles": {
       "admin": "Dirección de Grupo Arestora",
@@ -323,10 +323,27 @@
     {
       "id": "innovation-lab",
       "nombre": "Innovation Lab",
-      "descripcion": "Departamento de I+D+i. Convierte la actividad de las apps del ecosistema en preguntas, hallazgos y mejoras.",
-      "color": "#3B3FB6",
+      "descripcion": "Departamento de I+D+i de Grupo Arestora: estudios, pulsos del sector y publicaciones con datos propios.",
+      "color": "#0F766E",
       "logo": "innovationlab",
       "herramientas": [
+        {
+          "id": "panel-lab",
+          "nombre": "Panel del Innovation Lab",
+          "descripcion": "Cómo funciona el Lab de un vistazo: lo que te necesita, cada investigación contra su objetivo, publicaciones, automatizaciones, salud del sistema y qué cambiar. Se actualiza solo cada 15 minutos.",
+          "sector": "Interno · I+D+i",
+          "estado": "activo",
+          "color": "#0F766E",
+          "logo": "innovationlab",
+          "url": "innovation.html",
+          "stack": "Página del Hub + participa.grupoarestora.com (Supabase arestora-web-lab)",
+          "acceso": [
+            "admin"
+          ],
+          "privado": true,
+          "avisos": "lab",
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración). El globo cuenta lo que espera tu intervención y las novedades desde tu última visita."
+        },
         {
           "id": "innovationlab",
           "nombre": "Innovation Lab",

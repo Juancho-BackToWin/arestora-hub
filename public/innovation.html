@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Innovation Lab · Arestora Hub</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E192F">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Panel de control del Arestora Innovation Lab (21/11/2026).
+   Idea: la sala de control del Lab. Lo primero, lo que te necesita; después, cómo va cada
+   investigación contra su objetivo, qué se ha publicado, qué automatizaciones corren y si
+   el sistema está sano. Al final, el rumbo: qué funciona, qué no y qué cambiar.
+   Paleta Innovation Lab: verde azulado #0F766E, menta #5FD4C8, tinte #E3F4F2, azul noche
+   #0E192F / #142443, fondos #EAEEF5. Poppins. Una columna de 860 px máx. */
+:root{color-scheme:light dark;
+--bg:light-dark(#EAEEF5,#0B1426);--card:light-dark(#FFFFFF,#142443);--ink:light-dark(#0E192F,#EAEEF5);
+--mute:light-dark(#3A4458,#A9B4CA);--line:light-dark(#DCE2EF,#22345A);--lab:light-dark(#0F766E,#5FD4C8);
+--tinte:light-dark(#E3F4F2,#12343A);--night:#0E192F;--deep:#142443;--menta:#5FD4C8;
+--rojo:#D23B3B;--ambar:#E0A21B;--verde:#2E9E6A;--gris:#9AA3B5;--globo:#D93025}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.55 Poppins,system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:var(--lab)}
+.wrap{max-width:860px;margin:0 auto}
+header{background:var(--night);color:#fff;padding:22px max(5vw,18px) 24px}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.volver,.salir{color:var(--menta);font:500 14px Poppins,sans-serif;text-decoration:none;background:none;border:0;cursor:pointer;padding:0;min-height:32px}
+.volver:hover,.salir:hover{text-decoration:underline}
+.kicker{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--menta);font-weight:600;margin:0}
+h1{font-size:clamp(24px,6vw,34px);line-height:1.1;margin:6px 0 8px;font-weight:700;text-wrap:balance}
+.estado{display:flex;gap:10px;align-items:flex-start;margin:0;font-size:15px;color:#C9D6EE}
+.estado .dot{margin-top:6px}
+.cifras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:20px}
+@media(max-width:560px){.cifras{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cifra{background:var(--deep);border-radius:14px;padding:12px 14px;position:relative}
+.cifra b{display:block;font-size:clamp(30px,8vw,44px);line-height:1;font-weight:700}
+.cifra span{font-size:12.5px;color:#C9D6EE}
+.cifra.te b{color:#FF9C9C}.cifra.te.cero b{color:#7FD9AA}
+.acciones-top{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.btn{font:600 14px Poppins,sans-serif;min-height:44px;padding:0 20px;border-radius:999px;border:0;cursor:pointer;background:var(--menta);color:var(--night);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{filter:brightness(1.07)}
+.btn:disabled{opacity:.6;cursor:default}
+.btn.sec{background:transparent;color:var(--lab);border:1px solid var(--lab);min-height:38px;padding:0 14px;font-size:13px}
+.nota-act{font-size:13px;color:#C9D6EE}
+nav.sec{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px max(5vw,18px);display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none}
+nav.sec::-webkit-scrollbar{display:none}
+nav.sec a{position:relative;flex:none;font:500 13.5px Poppins,sans-serif;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;text-decoration:none;white-space:nowrap}
+nav.sec a:hover{border-color:var(--lab);color:var(--lab)}
+.globo{display:inline-block;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--globo);color:#fff;font:700 12px/22px Poppins,sans-serif;text-align:center;font-variant-numeric:tabular-nums;vertical-align:middle}
+nav.sec a .globo{position:absolute;top:-8px;right:-8px;box-shadow:0 0 0 2px var(--bg)}
+main{padding:4px max(5vw,18px) 40px}
+section{scroll-margin-top:64px}
+h2{font-size:20px;font-weight:700;margin:32px 0 4px;display:flex;align-items:center;gap:10px}
+h2 .globo{font-size:12px}
+.sub{color:var(--mute);font-size:14px;margin:0 0 12px}
+.lista{list-style:none;margin:0;padding:0}
+.item{background:var(--card);border-radius:12px;padding:14px 16px;margin-bottom:8px;display:grid;grid-template-columns:14px minmax(0,1fr);gap:12px;border:1px solid transparent}
+.item.nuevo{border-color:var(--lab);background:linear-gradient(0deg,var(--tinte),var(--tinte))}
+.item b{display:block;font-weight:600;line-height:1.35}
+.item .p{display:block;color:var(--mute);font-size:13.5px;margin-top:3px}
+.item a.ir{display:inline-block;margin-top:6px;font-weight:600;font-size:14px}
+.dot{width:12px;height:12px;border-radius:50%;margin-top:6px;flex:none;display:inline-block}
+.d-rojo,.t-arreglar{background:var(--rojo)}.d-ambar,.t-revisar{background:var(--ambar)}.d-verde{background:var(--verde)}.d-gris{background:var(--gris)}.t-ok{background:var(--lab)}
+.vacio{background:var(--card);border-radius:12px;padding:18px;color:var(--mute);text-align:center}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 9px;background:var(--tinte);color:var(--lab);margin-left:6px;vertical-align:middle}
+.tag.nuevo{background:var(--lab);color:#fff}
+/* Investigaciones */
+.inv{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;position:relative}
+.inv .globo{position:absolute;top:-9px;right:-9px;box-shadow:0 0 0 3px var(--bg)}
+.inv-top{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.inv h3{margin:0;font-size:17px;line-height:1.3;font-weight:700}
+.inv .linea{font-size:12.5px;color:var(--mute);margin-top:2px}
+.pill{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.pill.activa{background:var(--lab);color:#fff}.pill.preparacion{background:#F5E6BF;color:#7A5300}.pill.proximamente{background:var(--line);color:var(--mute)}
+.inv p.que{margin:10px 0;font-size:14px;color:var(--mute)}
+.meta{margin:12px 0}
+.meta .num{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px}
+.meta .num b{font-size:22px;color:var(--lab)}
+.barra-p{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin-top:6px}
+.barra-p i{display:block;height:100%;border-radius:999px;background:var(--lab)}
+.barra-p.rojo i{background:var(--rojo)}.barra-p.ambar i{background:var(--ambar)}
+.lineas-dato{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:12px 0}
+.ld{background:var(--bg);border-radius:10px;padding:8px 10px}
+.ld span{display:block;font-size:12px;color:var(--mute);line-height:1.3}
+.ld b{font-size:16px}
+.inv dl{margin:10px 0 0;display:grid;gap:6px}
+.inv dt{font-size:12px;color:var(--mute);font-weight:500}
+.inv dd{margin:0 0 4px;font-size:14px}
+.enlaces{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+details.mas summary{cursor:pointer;color:var(--lab);font-weight:600;font-size:14px;margin-top:6px;list-style:none}
+details.mas summary::-webkit-details-marker{display:none}
+/* Rumbo */
+.rumbo{display:grid;gap:12px}
+.bloque{background:var(--card);border-radius:14px;padding:16px}
+.bloque h3{margin:0 0 8px;font-size:15px;display:flex;align-items:center;gap:8px}
+.bloque ul{margin:0;padding-left:18px}
+.bloque li{margin:6px 0;font-size:14.5px}
+.bloque.oscuro{background:var(--night);color:#fff}
+.bloque.oscuro h3{color:var(--menta)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:500;font-size:12.5px}
+footer{font-size:12.5px;color:var(--mute);padding:0 max(5vw,18px) 34px}
+@media (prefers-reduced-motion:no-preference){.item.nuevo{animation:brillo 1.2s ease-out 1}@keyframes brillo{from{box-shadow:0 0 0 4px var(--menta)}to{box-shadow:0 0 0 0 transparent}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="barra"><a class="volver" href="hub.html">← Volver al Hub</a><button class="salir" type="button" onclick="HubSesion.salir()">Cerrar sesión</button></div>
+  <p class="kicker">Arestora Innovation Lab</p>
+  <h1>Panel de control del Lab</h1>
+  <p class="estado" id="estado"><span class="dot d-gris"></span><span>Comprobando tu sesión…</span></p>
+  <div class="cifras">
+    <div class="cifra te" id="cTe"><b>–</b><span>te necesitan</span></div>
+    <div class="cifra"><b id="cInv">–</b><span>investigaciones en marcha</span></div>
+    <div class="cifra"><b id="cPar">–</b><span>participaciones recogidas</span></div>
+    <div class="cifra"><b id="cPub">–</b><span>páginas publicadas</span></div>
+  </div>
+  <div class="acciones-top">
+    <button class="btn" id="btnAct" type="button">↻ Actualizar ahora</button>
+    <span class="nota-act" id="notaAct"></span>
+  </div>
+</header>
+<nav class="sec" id="nav" aria-label="Secciones"></nav>
+<main id="main"><div class="vacio" style="margin-top:20px">Cargando…</div></main>
+<footer>Se actualiza solo cada 15 minutos (lo calcula participa.grupoarestora.com con los datos reales del Lab) y al pulsar «Actualizar ahora». Las automatizaciones salen del cuadro de tareas programadas. Aquí no hay nombres ni correos de participantes: para eso, el panel de validación.</footer>
+</div>
+<script src="sesion.js"></script>
+<script src="banda.js"></script>
+<script>
+{
+const $=s=>document.querySelector(s);
+const esc=t=>String(t??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const url=u=>/^https:\/\//i.test(u||"")?u:"";
+const fmt=(iso,hora)=>{if(!iso)return"—";const d=new Date(iso);if(isNaN(d))return esc(iso);return d.toLocaleString("es-ES",Object.assign({timeZone:"Europe/Madrid",day:"numeric",month:"numeric"},hora?{hour:"2-digit",minute:"2-digit"}:{}))};
+const hace=iso=>{const h=(Date.now()-new Date(iso))/36e5;if(isNaN(h))return"";return h<1?`hace ${Math.max(1,Math.round(h*60))} min`:h<48?`hace ${Math.round(h)} h`:`hace ${Math.round(h/24)} días`};
+const globo=n=>n>0?`<span class="globo" aria-label="${n} pendientes">${n>99?"99+":n}</span>`:"";
+const plural=(n,a,b)=>`${n} ${n===1?a:b}`;
+/* Tareas programadas del Lab: se reconocen por el nombre en el panel «tareas» del vigilante. */
+const ES_LAB=/innovation lab|estudio del malestar|cuestionario|diariobtw|pregunta del mes|bar[oó]metro|puesto del mes|cuesta cubrir/i;
+const LLAVE_VISTO="hub_lab_visto";
+let D=null,T=null,visto=null,primeraVez=false;
+try{visto=localStorage.getItem(LLAVE_VISTO);primeraVez=!visto}catch(e){}
+
+function seccion(id,titulo,sub,n,html){return `<section id="${id}"><h2>${esc(titulo)}${globo(n)}</h2>${sub?`<p class="sub">${sub}</p>`:""}${html}</section>`}
+
+function render(){
+ if(!D)return;
+ const tLab=(T&&T.fichas||[]).filter(f=>ES_LAB.test(f.nombre||""));
+ const tRojas=tLab.filter(f=>f.semaforo==="rojo");
+ const okLab=(T&&T.esperan_ok||[]).filter(p=>ES_LAB.test(`${p.tarea||""} ${p.que||""}`));
+ const nuevos=(D.eventos||[]).filter(e=>!primeraVez&&visto&&e.fecha>visto);
+ const pend=(D.pendientes||[]);
+ const nTe=(D.total||0)+okLab.length;
+ const S=D.secciones||{};
+ const nInv=S.investigaciones||0,nPub=S.publicaciones||0,nSal=S.salud||0,nAut=tRojas.length;
+
+ // Cabecera
+ const r=D.resumen||{};
+ $("#estado").innerHTML=`<span class="dot d-${esc(r.estado||"gris")}"></span><span>${esc(r.frase||"")}</span>`;
+ $("#cTe").className="cifra te"+(nTe?"":" cero");$("#cTe").querySelector("b").textContent=nTe;
+ const c=D.cifras||{};
+ $("#cInv").textContent=c.estudios_activos??"–";$("#cPar").textContent=c.participantes??"–";$("#cPub").textContent=c.publicaciones_web??"–";
+
+ // Menú de secciones con globos
+ const nav=[["necesita","Te necesita",nTe],["novedades","Novedades",nuevos.length],["investigaciones","Investigaciones",nInv],["publicaciones","Publicaciones",nPub],["automatizaciones","Automatizaciones",nAut],["salud","Salud",nSal],["rumbo","Rumbo",0]];
+ $("#nav").innerHTML=nav.map(([id,t,n])=>`<a href="#${id}">${esc(t)}${globo(n)}</a>`).join("");
+
+ let h="";
+ // 1. Te necesita
+ const items=pend.map(p=>`<li class="item"><span class="dot t-${esc(p.tipo)}"></span><span><b>${esc(p.texto)}</b><span class="p">${({arreglar:"Algo no funciona",ok:"Espera tu OK",revisar:"Revísalo o decide"})[p.tipo]||""}</span>${url(p.enlace)?`<a class="ir" href="${esc(p.enlace)}" target="_blank" rel="noopener">Ir →</a>`:""}</span></li>`)
+  .concat(okLab.map(p=>`<li class="item"><span class="dot t-ok"></span><span><b>${esc(p.que||p.tarea)}</b><span class="p">Espera tu OK · ${esc(p.tarea||"")}${p.desde?" · "+esc(hace(p.desde)):""}</span>${url(p.sesion_url)?`<a class="ir" href="${esc(p.sesion_url)}" target="_blank" rel="noopener">Responder →</a>`:""}</span></li>`));
+ h+=seccion("necesita","Te necesita","Lo que no avanza sin ti. Los OK de las tareas te llegan también por correo («Espera tu OK»).",nTe,
+  items.length?`<ul class="lista">${items.join("")}</ul>`:`<div class="vacio">Nada espera tu intervención. El Lab funciona solo.</div>`);
+
+ // 2. Novedades
+ const ev=(D.eventos||[]).slice(0,25);
+ h+=seccion("novedades","Novedades",primeraVez?"Lo que ha pasado en los últimos 30 días. A partir de ahora, lo nuevo desde tu última visita sale resaltado.":`Desde tu última visita (${esc(fmt(visto,true))}) en verde.`,nuevos.length,
+  ev.length?`<ul class="lista">${ev.map(e=>{const n=!primeraVez&&visto&&e.fecha>visto;return `<li class="item${n?" nuevo":""}"><span class="dot d-${n?"verde":"gris"}"></span><span><b>${esc(e.texto)}${n?'<span class="tag nuevo">Nuevo</span>':""}</b><span class="p">${esc(fmt(e.fecha,true))} · ${esc(hace(e.fecha))}</span></span></li>`}).join("")}</ul>`:`<div class="vacio">Sin movimiento en los últimos 30 días.</div>`);
+
+ // 3. Investigaciones
+ const invs=D.investigaciones||[];
+ h+=seccion("investigaciones","Investigaciones","Cada estudio contra su objetivo. La meta de 30 es la regla del Lab: no se publica un porcentaje con menos de 30 respuestas.",nInv,
+  invs.map(inv=>{
+   const o=inv.objetivo;const pct=o?Math.min(100,Math.round(100*o.n/Math.max(1,o.meta))):0;
+   const ds=(inv.datos||[]).map(d=>`<div class="ld"><span>${esc(d.k)}</span><b>${esc(d.v)}</b></div>`).join("");
+   const fila=(t,v)=>v?`<dt>${esc(t)}</dt><dd>${esc(v)}</dd>`:"";
+   return `<article class="inv">${globo(inv.avisos||0)}
+    <div class="inv-top"><div><h3><span class="dot d-${esc(inv.semaforo)}"></span> ${esc(inv.nombre)}</h3><div class="linea">${esc(inv.linea)} · ${esc(inv.tipo)}</div></div><span class="pill ${esc(inv.estado)}">${({activa:"En marcha",preparacion:"En preparación",proximamente:"Próximamente"})[inv.estado]||esc(inv.estado)}</span></div>
+    ${inv.que_es?`<p class="que">${esc(inv.que_es)}</p>`:""}
+    ${o?`<div class="meta"><div class="num"><span>${esc(o.texto)}</span><span><b>${esc(o.n)}</b> de ${esc(o.meta)}</span></div><div class="barra-p ${inv.semaforo==="rojo"?"rojo":inv.semaforo==="ambar"?"ambar":""}"><i style="width:${pct}%"></i></div></div>`:""}
+    ${ds?`<div class="lineas-dato">${ds}</div>`:""}
+    <details class="mas"><summary>Ritmo, captación y siguiente paso</summary><dl>${fila("Ritmo",inv.ritmo)}${fila("Proyección",inv.proyeccion)}${fila("Cómo llegan los participantes",inv.captacion)}${fila("Lo próximo que pasa solo",inv.siguiente)}</dl></details>
+    <div class="enlaces">${url(inv.enlace_publico)?`<a class="btn sec" href="${esc(inv.enlace_publico)}" target="_blank" rel="noopener">Ver en la web</a>`:""}${url(inv.enlace_gestion)?`<a class="btn sec" href="${esc(inv.enlace_gestion)}" target="_blank" rel="noopener">Gestionar</a>`:""}</div>
+   </article>`}).join("")||`<div class="vacio">Sin investigaciones registradas.</div>`);
+
+ // 4. Publicaciones
+ const pubs=(D.publicaciones||[]).slice().sort((a,b)=>(b.vista_desde||"").localeCompare(a.vista_desde||""));
+ h+=seccion("publicaciones","Publicaciones","Páginas del Lab en grupoarestora.com (las que figuran en el mapa del sitio).",nPub,
+  pubs.length?`<ul class="lista">${pubs.map(p=>{const n=!primeraVez&&visto&&p.vista_desde>visto;return `<li class="item${n?" nuevo":""}"><span class="dot d-verde"></span><span><b>${esc(p.titulo)}<span class="tag">${esc(p.linea)}</span>${n?'<span class="tag nuevo">Nueva</span>':""}</b><span class="p">${esc(p.url.replace("https://grupoarestora.com",""))}${p.lastmod?" · revisada "+esc(fmt(p.lastmod)):""}</span>${url(p.url)?`<a class="ir" href="${esc(p.url)}" target="_blank" rel="noopener">Abrir →</a>`:""}</span></li>`}).join("")}</ul>`:`<div class="vacio">No se ha podido leer el mapa del sitio.</div>`);
+
+ // 5. Automatizaciones
+ const ORD={rojo:0,ambar:1,gris:2,verde:3};
+ tLab.sort((a,b)=>(ORD[a.semaforo]??2)-(ORD[b.semaforo]??2)||String(a.proxima||"").localeCompare(String(b.proxima||"")));
+ h+=seccion("automatizaciones","Automatizaciones del Lab",T?`Las tareas programadas que hacen funcionar el Lab, según el vigilante (${esc(hace(T.ultima_revision||T.generado)||"sin fecha")}).`:"No se ha podido leer el cuadro de tareas.",nAut,
+  tLab.length?`<div class="bloque" style="padding:6px 10px;overflow-x:auto"><table><thead><tr><th></th><th>Tarea</th><th>Próxima</th><th>Estado</th></tr></thead><tbody>${tLab.map(f=>`<tr><td><span class="dot d-${esc(f.semaforo||"gris")}"></span></td><td><b>${esc((f.nombre||"").replace(/ · (TEC12 sin carpetas|nube|Chrome TEC12)$/,""))}</b></td><td>${esc(fmt(f.proxima,true))}</td><td>${esc(f.motivo||"")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="vacio">Sin tareas del Lab en el cuadro.</div>`);
+
+ // 6. Salud
+ const sal=D.salud||[];
+ h+=seccion("salud","Salud del sistema","Si algo de esto se pone en rojo, el Lab deja de funcionar solo.",nSal,
+  `<div class="bloque" style="padding:6px 10px"><table><tbody>${sal.map(s=>`<tr><td style="width:22px"><span class="dot d-${esc(s.estado)}"></span></td><td><b>${esc(s.k)}</b></td><td>${esc(s.texto)}</td></tr>`).join("")}</tbody></table></div>`);
+
+ // 7. Rumbo
+ const bl=(t,xs,cls,dot)=>xs&&xs.length?`<div class="bloque ${cls||""}"><h3><span class="dot d-${dot}"></span>${esc(t)}</h3><ul>${xs.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:"";
+ h+=seccion("rumbo","Rumbo","Qué funciona y qué no frente a los objetivos, qué cambiaría y lo que viene.",0,
+  `<div class="rumbo">${bl("Qué no está funcionando",D.no_funciona,"oscuro","rojo")}${bl("Qué cambiaría",D.cambiar,"","ambar")}${bl("Qué funciona",D.funciona,"","verde")}${bl("Siguientes pasos",D.siguientes,"","gris")}${bl("Sugerencias",D.sugerencias,"","gris")}</div>`);
+
+ $("#main").innerHTML=h;
+ // Globo del Hub: lo que espera + lo nuevo desde la última visita. Se guarda para la portada.
+ try{localStorage.setItem("hub_lab_resumen",JSON.stringify({n:nTe,generado:D.generado}))}catch(e){}
+}
+
+const banda=HubBanda.montar({limite:1,quien:"El envío automático del Lab"}),freno={};
+async function cargar(forzar){
+ if(!forzar&&!HubBanda.puedeConsultar(freno))return;
+ try{
+  const c=await HubSesion.exigir();if(!c)return;
+  const [p,t]=await Promise.all([HubSesion.leerPanel("lab"),HubSesion.leerPanel("tareas").catch(()=>null)]);
+  if(!p){banda.fallo();$("#estado").innerHTML='<span class="dot d-gris"></span><span>Aún no hay datos del Lab para tu cuenta.</span>';$("#main").innerHTML='<div class="vacio" style="margin-top:20px">El primer envío llega en menos de 15 minutos. Si esperabas verlo ya, pulsa «Actualizar ahora».</div>';return}
+  D=p.datos||{};T=t?t.datos:null;
+  banda.fijar(p.actualizado||D.generado,p.origen);
+  render();
+ }catch(e){banda.fallo();$("#main").innerHTML='<div class="vacio" style="margin-top:20px">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>'}
+}
+
+/* «Actualizar ahora»: pide a participa que recalcule y envíe el panel (solo con tu sesión de
+   administración del Hub, como mucho una vez por minuto) y vuelve a leerlo. */
+$("#btnAct").addEventListener("click",async()=>{
+ const b=$("#btnAct"),n=$("#notaAct");b.disabled=true;n.textContent="Calculando con los datos de ahora…";
+ try{
+  const s=await HubSesion.sesion();if(!s){HubSesion.irAEntrar();return}
+  const r=await fetch("https://participa.grupoarestora.com/api/hub",{method:"POST",headers:{Authorization:"Bearer "+s.access_token}});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok||!j.ok)throw new Error(j.error||r.status);
+  n.textContent=j.reciente?"Ya estaba recién calculado.":"Actualizado.";
+  await cargar(true);
+ }catch(e){n.textContent="No se ha podido actualizar ahora ("+String(e.message||e).slice(0,60)+"). Se actualiza solo cada 15 min."}
+ finally{b.disabled=false}
+});
+
+/* Marca la visita al salir o al ocultar la pestaña: así lo nuevo se ve resaltado mientras
+   estás aquí y deja de contar en el globo cuando ya lo has visto. */
+function marcarVisto(){try{if(D&&D.generado)localStorage.setItem(LLAVE_VISTO,new Date().toISOString())}catch(e){}}
+document.addEventListener("visibilitychange",()=>{if(document.hidden)marcarVisto();else cargar()});
+window.addEventListener("pagehide",marcarVisto);
+cargar(true);setInterval(()=>cargar(),5*60*1000);setInterval(render,60*1000);
+}
+</script>
+</body>
+</html>

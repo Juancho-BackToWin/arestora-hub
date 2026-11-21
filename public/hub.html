@@ -141,6 +141,8 @@
   }
   .marca,.banda h2{position:relative}
   .marca .globo{top:-8px;right:-8px;box-shadow:0 0 0 3px var(--tinta)}
+  .logo-esp{position:relative;flex:none;display:block}
+  .logo-esp .globo{top:-10px;right:-10px;box-shadow:0 0 0 3px rgba(255,255,255,.9)}
   .banda h2 .globo{position:relative;top:-2px;right:auto;margin-left:10px;display:inline-block;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
   .avisos{margin:-4px 0 0;padding:10px 12px;border-radius:10px;background:#FDEDEB;list-style:none;font-size:13px;line-height:1.45;color:#7A1F17}
   .avisos li+li{margin-top:4px}
@@ -209,10 +211,10 @@
 <script src="sesion.js"></script>
 <script>
 let CAT = null;
-/* Avisos por panel (21/11/2026): {n, lineas:[{t, href}]}. Claves: «tareas», «publicidad»
-   y «red» (Red BTW). Solo se leen con sesión abierta: sin sesión no hay globos. */
+/* Avisos por panel (21/11/2026): {n, lineas:[{t, href}]}. Claves: «tareas», «publicidad»,
+   «red» (Red BTW) y «lab» (Innovation Lab). Solo se leen con sesión abierta: sin sesión no hay globos. */
 let AV = {};
-const HUELLA = "32237041bf01";
+const HUELLA = "c6167f4efda8";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -298,12 +300,14 @@ function pintar(){
   const html = CAT.espacios.map(esp=>{
     const hs = esp.herramientas.filter(h=>coincide(h,esp));
     if(!hs.length) return "";
-    const logo = esp.logo_src?`<img src="${esp.logo_src}" alt="">`:"";
     const ne = esp.herramientas.reduce((a, h) => a + (h.avisos && AV[h.avisos] ? AV[h.avisos].n : 0), 0);
+    const gEsp = ne > 0 ? `<span class="globo" title="${ne} ${ne === 1 ? "cosa espera" : "cosas esperan"} tu intervención">${ne > 99 ? "99+" : ne}</span>` : "";
+    /* El globo del espacio va por fuera de la esquina de su logo; si no hay logo, junto al título. */
+    const logo = esp.logo_src ? `<span class="logo-esp"><img src="${esp.logo_src}" alt="">${gEsp}</span>` : "";
     return `<section class="espacio">
       <div class="banda" style="background:${esp.color}">
         ${logo}
-        <div><h2>${esp.nombre}${ne > 0 ? `<span class="globo">${ne > 99 ? "99+" : ne}</span>` : ""}</h2><p>${esp.descripcion}</p></div>
+        <div><h2>${esp.nombre}${!esp.logo_src ? gEsp : ""}</h2><p>${esp.descripcion}</p></div>
       </div>
       <div class="rejilla">${hs.map(tarjeta).join('')}</div>
     </section>`;
@@ -399,6 +403,15 @@ cargarCatalogo();
    o no hay sesión, el Hub se pinta igual, sin globos. */
 function leerAvisos(clave, d){
   d = d || {};
+  if(clave === "lab"){
+    /* Innovation Lab: lo que espera a Juancho + lo nuevo desde su última visita al panel. */
+    const ps = Array.isArray(d.pendientes) ? d.pendientes : [];
+    let visto = null; try{ visto = localStorage.getItem("hub_lab_visto"); }catch(e){}
+    const nuevos = visto && Array.isArray(d.eventos) ? d.eventos.filter(e => e && e.fecha > visto).length : 0;
+    const lineas = ps.map(p => ({ t: String(p.texto || ""), href: "" }));
+    if(nuevos) lineas.push({ t: `${nuevos} ${nuevos === 1 ? "novedad" : "novedades"} desde tu última visita`, href: "" });
+    return { n: (Number(d.total) || 0) + nuevos, lineas };
+  }
   if(clave === "red"){
     const ps = Array.isArray(d.pendientes) ? d.pendientes : [];
     return { n: Number(d.total) || 0, lineas: ps.map(p => ({ t: String(p.texto || ""), href: /^https:\/\/red\.grupoarestora\.com\//.test(p.enlace || "") ? p.enlace : "" })) };
@@ -410,7 +423,7 @@ async function cargarOK(){
   try{
     if(!window.HubSesion || !HubSesion.quizaConSesion()) { if(Object.keys(AV).length){ AV = {}; if(CAT) pintar(); } return; }
     const s = await HubSesion.sesion(); if(!s) return;
-    const claves = ["tareas", "publicidad", "red"], nuevo = {};
+    const claves = ["tareas", "publicidad", "red", "lab"], nuevo = {};
     await Promise.all(claves.map(async k => {
       try{ const p = await HubSesion.leerPanel(k); if(p) nuevo[k] = leerAvisos(k, p.datos); }catch(e){}
     }));
