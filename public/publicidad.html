@@ -122,6 +122,37 @@ details.leer[open] summary::after{content:"–"}
 .btn:focus-visible{outline:2px solid var(--night);outline-offset:2px}
 .copiado{font-size:13.5px;color:var(--verde);align-self:center;font-weight:500}
 footer{font-size:12.5px;color:var(--mute);padding:6px max(5vw,16px) 34px}
+/* Campañas en directo: lo que hay ahora mismo en Meta, con botones para encender, parar y cambiar presupuesto. */
+.vivo-cab{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.vivo-cab h2{margin:0}
+.vivo-cab small{font-size:13px;color:var(--mute)}
+.vc{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.vc.on{background:var(--night);color:#fff}
+.vc h3{margin:0 0 6px;font-size:16px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border-radius:999px;padding:3px 11px;background:#EEF0F4;color:var(--mute)}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gris)}
+.pill.verde{background:#DFF3E9;color:#1D6B47}.pill.verde::before{background:var(--verde)}
+.pill.ambar{background:#FCEFD6;color:#8A5A00}.pill.ambar::before{background:var(--ambar)}
+.pill.rojo{background:#FBE1E1;color:#9B2323}.pill.rojo::before{background:var(--rojo)}
+.vc.on .pill.verde{background:#1E4A3A;color:#BFF0D8}
+.vc .dat{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;margin:10px 0 0;color:var(--mute)}
+.vc.on .dat{color:var(--nmute)}
+.vc .dat b{color:var(--ink);font-weight:600}.vc.on .dat b{color:#fff}
+.vc .ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.vc .ppto{display:flex;align-items:center;gap:6px}
+.vc .ppto input{width:84px;min-height:44px;border-radius:12px;border:1px solid var(--line);font:600 16px Poppins,sans-serif;padding:0 10px;text-align:right;background:#fff;color:var(--ink)}
+.vc .ppto span{font-size:14px}
+.vc.on .ppto input{border-color:#2B3F66}
+.btn.parar{background:#fff;color:var(--rojo);border:1px solid #F1C2C2}
+.btn.activar{background:var(--verde)}
+.btn.confirmar{background:var(--ambar);color:var(--night)}
+.btn:disabled{opacity:.55;cursor:wait}
+.vc .msg{font-size:13.5px;margin-top:8px}
+.vc .msg.err{color:var(--rojo)}.vc.on .msg.err{color:#FFB3B3}
+.vc .msg.bien{color:var(--verde)}.vc.on .msg.bien{color:#9FE3C2}
+.vc .hor{font-size:13px;margin-top:8px;color:var(--mute)}.vc.on .hor{color:var(--nacc)}
+.vermas{font:500 14px Poppins,sans-serif;background:none;border:0;color:var(--acc);cursor:pointer;padding:8px 0;min-height:40px}
+.cambios{font-size:13px;color:var(--mute);margin:6px 0 0;padding-left:18px}
 @media (max-width:420px){.cifras{gap:7px}.cifra{padding:10px 9px}.linea li{grid-template-columns:62px minmax(0,1fr);gap:10px}}
 </style>
 </head>
@@ -231,7 +262,8 @@ function pintar(p){
 
   const e = D.estrategia || {};
   const camps = Array.isArray(e.campanas) ? e.campanas : [];
-  let html = `<section><h2>Qué estamos haciendo</h2><div class="tarjeta"><p>${esc(e.texto || "Pendiente: la próxima tarea de publicidad lo resumirá.")}</p></div>
+  let html = `<section id="sec-vivo"><div class="vivo-cab"><h2>Campañas en directo</h2><small id="vivo-hora"></small></div><div id="vivo"><div class="tarjeta">Preguntando a Meta…</div></div></section>`;
+  html += `<section><h2>Qué estamos haciendo <span style="font-size:13px;font-weight:500;color:var(--mute)">· según el último informe</span></h2><div class="tarjeta"><p>${esc(e.texto || "Pendiente: la próxima tarea de publicidad lo resumirá.")}</p></div>
     <div class="camps">${camps.map(c => `<article class="camp"><h3>${esc(c.nombre)}</h3><span class="est ${/pausa/i.test(c.estado||"")?"pausa":""}">${esc(c.estado||"—")}</span><dl>
       ${c.objetivo?`<div><dt>A qué va</dt><dd>${esc(c.objetivo)}</dd></div>`:""}
       ${c.publico?`<div><dt>A quién ${q("advantage")}</dt><dd>${esc(c.publico)}</dd></div>`:""}
@@ -258,6 +290,8 @@ function pintar(p){
   html += comoLeer();
   $("#main").innerHTML = html;
   pintarRes("periodo_7d");
+  pintarVivo();
+  cargarVivo();
   cargarLeads();
   $("#pie").innerHTML = `${r.fuente?`Datos de ${esc(r.fuente)}`:"Datos de Meta Ads, cuenta Grupo Arestora"}; leads de empresa según Odoo, ${m.leads_empresa!=null?`dato de Juancho${m.fuente_leads_empresa?`: ${esc(m.fuente_leads_empresa)}`:""}`:"pendiente del dato de Juancho"}. Lo actualizan las tareas programadas de Meta Ads cada vez que corren.`;
 }
@@ -368,6 +402,110 @@ async function cargarLeads(){
     cont.innerHTML = `<div class="tarjeta">No se han podido traer los leads de Meta ahora mismo. Vuelve a abrir el panel en un momento.</div>`;
   }
 }
+
+/* ---------------- Campañas en directo (23/11/2026): estado real en Meta, encender/parar y presupuesto.
+   Lo sirve la función hub-campanas de Supabase, que guarda el token de Meta y solo deja actuar a
+   cuentas de administración. Cada cambio queda registrado. El horario L-V lo aplica un reloj cada 15 min. ---------------- */
+const API_CAMP = "https://delrtxytlntzpwobycad.supabase.co/functions/v1/hub-campanas";
+const ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRlbHJ0eHl0bG50enB3b2J5Y2FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDkzMTksImV4cCI6MjEwMzkyNTMxOX0.Us56HyAjrDWI2e6BzmlXGHbP51ovKc4Ww5ekO6t4lsY";
+let V = null, verTodas = false, pendiente = {}, mensajes = {}, vivoErr = null, faltaToken = false;
+const DIAS = ["D","L","M","X","J","V","S"];
+function estadoVivo(c){
+  const e = c.estado_real || c.estado;
+  if(c.estado === "PAUSED") return ["gris","Parada"];
+  if(e === "ACTIVE") return ["verde","En marcha"];
+  if(e === "IN_PROCESS") return ["ambar","Arrancando · Meta la está procesando"];
+  if(e === "PENDING_REVIEW") return ["ambar","En revisión de Meta"];
+  if(e === "ADSET_PAUSED") return ["ambar","Encendida, pero sin conjuntos de anuncios activos"];
+  if(e === "WITH_ISSUES" || e === "DISAPPROVED") return ["rojo","Con problemas en Meta"];
+  if(e === "PENDING_BILLING_INFO") return ["rojo","Falta el pago en Meta"];
+  return ["gris", e || "—"];
+}
+function textoHorario(h){
+  if(!h || !h.activo) return "";
+  const d = (h.dias || []).slice().sort();
+  const dias = d.join(",") === "1,2,3,4,5" ? "de lunes a viernes" : d.map(x => DIAS[x]).join(", ");
+  return `Horario automático: ${dias}, de ${String(h.hora_inicio).padStart(2,"0")}:00 a ${String(h.hora_fin).padStart(2,"0")}:00${h.hasta ? ` · hasta el ${fecha(h.hasta)}` : ""}. Si la tocas a mano, se respeta hasta el siguiente cambio de tramo.`;
+}
+function pintarVivo(){
+  const cont = $("#vivo"); if(!cont) return;
+  if(faltaToken){ cont.innerHTML = `<div class="tarjeta"><p><b>Falta conectar Meta.</b> Los botones ya están listos, pero el Hub aún no tiene permiso para tocar las campañas. En cuanto guardes el token de Meta en Supabase, aparecerán aquí todas las campañas con su estado real.</p></div>`; return; }
+  if(vivoErr && !V){ cont.innerHTML = `<div class="tarjeta">No se ha podido preguntar a Meta: ${esc(vivoErr)}. <button class="vermas" type="button" id="vivo-reint">Reintentar</button></div>`; const b=$("#vivo-reint"); if(b) b.onclick = cargarVivo; return; }
+  if(!V){ cont.innerHTML = `<div class="tarjeta">Preguntando a Meta…</div>`; return; }
+  $("#vivo-hora").textContent = `Datos de Meta de las ${fechaHora(V.hora).split(", ").pop()}`;
+  const todas = V.campanas.slice().sort((a,b) => (b.estado === "ACTIVE") - (a.estado === "ACTIVE") || String(b.actualizada||"").localeCompare(String(a.actualizada||"")));
+  const hace60 = Date.now() - 60*864e5;
+  const visibles = verTodas ? todas : todas.filter(c => c.estado === "ACTIVE" || c.horario || (!/^ZZ/i.test(c.nombre) && new Date(c.actualizada) > hace60));
+  const card = c => {
+    const [col, txt] = estadoVivo(c), on = c.estado === "ACTIVE", p = pendiente[c.id], m = mensajes[c.id];
+    const conf = p && p.tipo === "conmutar";
+    return `<article class="vc ${on?"on":""}" data-id="${esc(c.id)}"><h3>${esc(c.nombre)}</h3><span class="pill ${col}">${esc(txt)}</span>
+      <div class="dat"><span>Hoy: <b>${esc(eur(c.hoy.gasto))}</b> gastados</span><span><b>${esc(ent(c.hoy.leads))}</b> ${c.hoy.leads===1?"lead":"leads"}</span>
+        ${c.presupuesto_total!==null?`<span>Presupuesto total: <b>${esc(eur0(c.presupuesto_total))}</b></span>`:""}${c.fin?`<span>Hasta el <b>${esc(new Date(new Date(c.fin).getTime()-6e4).toLocaleDateString("es-ES",{timeZone:"Europe/Madrid",day:"2-digit",month:"2-digit"}))}</b> incluido</span>`:""}</div>
+      <div class="ctl">
+        ${c.presupuesto_dia!==null?`<label class="ppto"><input type="number" inputmode="decimal" min="1" max="100" step="1" value="${esc(c.presupuesto_dia)}" aria-label="Presupuesto diario en euros de ${esc(c.nombre)}" data-ppto><span>€/día</span></label>
+        <button class="btn sec" type="button" data-acc="presupuesto">Aceptar</button>`:""}
+        <button class="btn ${conf?"confirmar":on?"parar":"activar"}" type="button" data-acc="conmutar">${conf?(on?"Pulsa otra vez para parar":"Pulsa otra vez para activar"):(on?"Parar":"Activar")}</button>
+      </div>
+      ${m?`<div class="msg ${m.ok?"bien":"err"}" role="status">${esc(m.t)}</div>`:""}
+      ${c.horario?`<div class="hor">${esc(textoHorario(c.horario))}</div>`:""}
+    </article>`;
+  };
+  const ult = (V.cambios || []).slice(0,5);
+  cont.innerHTML = (visibles.length ? visibles.map(card).join("") : `<div class="tarjeta">No hay campañas recientes.</div>`)
+    + (todas.length > visibles.length || verTodas ? `<button class="vermas" type="button" id="vivo-todas">${verTodas ? "Ver solo las recientes" : `Ver todas (${todas.length})`}</button>` : "")
+    + (ult.length ? `<details class="leer" style="margin-top:6px"><summary>Últimos cambios</summary><ul class="cambios">${ult.map(x =>
+        `<li>${fechaHora(x.cuando)} · ${esc(x.quien||"")} · ${esc(x.accion)} ${esc(x.campana||"")}${x.despues&&x.despues.euros?` → ${esc(eur0(x.despues.euros))}/día`:""}${x.resultado!=="ok"?` · ${esc(x.resultado)}`:""}</li>`).join("")}</ul></details>` : "");
+  const bt = $("#vivo-todas"); if(bt) bt.onclick = () => { verTodas = !verTodas; pintarVivo(); };
+  cont.querySelectorAll(".vc button[data-acc]").forEach(b => b.onclick = () => accionVivo(b));
+  cont.querySelectorAll(".vc input[data-ppto]").forEach(i => i.onkeydown = e => { if(e.key === "Enter"){ e.preventDefault(); accionVivo(i.closest(".vc").querySelector('[data-acc="presupuesto"]')); } });
+}
+async function llamar(metodo, cuerpo){
+  const s = await HubSesion.sesion();
+  if(!s) throw new Error("Inicia sesión de nuevo");
+  const r = await fetch(API_CAMP, {method: metodo, cache: "no-store",
+    headers: {Authorization: "Bearer " + s.access_token, apikey: ANON, "Content-Type": "application/json"},
+    body: cuerpo ? JSON.stringify(cuerpo) : undefined});
+  const j = await r.json().catch(() => ({}));
+  if(j.falta_token){ faltaToken = true; throw new Error("falta token"); }
+  if(!r.ok) throw new Error(j.error || ("error " + r.status));
+  faltaToken = false;
+  return j;
+}
+async function cargarVivo(){
+  try{ V = await llamar("GET"); vivoErr = null; }
+  catch(e){ vivoErr = String(e.message || e); }
+  pintarVivo();
+}
+async function accionVivo(btn){
+  const art = btn.closest(".vc"), id = art.dataset.id, c = V.campanas.find(x => x.id === id); if(!c) return;
+  let cuerpo;
+  if(btn.dataset.acc === "presupuesto"){
+    const v = Number(String(art.querySelector("[data-ppto]").value).replace(",", "."));
+    if(!(v >= 1 && v <= 100)){ mensajes[id] = {ok:false, t:"Pon un presupuesto entre 1 y 100 € al día."}; pintarVivo(); return; }
+    if(v === c.presupuesto_dia){ mensajes[id] = {ok:true, t:"Ya está en ese presupuesto."}; pintarVivo(); return; }
+    cuerpo = {accion: "presupuesto", id, euros: v};
+  }else{
+    // Doble pulsación: encender o parar gasta (o deja de gastar) dinero de verdad.
+    if(!(pendiente[id] && pendiente[id].tipo === "conmutar")){
+      pendiente[id] = {tipo: "conmutar"}; delete mensajes[id]; pintarVivo();
+      setTimeout(() => { if(pendiente[id]){ delete pendiente[id]; pintarVivo(); } }, 6000);
+      return;
+    }
+    delete pendiente[id];
+    cuerpo = {accion: c.estado === "ACTIVE" ? "pausar" : "activar", id};
+  }
+  art.querySelectorAll("button,input").forEach(x => x.disabled = true);
+  try{
+    V = await llamar("POST", cuerpo);
+    mensajes[id] = {ok:true, t: cuerpo.accion === "presupuesto" ? `Hecho: ${eur0(cuerpo.euros)} al día.` : cuerpo.accion === "activar" ? "Activada. Meta puede tardar unos minutos en empezar a enseñarla." : "Parada."};
+  }catch(e){
+    mensajes[id] = {ok:false, t: "No se ha podido: " + (e.message || e)};
+  }
+  pintarVivo();
+  setTimeout(() => { delete mensajes[id]; pintarVivo(); }, 8000);
+}
+setInterval(() => { const a = document.activeElement; if(!document.hidden && V && !(a && a.matches && a.matches("[data-ppto]"))) cargarVivo(); }, 120000);
 
 /* ---------------- Burbuja de ayuda (también en móvil: se abre al tocar) ---------------- */
 const bur = $("#burbuja"); let abierta = null;
