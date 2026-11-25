@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visibilidad IA · Arestora Hub</title>
+<meta name="theme-color" content="#0E192F">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Mismo sistema que publicidad.html: azul noche para lo que se ve de un vistazo, #EAEEF5 para leer. */
+:root{color-scheme:light;
+--bg:#EAEEF5;--card:#FFFFFF;--ink:#0E192F;--mute:#5B6478;--line:#DCE2EF;--acc:#254D9D;
+--night:#0E192F;--night2:#142443;--nline:#22345A;--nacc:#8FB8EC;--nmute:#C9D6EE;
+--rojo:#D23B3B;--ambar:#E0A21B;--verde:#2E9E6A;--gris:#9AA3B5}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Poppins,system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:860px;margin:0 auto}
+header{background:var(--night);color:#fff;padding:24px max(5vw,16px) 26px}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.volver,.salir{color:var(--nacc);font-size:14px;font-weight:500;text-decoration:none;background:none;border:0;font-family:inherit;cursor:pointer;padding:6px 0;min-height:32px}
+.volver:hover,.salir:hover{text-decoration:underline}
+.kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--nacc);margin:0 0 6px}
+h1{font-size:clamp(22px,5.5vw,30px);line-height:1.1;margin:0 0 6px;font-weight:700}
+.act{color:var(--nacc);font-size:14px;margin:0}
+.cifras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:20px}
+.cifra{background:var(--night2);border-radius:14px;padding:12px 12px 12px 14px}
+.cifra b{display:block;font-size:clamp(26px,8vw,46px);line-height:1.05;font-weight:700}
+.cifra span{display:block;font-size:12.5px;color:var(--nmute);margin-top:4px;line-height:1.3}
+.ok{margin-top:20px;background:var(--night2);border-radius:14px;padding:16px 16px 6px}
+.ok h2{margin:0;color:#fff;font-size:16px;display:flex;align-items:baseline;gap:10px}
+.ok h2 b{font-size:clamp(30px,9vw,44px);color:var(--nacc);line-height:1}
+.ok ul{list-style:none;margin:10px 0 0;padding:0}
+.ok li{border-top:1px solid var(--nline);padding:11px 0 12px;font-size:15px}
+main{padding:4px max(5vw,16px) 30px}
+section{margin-top:26px}
+section>h2{font-size:19px;margin:0 0 10px;font-weight:700}
+.tarjeta{background:var(--card);border-radius:14px;padding:6px 16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:12.5px;color:var(--mute);font-weight:500}
+td.n{text-align:right;font-weight:600;white-space:nowrap}
+.barra-p{height:8px;border-radius:99px;background:#EEF0F4;margin-top:6px;overflow:hidden}
+.barra-p i{display:block;height:100%;background:var(--acc)}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border-radius:999px;padding:3px 11px;background:#EEF0F4;color:var(--mute)}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gris)}
+.pill.verde{background:#DFF3E9;color:#1D6B47}.pill.verde::before{background:var(--verde)}
+.pill.ambar{background:#FCEFD6;color:#8A5A00}.pill.ambar::before{background:var(--ambar)}
+.nota{font-size:13px;color:var(--mute);margin:6px 0 0}
+.web{padding:12px 0;border-bottom:1px solid var(--line)}.web:last-child{border-bottom:0}
+.web h3{margin:0 0 4px;font-size:15px}
+.web ul{margin:6px 0 0;padding-left:18px;font-size:13.5px;color:var(--mute)}
+.vacio{background:var(--card);border-radius:14px;padding:22px;margin-top:20px;color:var(--mute)}
+footer{font-size:12.5px;color:var(--mute);padding:6px max(5vw,16px) 34px}
+@media (max-width:420px){.cifras{gap:7px}.cifra{padding:10px 9px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="barra"><a class="volver" href="hub.html">← Volver al Hub</a><button class="salir" id="salir" type="button">Cerrar sesión</button></div>
+  <p class="kicker">Motor GEO</p>
+  <h1>Visibilidad en las IA</h1>
+  <p class="act" id="act">Comprobando tu sesión…</p>
+  <div class="cifras" id="cifras" hidden></div>
+  <div id="ok"></div>
+</header>
+<main id="main"><div class="vacio">Cargando…</div></main>
+<footer id="pie">Mide cada lunes si Grupo Arestora aparece cuando alguien pregunta a una IA por lo que hacemos. Fuentes: mediciones del Motor GEO (repositorio arestora-marketing, carpeta visibilidad-ia).</footer>
+</div>
+<script src="sesion.js"></script>
+<script src="banda.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pc = v => (v === null || v === undefined) ? "—" : `${v} %`;
+const fecha = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s || "")); return m ? `${m[3]}/${m[2]}/${m[1].slice(2)}` : esc(s || ""); };
+$("#salir").onclick = () => HubSesion.salir();
+
+function pintar(p){
+  const D = p.datos || {};
+  banda.fijar(p.actualizado, p.origen || D.por);
+  const pr = D.presencia || {}, pa = D.partida || {};
+  $("#act").textContent = `${D.preguntas || "—"} preguntas medidas cada semana`;
+  const cif = $("#cifras"); cif.hidden = false;
+  cif.innerHTML = `
+    <div class="cifra"><b>${pc(pr.pct)}</b><span>presencia actual (${esc(pr.aparece ?? 0)} de ${esc(pr.medidas ?? 0)} respuestas)</span></div>
+    <div class="cifra"><b>${pc(pa.pct)}</b><span>punto de partida (${fecha(pa.fecha)})</span></div>
+    <div class="cifra"><b>${(D.motores || []).filter(m => m.estado === "activo").length}</b><span>motores midiendo</span></div>`;
+  const ok = Array.isArray(D.esperan_ok) ? D.esperan_ok.filter(x => x && (x.que || x.tarea)) : [];
+  $("#ok").innerHTML = ok.length ? `<div class="ok"><h2><b>${ok.length}</b> ${ok.length === 1 ? "espera tu OK" : "esperan tu OK"}</h2>
+    <ul>${ok.map(x => `<li>${esc(x.que || x.tarea)}</li>`).join("")}</ul></div>` : "";
+  const mot = (D.motores || []).map(m => `<tr><td>${esc(m.nombre)}${m.nota ? `<p class="nota">${esc(m.nota)}</p>` : ""}</td>
+    <td><span class="pill ${m.estado === "activo" ? "verde" : ""}">${m.estado === "activo" ? "Activo" : "Descartado"}</span></td>
+    <td class="n">${m.estado === "activo" ? pc(m.pct) : "—"}</td><td class="n">${m.anterior_pct == null ? "—" : pc(m.anterior_pct)}</td><td>${fecha(m.fecha)}</td></tr>`).join("");
+  const lin = (D.lineas || []).map(l => `<tr><td>${esc(l.nombre)}<div class="barra-p"><i style="width:${Math.max(0, Math.min(100, Number(l.pct) || 0))}%"></i></div></td>
+    <td class="n">${pc(l.pct)}</td><td class="n">${pc(l.partida_pct)}</td></tr>`).join("");
+  const au = D.auditoria;
+  const aud = au ? (au.webs || []).map(w => `<div class="web"><h3>${esc(w.web)}</h3>
+    <span class="pill ${w.rotos ? "ambar" : "verde"}">${w.rotos} enlaces rotos</span> <span class="pill ${w.avisos ? "ambar" : "verde"}">${w.avisos} avisos</span>
+    ${(w.detalle || []).length ? `<ul>${w.detalle.map(d => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}</div>`).join("") : "";
+  $("#main").innerHTML = `
+    <section><h2>Por motor</h2><div class="tarjeta"><table><thead><tr><th>Motor</th><th>Estado</th><th class="n">Ahora</th><th class="n">Semana anterior</th><th>Medido</th></tr></thead><tbody>${mot || `<tr><td colspan="5">Sin mediciones todavía.</td></tr>`}</tbody></table></div></section>
+    <section><h2>Por línea de negocio</h2><div class="tarjeta"><table><thead><tr><th>Línea</th><th class="n">Ahora</th><th class="n">Partida</th></tr></thead><tbody>${lin || `<tr><td colspan="3">Sin datos.</td></tr>`}</tbody></table></div>
+      <p class="nota">Presencia = respuestas en las que aparece Grupo Arestora, Back to Win o grupoarestora.com. Que nos cite un directorio sin enlazar a la web no cuenta.</p></section>
+    ${au ? `<section><h2>Última auditoría técnica · ${esc(au.mes)}</h2><div class="tarjeta">${aud}</div><p class="nota">Hecha el ${fecha(au.fecha)}. Las correcciones de contenido ya aprobado se piden como OK que se aprueba solo a las 24 h.</p></section>` : ""}`;
+}
+
+const banda = HubBanda.montar({limite: 8 * 24 + 2, quien: "La medición semanal del Motor GEO"}), freno = {};
+async function cargar(){
+  if(!HubBanda.puedeConsultar(freno)) return;
+  try{
+    const c = await HubSesion.exigir(); if(!c) return;
+    const p = await HubSesion.leerPanel("geo");
+    if(!p){
+      banda.fallo(); $("#act").textContent = "Aún no hay datos.";
+      $("#main").innerHTML = `<div class="vacio">Aún no hay datos. La primera medición completa llega el lunes. Si esperabas verlos, puede que tu cuenta no tenga acceso a este panel: solo lo ven las cuentas de administración.</div>`;
+      return;
+    }
+    pintar(p);
+  }catch(e){
+    banda.fallo(); $("#act").textContent = "No se han podido cargar los datos.";
+    $("#main").innerHTML = `<div class="vacio">No se han podido cargar los datos. Comprueba la conexión y vuelve a intentarlo.</div>`;
+  }
+}
+cargar();
+document.addEventListener("visibilitychange", () => { if(!document.hidden) cargar(); });
+})();
+</script>
+</body>
+</html>

@@ -214,7 +214,7 @@ let CAT = null;
 /* Avisos por panel (21/11/2026): {n, lineas:[{t, href}]}. Claves: «tareas», «publicidad»,
    «red» (Red BTW) y «lab» (Innovation Lab). Solo se leen con sesión abierta: sin sesión no hay globos. */
 let AV = {};
-const HUELLA = "c6167f4efda8";
+const HUELLA = "415ed7080a78";
 const MODO = "sitio";   // "sitio" = publicado como web  |  "artefacto" = panel de Claude
 let filtro = "todo", texto = "";
 
@@ -423,7 +423,7 @@ async function cargarOK(){
   try{
     if(!window.HubSesion || !HubSesion.quizaConSesion()) { if(Object.keys(AV).length){ AV = {}; if(CAT) pintar(); } return; }
     const s = await HubSesion.sesion(); if(!s) return;
-    const claves = ["tareas", "publicidad", "red", "lab"], nuevo = {};
+    const claves = ["tareas", "publicidad", "red", "lab", "geo"], nuevo = {};
     await Promise.all(claves.map(async k => {
       try{ const p = await HubSesion.leerPanel(k); if(p) nuevo[k] = leerAvisos(k, p.datos); }catch(e){}
     }));
