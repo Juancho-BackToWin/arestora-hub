@@ -2,8 +2,8 @@
   "meta": {
     "marca": "Arestora Hub",
     "organizacion": "Grupo Arestora",
-    "version": "4.7",
-    "actualizado": "2026-11-21",
+    "version": "4.8",
+    "actualizado": "2026-11-25",
     "roles": {
       "admin": "Dirección de Grupo Arestora",
       "gestor": "Equipo interno de Arestora",
@@ -294,6 +294,23 @@
           "privado": true,
           "notas": "Acceso con cuenta: datos privados en Supabase (solo administración).",
           "avisos": "publicidad"
+        },
+        {
+          "id": "visibilidad-ia",
+          "nombre": "Visibilidad IA",
+          "descripcion": "Si Grupo Arestora aparece cuando alguien pregunta a una IA por lo que hacemos: presencia por línea y por motor desde el 27/10/2026, última auditoría técnica de las tres webs y los OK que esperan.",
+          "sector": "Interno · comercial y marketing",
+          "estado": "activo",
+          "color": "#A8175E",
+          "emoji": "🔎",
+          "url": "visibilidad-ia.html",
+          "stack": "Página del Hub + Supabase + Motor GEO (tareas programadas y GitHub Actions)",
+          "acceso": [
+            "admin"
+          ],
+          "privado": true,
+          "notas": "Acceso con cuenta: datos privados en Supabase (solo administración).",
+          "avisos": "geo"
         }
       ]
     },
